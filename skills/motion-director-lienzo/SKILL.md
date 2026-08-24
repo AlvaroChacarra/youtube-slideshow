@@ -50,7 +50,7 @@ Esta skill decide:
 - estados temporales entre holds aprobados;
 - transformación y continuidad de objetos;
 - preparación, acción, resolución y hold;
-- duración, easing y stagger justificado;
+- timing, duración, easing y stagger justificado;
 - interruptibilidad y estados seguros;
 - comportamiento de reverse y reset;
 - fallback de reduced motion;
