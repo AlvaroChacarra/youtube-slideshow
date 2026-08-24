@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/visual-contract.schema.json",
+  "x-schema-version": "2.0.0",
   "title": "Visual Contract",
   "type": "object",
   "additionalProperties": false,
@@ -10,6 +11,7 @@
     "narrative_hash",
     "status",
     "direction_id",
+    "direction_options",
     "user_approval",
     "global_system",
     "anti_defaults",
@@ -26,6 +28,13 @@
       "enum": ["draft", "pending_user_approval", "approved", "rejected", "superseded"]
     },
     "direction_id": { "$ref": "#/$defs/nonEmpty" },
+    "direction_options": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/directionOption" }
+    },
     "user_approval": { "$ref": "#/$defs/userApproval" },
     "global_system": { "$ref": "#/$defs/globalSystem" },
     "anti_defaults": {
@@ -57,9 +66,39 @@
       "then": {
         "properties": {
           "user_approval": {
-            "properties": { "status": { "const": "approved" } },
-            "required": ["reviewer", "reviewed_at", "approval_reference"]
+            "properties": {
+              "status": { "const": "approved" },
+              "reviewer": { "$ref": "#/$defs/nonEmpty" },
+              "reviewed_at": { "type": "string", "format": "date-time" },
+              "approval_reference": { "$ref": "#/$defs/nonEmpty" },
+              "selected_direction_id": { "$ref": "#/$defs/nonEmpty" },
+              "rejected_direction_ids": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/nonEmpty" }
+              },
+              "selection_reason": { "$ref": "#/$defs/nonEmpty" },
+              "changes_resolved": { "const": true }
+            }
           }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "pending_user_approval" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "user_approval": { "properties": { "status": { "const": "pending" } } }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "rejected" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "user_approval": { "properties": { "status": { "const": "rejected" } } }
         }
       }
     }
@@ -71,6 +110,36 @@
     "stringList": {
       "type": "array",
       "items": { "$ref": "#/$defs/nonEmpty" }
+    },
+    "directionOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direction_id",
+        "thesis",
+        "macro_composition",
+        "representation",
+        "spatial_relationship",
+        "protagonist_behavior",
+        "transformation_grammar",
+        "density",
+        "text_use",
+        "mobile_approach",
+        "primary_risk"
+      ],
+      "properties": {
+        "direction_id": { "$ref": "#/$defs/nonEmpty" },
+        "thesis": { "$ref": "#/$defs/nonEmpty" },
+        "macro_composition": { "$ref": "#/$defs/nonEmpty" },
+        "representation": { "$ref": "#/$defs/nonEmpty" },
+        "spatial_relationship": { "$ref": "#/$defs/nonEmpty" },
+        "protagonist_behavior": { "$ref": "#/$defs/nonEmpty" },
+        "transformation_grammar": { "$ref": "#/$defs/nonEmpty" },
+        "density": { "$ref": "#/$defs/nonEmpty" },
+        "text_use": { "$ref": "#/$defs/nonEmpty" },
+        "mobile_approach": { "$ref": "#/$defs/nonEmpty" },
+        "primary_risk": { "$ref": "#/$defs/nonEmpty" }
+      }
     },
     "userApproval": {
       "type": "object",
@@ -95,7 +164,7 @@
         "approval_reference": { "type": ["string", "null"] },
         "selected_direction_id": { "type": ["string", "null"] },
         "rejected_direction_ids": { "$ref": "#/$defs/stringList" },
-        "selection_reason": { "$ref": "#/$defs/nonEmpty" },
+        "selection_reason": { "type": ["string", "null"] },
         "requested_changes": { "$ref": "#/$defs/stringList" },
         "changes_resolved": { "type": "boolean" }
       }

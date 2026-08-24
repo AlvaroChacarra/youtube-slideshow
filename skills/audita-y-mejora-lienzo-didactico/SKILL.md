@@ -76,7 +76,8 @@ Emitir `audit-report.json`, válido contra [`audit-report.schema.json`](../../co
 - findings con severidad, consecuencia, causa probable, corrección verificable y propietario;
 - blockers y limitaciones;
 - veredicto;
-- `required_next_owner`.
+- `required_next_owner`;
+- versiones exactas de los contratos, manifest y schema de auditoría consumidos.
 
 Un informe es inmutable. Una nueva pasada produce otro `audit_id`.
 
@@ -235,6 +236,7 @@ Exigir:
 - comprensión, composición y craft ≥ 8.
 
 Puede conservar minors explícitos que no alteren el takeaway.
+En este veredicto, `required_next_owner` debe ser `user`.
 
 #### `reference_candidate`
 
@@ -312,6 +314,7 @@ No editar el sujeto dentro de la pasada que lo evalúa.
 - Cada finding tiene severidad, consecuencia, causa probable, corrección y propietario.
 - Veredicto cumple umbrales exactos.
 - `required_next_owner` es coherente con findings.
+- `consumed_versions` registra toda la cadena contractual observada.
 - JSON válido e inmutable persistido.
 
 ## Relación con las otras skills

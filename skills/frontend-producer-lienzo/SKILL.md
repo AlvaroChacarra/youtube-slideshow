@@ -71,7 +71,8 @@ Emitir `implementation-manifest.json`, válido contra [`implementation-manifest.
 - matriz browser/viewport;
 - desviaciones y aprobaciones;
 - limitaciones;
-- hashes exactos de narrativa y contratos consumidos.
+- hashes exactos de narrativa y contratos consumidos;
+- versiones exactas de los contratos y del schema de manifest consumidos.
 
 El código y los assets son outputs de producción; el manifest es su índice normativo. `status = implemented` significa que pueden reproducirse e inspeccionarse, no que estén aprobados.
 
@@ -261,7 +262,9 @@ Registrar commit, comandos sin pasos manuales ocultos, outputs, tests, evidencia
 - Tests proporcionales al riesgo pasan.
 - Evidencia mínima completa, nombrada y hasheada.
 - Cero desviaciones silenciosas.
+- Un manifest `implemented` no contiene tests fallidos/no ejecutados ni desviaciones sin aprobación verificable.
 - Manifest válido apunta al commit y comandos reproducibles exactos.
+- `consumed_versions` permite reproducir la compatibilidad contractual sin memoria conversacional.
 
 ## Relación con las otras skills
 

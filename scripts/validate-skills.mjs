@@ -62,6 +62,7 @@ const REQUIRED_SCHEMA_FIELDS = {
     "narrative_hash",
     "status",
     "direction_id",
+    "direction_options",
     "user_approval",
     "global_system",
     "anti_defaults",
@@ -73,6 +74,7 @@ const REQUIRED_SCHEMA_FIELDS = {
   "contracts/motion-contract.schema.json": [
     "contract_version",
     "visual_contract_hash",
+    "status",
     "scenes",
     "beats",
     "reduced_motion",
@@ -81,13 +83,16 @@ const REQUIRED_SCHEMA_FIELDS = {
   ],
   "contracts/implementation-manifest.schema.json": [
     "implementation_id",
+    "status",
     "narrative_hash",
     "visual_contract_hash",
     "motion_contract_hash",
+    "consumed_versions",
     "commit",
     "stack",
     "commands",
     "outputs",
+    "scenes",
     "tests",
     "visual_evidence",
     "viewports",
@@ -97,6 +102,8 @@ const REQUIRED_SCHEMA_FIELDS = {
   "contracts/audit-report.schema.json": [
     "audit_id",
     "subject_commit",
+    "implementation_manifest_hash",
+    "consumed_versions",
     "independence",
     "evidence",
     "scores",
@@ -107,6 +114,8 @@ const REQUIRED_SCHEMA_FIELDS = {
     "required_next_owner",
   ],
 };
+
+const SEMVER = /^[0-9]+\.[0-9]+\.[0-9]+$/;
 
 const FORBIDDEN_DIRS = new Set([
   "app",
@@ -373,9 +382,21 @@ function validate(root) {
     if (schema.$schema !== "https://json-schema.org/draft/2020-12/schema" || schema.type !== "object") {
       errors.push(issue("SCHEMA_META", relative, "schema must declare draft 2020-12 and object root"));
     }
+    if (typeof schema.$id !== "string" || !schema.$id.endsWith(`/${path.basename(relative)}`)) {
+      errors.push(issue("SCHEMA_ID", relative, "schema must declare its canonical repository $id"));
+    }
+    if (!SEMVER.test(schema["x-schema-version"] || "")) {
+      errors.push(issue("SCHEMA_VERSION", relative, "schema must declare a SemVer x-schema-version"));
+    }
+    if (schema.additionalProperties !== false) {
+      errors.push(issue("SCHEMA_ROOT_STRICT", relative, "schema root must reject undeclared properties"));
+    }
     const required = new Set(schema.required || []);
     for (const field of REQUIRED_SCHEMA_FIELDS[relative]) {
       if (!required.has(field)) errors.push(issue("SCHEMA_FIELD", relative, `missing required root field: ${field}`));
+      if (!schema.properties || !(field in schema.properties)) {
+        errors.push(issue("SCHEMA_PROPERTY", relative, `missing root property definition: ${field}`));
+      }
     }
     for (const ref of collectRefs(schema)) {
       if (ref.startsWith("#/") && !resolveJsonPointer(schema, ref)) {
@@ -498,6 +519,16 @@ function runNegativeTests(source) {
       name: "invalid schema JSON",
       code: "SCHEMA_JSON",
       mutate: (root) => fs.writeFileSync(path.join(root, "contracts/motion-contract.schema.json"), "{"),
+    },
+    {
+      name: "schema without a contractual version",
+      code: "SCHEMA_VERSION",
+      mutate: (root) => replaceIn(root, "contracts/visual-contract.schema.json", '"x-schema-version": "2.0.0"', '"x-schema-version": "latest"'),
+    },
+    {
+      name: "required schema field without a property",
+      code: "SCHEMA_PROPERTY",
+      mutate: (root) => replaceIn(root, "contracts/motion-contract.schema.json", '"visual_contract_hash": { "$ref": "#/$defs/sha256" }', '"visual_contract_hash_missing": { "$ref": "#/$defs/sha256" }'),
     },
     {
       name: "frontend directory",

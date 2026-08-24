@@ -125,6 +125,8 @@ Crear exactamente tres direcciones materialmente distintas antes de elegir. Para
 - adaptación móvil;
 - principal riesgo pedagógico o perceptual.
 
+Persistir las tres propuestas completas en `direction_options`; no guardar solo sus identificadores o un resumen conversacional.
+
 No cuentan como alternativas distintas cambios de paleta, tipografía, radio, fondo o intensidad de motion. Al menos cuatro de estas dimensiones deben cambiar de forma material: macrocomposición, representación, relación espacial, comportamiento del protagonista, gramática de transformación, densidad y uso de texto.
 
 Comparar las tres contra el takeaway, no contra gusto abstracto. Recomendar una y explicar el trade-off decisivo.
@@ -176,6 +178,8 @@ Si el usuario pide cambios, revisar la dirección y repetir el checkpoint. Si el
 Completar todas las escenas, holds, exclusiones y reglas móviles. Calcular el hash conforme a [`pipeline-contract.md`](../../contracts/pipeline-contract.md). Validar contra el schema y comprobar:
 
 - `anti_defaults` contiene al menos cinco entradas;
+- `direction_options` contiene exactamente tres propuestas completas y materialmente distintas;
+- `direction_id` y `selected_direction_id` coinciden con una propuesta, y los dos IDs rechazados coinciden con las otras dos;
 - todas las escenas tienen protagonista y ownership;
 - todos los holds tienen criterios estáticos verificables;
 - `status = approved` coincide con `user_approval.status = approved`;
@@ -221,6 +225,7 @@ Completar todas las escenas, holds, exclusiones y reglas móviles. Calcular el h
 - Inputs completos y hashes verificados.
 - Exploración del dominio y anti-default inventory persistidos.
 - Exactamente tres direcciones materialmente distintas comparadas.
+- Las tres propuestas completas están dentro de `direction_options`.
 - Una dirección elegida mediante checkpoint humano explícito.
 - Cada escena declara protagonista, invariantes, representación, ruta y ownership.
 - Todos los money frames pasan los tests estáticos y móvil.

@@ -136,7 +136,7 @@ Está prohibido:
 - minor: campo opcional o capacidad compatible;
 - major: campo obligatorio, significado, estado, gate o regla de invalidación incompatible.
 
-Los schemas identifican su versión en `$id`. El Producer y el Auditor deben registrar la versión consumida. Si no soportan el major recibido, deben bloquear, no aproximar.
+Cada schema declara su propia versión SemVer en `x-schema-version`; Visual y Motion declaran además la versión de cada instancia en `contract_version`. Producer y Auditor deben persistir las versiones efectivamente leídas en `consumed_versions`; el nombre del archivo o un hash aislado no sustituye ese registro. Si no soportan el major recibido, deben bloquear, no aproximar.
 
 ## 10. Definition of Done del pipeline
 

@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/implementation-manifest.schema.json",
+  "x-schema-version": "2.0.0",
   "title": "Implementation Manifest",
   "type": "object",
   "additionalProperties": false,
@@ -10,6 +11,7 @@
     "narrative_hash",
     "visual_contract_hash",
     "motion_contract_hash",
+    "consumed_versions",
     "commit",
     "stack",
     "commands",
@@ -27,6 +29,16 @@
     "narrative_hash": { "$ref": "#/$defs/sha256" },
     "visual_contract_hash": { "$ref": "#/$defs/sha256" },
     "motion_contract_hash": { "$ref": "#/$defs/sha256" },
+    "consumed_versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visual_contract", "motion_contract", "implementation_manifest_schema"],
+      "properties": {
+        "visual_contract": { "$ref": "#/$defs/version" },
+        "motion_contract": { "$ref": "#/$defs/version" },
+        "implementation_manifest_schema": { "$ref": "#/$defs/version" }
+      }
+    },
     "commit": { "$ref": "#/$defs/gitSha" },
     "stack": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmpty" } },
     "commands": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/command" } },
@@ -38,8 +50,36 @@
     "deviations": { "type": "array", "items": { "$ref": "#/$defs/deviation" } },
     "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
   },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "implemented" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "tests": {
+            "not": {
+              "contains": {
+                "type": "object",
+                "properties": { "status": { "enum": ["failed", "not_run"] } },
+                "required": ["status"]
+              }
+            }
+          },
+          "deviations": {
+            "not": {
+              "contains": {
+                "type": "object",
+                "properties": { "approved": { "const": false } },
+                "required": ["approved"]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
   "$defs": {
     "nonEmpty": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
     "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
     "command": {
@@ -122,7 +162,13 @@
         "impact": { "$ref": "#/$defs/nonEmpty" },
         "approved": { "type": "boolean" },
         "approval_reference": { "type": ["string", "null"] }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "approved": { "const": true } }, "required": ["approved"] },
+          "then": { "properties": { "approval_reference": { "$ref": "#/$defs/nonEmpty" } } }
+        }
+      ]
     }
   }
 }
