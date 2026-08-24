@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/audit-report.schema.json",
+  "title": "Audit Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "audit_id",
+    "subject_commit",
+    "implementation_manifest_hash",
+    "independence",
+    "evidence",
+    "scores",
+    "findings",
+    "blockers",
+    "limitations",
+    "verdict",
+    "required_next_owner"
+  ],
+  "properties": {
+    "audit_id": { "$ref": "#/$defs/nonEmpty" },
+    "subject_commit": { "$ref": "#/$defs/gitSha" },
+    "implementation_manifest_hash": { "$ref": "#/$defs/sha256" },
+    "independence": { "$ref": "#/$defs/independence" },
+    "evidence": { "$ref": "#/$defs/evidence" },
+    "scores": { "$ref": "#/$defs/scores" },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+    "blockers": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } },
+    "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } },
+    "verdict": { "enum": ["blocked", "revision_required", "ready_for_user_review", "reference_candidate"] },
+    "required_next_owner": {
+      "enum": [
+        "visual-director-lienzo",
+        "motion-director-lienzo",
+        "frontend-producer-lienzo",
+        "narrative-owner",
+        "user",
+        "none"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "verdict": { "const": "reference_candidate" } }, "required": ["verdict"] },
+      "then": {
+        "properties": {
+          "blockers": { "maxItems": 0 },
+          "findings": {
+            "not": {
+              "contains": {
+                "type": "object",
+                "properties": { "severity": { "enum": ["blocker", "major"] } },
+                "required": ["severity"]
+              }
+            }
+          },
+          "scores": {
+            "properties": {
+              "pedagogical_comprehension": { "minimum": 9 },
+              "composition_and_hierarchy": { "minimum": 9 },
+              "visual_craft_and_taste": { "minimum": 9 },
+              "total": { "minimum": 9 }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "blind_decode": { "properties": { "status": { "const": "passed" } } },
+              "mobile_downsample": { "properties": { "status": { "const": "passed" } } },
+              "reproducibility": { "properties": { "status": { "const": "passed" } } }
+            }
+          },
+          "required_next_owner": { "const": "none" }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1 },
+    "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence"],
+      "properties": {
+        "status": { "enum": ["passed", "failed", "limited", "not_tested"] },
+        "evidence": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "independence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rationale_hidden_first_pass", "auditor_created_subject", "auditor_remediated_subject", "limitations"],
+      "properties": {
+        "rationale_hidden_first_pass": { "type": "boolean" },
+        "auditor_created_subject": { "type": "boolean" },
+        "auditor_remediated_subject": { "type": "boolean" },
+        "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifacts",
+        "inspected_holds",
+        "inspected_beats",
+        "reverse",
+        "reset",
+        "reduced_motion",
+        "mobile_downsample",
+        "blind_decode",
+        "reproducibility"
+      ],
+      "properties": {
+        "artifacts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/artifact" } },
+        "inspected_holds": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
+        "inspected_beats": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/beatCoverage" } },
+        "reverse": { "$ref": "#/$defs/result" },
+        "reset": { "$ref": "#/$defs/result" },
+        "reduced_motion": { "$ref": "#/$defs/result" },
+        "mobile_downsample": { "$ref": "#/$defs/result" },
+        "blind_decode": { "$ref": "#/$defs/result" },
+        "reproducibility": { "$ref": "#/$defs/result" }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "content_hash", "viewport", "kind"],
+      "properties": {
+        "path": { "$ref": "#/$defs/nonEmpty" },
+        "content_hash": { "$ref": "#/$defs/sha256" },
+        "viewport": { "$ref": "#/$defs/nonEmpty" },
+        "kind": { "enum": ["still", "video", "interactive_session", "build_log", "test_log", "other"] }
+      }
+    },
+    "beatCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["beat_id", "start", "max_change", "end", "layer_coexistence"],
+      "properties": {
+        "beat_id": { "$ref": "#/$defs/nonEmpty" },
+        "start": { "$ref": "#/$defs/nonEmpty" },
+        "max_change": { "$ref": "#/$defs/nonEmpty" },
+        "end": { "$ref": "#/$defs/nonEmpty" },
+        "layer_coexistence": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "score": { "type": "number", "minimum": 0, "maximum": 10 },
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pedagogical_comprehension",
+        "composition_and_hierarchy",
+        "visual_craft_and_taste",
+        "motion_and_continuity",
+        "cognitive_load_and_pacing",
+        "interaction_and_holds",
+        "mobile_legibility",
+        "technical_robustness",
+        "total"
+      ],
+      "properties": {
+        "pedagogical_comprehension": { "$ref": "#/$defs/score" },
+        "composition_and_hierarchy": { "$ref": "#/$defs/score" },
+        "visual_craft_and_taste": { "$ref": "#/$defs/score" },
+        "motion_and_continuity": { "$ref": "#/$defs/score" },
+        "cognitive_load_and_pacing": { "$ref": "#/$defs/score" },
+        "interaction_and_holds": { "$ref": "#/$defs/score" },
+        "mobile_legibility": { "$ref": "#/$defs/score" },
+        "technical_robustness": { "$ref": "#/$defs/score" },
+        "total": { "$ref": "#/$defs/score" }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "severity",
+        "evidence",
+        "consequence",
+        "probable_cause",
+        "verifiable_correction",
+        "owner"
+      ],
+      "properties": {
+        "finding_id": { "$ref": "#/$defs/nonEmpty" },
+        "severity": { "enum": ["blocker", "major", "minor", "nit"] },
+        "evidence": { "$ref": "#/$defs/nonEmpty" },
+        "consequence": { "$ref": "#/$defs/nonEmpty" },
+        "probable_cause": { "$ref": "#/$defs/nonEmpty" },
+        "verifiable_correction": { "$ref": "#/$defs/nonEmpty" },
+        "owner": {
+          "enum": [
+            "visual-director-lienzo",
+            "motion-director-lienzo",
+            "frontend-producer-lienzo",
+            "narrative-owner"
+          ]
+        }
+      }
+    }
+  }
+}

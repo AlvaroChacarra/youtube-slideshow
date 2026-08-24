@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/implementation-manifest.schema.json",
+  "title": "Implementation Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "implementation_id",
+    "status",
+    "narrative_hash",
+    "visual_contract_hash",
+    "motion_contract_hash",
+    "commit",
+    "stack",
+    "commands",
+    "outputs",
+    "scenes",
+    "tests",
+    "visual_evidence",
+    "viewports",
+    "deviations",
+    "limitations"
+  ],
+  "properties": {
+    "implementation_id": { "$ref": "#/$defs/nonEmpty" },
+    "status": { "enum": ["draft", "implemented", "blocked", "superseded"] },
+    "narrative_hash": { "$ref": "#/$defs/sha256" },
+    "visual_contract_hash": { "$ref": "#/$defs/sha256" },
+    "motion_contract_hash": { "$ref": "#/$defs/sha256" },
+    "commit": { "$ref": "#/$defs/gitSha" },
+    "stack": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmpty" } },
+    "commands": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/command" } },
+    "outputs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/output" } },
+    "scenes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/scene" } },
+    "tests": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/test" } },
+    "visual_evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/evidence" } },
+    "viewports": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/viewport" } },
+    "deviations": { "type": "array", "items": { "$ref": "#/$defs/deviation" } },
+    "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1 },
+    "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
+    "command": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "command", "purpose"],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmpty" },
+        "command": { "$ref": "#/$defs/nonEmpty" },
+        "purpose": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "kind", "content_hash"],
+      "properties": {
+        "path": { "$ref": "#/$defs/nonEmpty" },
+        "kind": { "enum": ["application", "asset", "data", "capture", "report", "other"] },
+        "content_hash": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "scene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scene_id", "implemented_beats", "holds_verified"],
+      "properties": {
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "implemented_beats": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
+        "holds_verified": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } }
+      }
+    },
+    "test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "command", "status", "evidence"],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmpty" },
+        "command": { "$ref": "#/$defs/nonEmpty" },
+        "status": { "enum": ["passed", "failed", "not_run"] },
+        "evidence": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "scene_id", "beat_id", "state", "viewport_id", "path", "content_hash"],
+      "properties": {
+        "evidence_id": { "$ref": "#/$defs/nonEmpty" },
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "beat_id": { "type": ["string", "null"] },
+        "state": { "enum": ["hold", "beat_start", "max_change", "beat_end", "reverse", "reset", "reduced_motion", "mobile_downsample"] },
+        "viewport_id": { "$ref": "#/$defs/nonEmpty" },
+        "path": { "$ref": "#/$defs/nonEmpty" },
+        "content_hash": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "viewport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["viewport_id", "browser", "width_px", "height_px", "device_pixel_ratio", "purpose"],
+      "properties": {
+        "viewport_id": { "$ref": "#/$defs/nonEmpty" },
+        "browser": { "$ref": "#/$defs/nonEmpty" },
+        "width_px": { "type": "integer", "minimum": 1 },
+        "height_px": { "type": "integer", "minimum": 1 },
+        "device_pixel_ratio": { "type": "number", "exclusiveMinimum": 0 },
+        "purpose": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "deviation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deviation_id", "contract", "description", "reason", "impact", "approved", "approval_reference"],
+      "properties": {
+        "deviation_id": { "$ref": "#/$defs/nonEmpty" },
+        "contract": { "enum": ["visual", "motion", "narrative", "audit_criteria"] },
+        "description": { "$ref": "#/$defs/nonEmpty" },
+        "reason": { "$ref": "#/$defs/nonEmpty" },
+        "impact": { "$ref": "#/$defs/nonEmpty" },
+        "approved": { "type": "boolean" },
+        "approval_reference": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
