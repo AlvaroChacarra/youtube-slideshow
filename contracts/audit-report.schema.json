@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/audit-report.schema.json",
-  "x-schema-version": "2.0.0",
+  "x-schema-version": "2.1.0",
   "title": "Audit Report",
   "type": "object",
   "additionalProperties": false,
@@ -35,6 +35,7 @@
       }
     },
     "independence": { "$ref": "#/$defs/independence" },
+    "reference_context": { "$ref": "#/$defs/referenceContext" },
     "evidence": { "$ref": "#/$defs/evidence" },
     "scores": { "$ref": "#/$defs/scores" },
     "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
@@ -130,6 +131,82 @@
           "required_next_owner": { "const": "none" }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "reference_context": {
+            "properties": { "applicable": { "const": true } },
+            "required": ["applicable"]
+          }
+        },
+        "required": ["reference_context"]
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "required": ["reference_fidelity"],
+            "properties": {
+              "reference_fidelity": {
+                "properties": {
+                  "status": { "enum": ["passed", "failed", "limited", "not_tested"] },
+                  "comparisons": { "minItems": 1 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reference_context": {
+            "properties": { "applicable": { "const": true } },
+            "required": ["applicable"]
+          },
+          "verdict": { "enum": ["ready_for_user_review", "reference_candidate"] }
+        },
+        "required": ["reference_context", "verdict"]
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "required": ["reference_fidelity"],
+            "properties": {
+              "reference_fidelity": {
+                "properties": { "status": { "const": "passed" } },
+                "required": ["status"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reference_context": {
+            "properties": { "applicable": { "const": false } },
+            "required": ["applicable"]
+          }
+        },
+        "required": ["reference_context"]
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "properties": {
+              "reference_fidelity": {
+                "properties": {
+                  "status": { "const": "not_applicable" },
+                  "comparisons": { "maxItems": 0 }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "$defs": {
@@ -157,6 +234,26 @@
         "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
       }
     },
+    "referenceContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicable", "reference_ids"],
+      "properties": {
+        "applicable": { "type": "boolean" },
+        "reference_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmpty" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "applicable": { "const": true } }, "required": ["applicable"] },
+          "then": { "properties": { "reference_ids": { "minItems": 1 } } },
+          "else": { "properties": { "reference_ids": { "maxItems": 0 } } }
+        }
+      ]
+    },
     "evidence": {
       "type": "object",
       "additionalProperties": false,
@@ -180,7 +277,51 @@
         "reduced_motion": { "$ref": "#/$defs/result" },
         "mobile_downsample": { "$ref": "#/$defs/result" },
         "blind_decode": { "$ref": "#/$defs/result" },
-        "reproducibility": { "$ref": "#/$defs/result" }
+        "reproducibility": { "$ref": "#/$defs/result" },
+        "reference_fidelity": { "$ref": "#/$defs/referenceFidelity" }
+      }
+    },
+    "referenceFidelity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence", "comparisons"],
+      "properties": {
+        "status": { "enum": ["passed", "failed", "limited", "not_tested", "not_applicable"] },
+        "evidence": { "$ref": "#/$defs/nonEmpty" },
+        "comparisons": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/referenceAuditComparison" }
+        }
+      }
+    },
+    "referenceAuditComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_id",
+        "semantic_spec_hash",
+        "reference_hash",
+        "output_hash",
+        "scene_id",
+        "hold_id",
+        "viewport_id",
+        "semantic_fidelity",
+        "perceptual_fidelity",
+        "failure_origin",
+        "evidence"
+      ],
+      "properties": {
+        "reference_id": { "$ref": "#/$defs/nonEmpty" },
+        "semantic_spec_hash": { "$ref": "#/$defs/sha256" },
+        "reference_hash": { "$ref": "#/$defs/sha256" },
+        "output_hash": { "$ref": "#/$defs/sha256" },
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "hold_id": { "$ref": "#/$defs/nonEmpty" },
+        "viewport_id": { "$ref": "#/$defs/nonEmpty" },
+        "semantic_fidelity": { "enum": ["passed", "failed", "limited"] },
+        "perceptual_fidelity": { "enum": ["passed", "failed", "limited"] },
+        "failure_origin": { "enum": ["none", "upstream_design", "implementation", "motion", "semantic_spec"] },
+        "evidence": { "$ref": "#/$defs/nonEmpty" }
       }
     },
     "artifact": {
@@ -257,10 +398,23 @@
             "visual-director-lienzo",
             "motion-director-lienzo",
             "frontend-producer-lienzo",
-            "narrative-owner"
+            "narrative-owner",
+            "user"
           ]
+        },
+        "reference_id": { "type": ["string", "null"] },
+        "failure_origin": { "enum": ["upstream_design", "implementation", "motion", "semantic_spec", "not_applicable"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "failure_origin": { "const": "implementation" } }, "required": ["failure_origin"] },
+          "then": { "properties": { "owner": { "const": "frontend-producer-lienzo" } } }
+        },
+        {
+          "if": { "properties": { "failure_origin": { "const": "upstream_design" } }, "required": ["failure_origin"] },
+          "then": { "properties": { "owner": { "enum": ["visual-director-lienzo", "user"] } } }
         }
-      }
+      ]
     }
   }
 }

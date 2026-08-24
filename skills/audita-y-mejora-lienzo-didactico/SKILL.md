@@ -1,6 +1,6 @@
 ---
 name: audita-y-mejora-lienzo-didactico
-description: Audita independientemente el output real de un lienzo didáctico, realiza blind decode, inspecciona holds/transiciones/móvil/reduced motion, puntúa ocho dimensiones y asigna findings verificables a su propietario. Usar antes de revisión humana o referencia y después de cada remediación; no usar para autoaprobar ni rediseñar antes de emitir informe.
+description: "Audita independientemente el output real de un lienzo didáctico: primero blind decode y después fidelidad semántica, contractual y perceptual frente a referencias aprobadas. Inspecciona estados, móvil y robustez, puntúa ocho dimensiones y asigna findings verificables. Usar antes de revisión humana y tras remediaciones; no usar para autoaprobar ni rediseñar."
 ---
 
 # Audita y Mejora Lienzo Didáctico
@@ -34,20 +34,23 @@ Mantener ocultos durante la primera pasada:
 - narrativa;
 - visual y motion contracts;
 - código y tests, salvo lo imprescindible para arrancar el sujeto.
+- semantic specs y referencias aprobadas, aunque estén disponibles en el bundle.
 
-Después del blind decode exigir narrativa, ambos contratos y hashes, manifest, código, tests y desviaciones.
+Después de cerrar el blind decode exigir narrativa o semantic specs, ambos contratos y hashes, manifest, código, tests, desviaciones y, cuando aplique, el `reference_bundle` con imágenes y bindings fijados.
 
 ## Fuentes de autoridad
 
 Aplicar este orden:
 
 1. output real reproducible como evidencia perceptual;
-2. narrativa para verdad pedagógica y claims;
-3. visual y motion contracts para fidelidad;
-4. [`pipeline-contract.md`](../../contracts/pipeline-contract.md) para routing y gates;
-5. [`audit-report.schema.json`](../../contracts/audit-report.schema.json) para el output;
-6. criterios explícitos del encargo;
-7. [`source-map.md`](../../docs/source-map.md) como doctrina consultiva.
+2. narrativa o semantic spec para verdad pedagógica y claims;
+3. referencia aprobada para el resultado perceptual del hold vinculado;
+4. visual y motion contracts para representación, estados, tolerancias y comportamiento;
+5. [`pipeline-contract.md`](../../contracts/pipeline-contract.md) para routing y gates;
+6. [`image-to-code-integration.md`](../../docs/image-to-code-integration.md) cuando exista bundle;
+7. [`audit-report.schema.json`](../../contracts/audit-report.schema.json) para el output;
+8. criterios explícitos del encargo;
+9. [`source-map.md`](../../docs/source-map.md) como doctrina consultiva.
 
 El código y los tests explican causas o robustez después de observar; no anulan un fallo visible.
 
@@ -72,6 +75,7 @@ Emitir `audit-report.json`, válido contra [`audit-report.schema.json`](../../co
 - sujeto y manifest hasheados;
 - independencia declarada;
 - evidencia y cobertura;
+- `reference_context` y `reference_fidelity` cuando existan referencias aprobadas;
 - scores 0–10;
 - findings con severidad, consecuencia, causa probable, corrección verificable y propietario;
 - blockers y limitaciones;
@@ -166,7 +170,26 @@ Comparar lo inferido con lo prescrito. Mantener separadas:
 
 No reescribir la observación ciega para hacerla coincidir con la intención.
 
-### 6. Puntuar ocho dimensiones
+### 6. Auditar fidelidad semántica y perceptual
+
+Solo después del blind decode, y en este orden:
+
+1. comparar output con narrativa o semantic spec para verificar contenido, datos, fórmulas, exclusiones y takeaway;
+2. abrir cada referencia aprobada vinculada;
+3. comparar referencia y browser output en el mismo hold/viewport;
+4. contrastar layout, protagonista, escala, proporciones, spacing, alignment, whitespace, jerarquía tipográfica, roles de color, geometría, labels, assets y densidad;
+5. registrar `reference_fidelity` como `passed`, `failed`, `limited` o `not_applicable`, con hashes y evidencia por binding.
+
+Evaluar fidelidad perceptual y estructural; no exigir identidad de píxel ni dejar que un pixel diff sustituya el juicio. Confirmar además que la referencia fue reconstruida: mostrarla fullscreen no constituye implementación, incluso si produce una coincidencia visual perfecta.
+
+Distinguir obligatoriamente:
+
+- **fallo upstream de diseño:** el navegador reproduce bien la referencia, pero la referencia explica mal la semantic spec; `failure_origin = upstream_design`, `owner = visual-director-lienzo` o `user` cuando la decisión pertenece al bundle upstream;
+- **fallo de implementación:** la referencia es adecuada, pero el navegador pierde composición o jerarquía; `failure_origin = implementation`, owner Frontend Producer.
+
+No culpar a Production por una debilidad intrínseca del keyframe ni a Visual por drift introducido en el navegador.
+
+### 7. Puntuar ocho dimensiones
 
 Asignar 0–10 con evidencia específica:
 
@@ -181,7 +204,7 @@ Asignar 0–10 con evidencia específica:
 
 Calcular `total` como media aritmética de las ocho, redondeada a una decimal. No subir una nota por esfuerzo, dificultad técnica o calidad del rationale.
 
-### 7. Emitir findings accionables
+### 8. Emitir findings accionables
 
 Cada finding debe contener:
 
@@ -191,6 +214,7 @@ Cada finding debe contener:
 - causa probable, etiquetada como hipótesis cuando proceda;
 - corrección verificable expresada como condición de salida;
 - skill propietaria.
+- cuando aplique, `reference_id` y `failure_origin`.
 
 Severidades:
 
@@ -201,7 +225,7 @@ Severidades:
 
 No convertir preferencias personales en findings. Toda crítica debe enlazar evidencia con consecuencia.
 
-### 8. Asignar propietario y artefactos invalidados
+### 9. Asignar propietario y artefactos invalidados
 
 Aplicar:
 
@@ -209,10 +233,12 @@ Aplicar:
 - transformación, identidad, timing, hold, coexistencia → `motion-director-lienzo`;
 - fidelidad de código, responsive, interacción, build, tests → `frontend-producer-lienzo`;
 - claim, evidencia o segmentación semántica → `narrative-owner`.
+- referencia aprobada intrínsecamente débil frente a la semantic spec → Visual Director o `user` cuando la decisión pertenece al bundle upstream;
+- reconstrucción del browser que pierde una referencia adecuada → Frontend Producer.
 
 Un finding upstream invalida todos los artefactos downstream definidos en el pipeline contract.
 
-### 9. Emitir veredicto
+### 10. Emitir veredicto
 
 Usar exactamente estas reglas:
 
@@ -234,6 +260,7 @@ Exigir:
 - blind decode, móvil y reduced motion satisfactorios;
 - total ≥ 8;
 - comprensión, composición y craft ≥ 8.
+- cuando `reference_context.applicable = true`, `reference_fidelity = passed`.
 
 Puede conservar minors explícitos que no alteren el takeaway.
 En este veredicto, `required_next_owner` debe ser `user`.
@@ -251,11 +278,12 @@ Exigir simultáneamente:
 - blind decode satisfactorio;
 - downsample móvil satisfactorio;
 - build y estados reproducibles;
+- cuando `reference_context.applicable = true`, `reference_fidelity = passed`;
 - `required_next_owner = none`.
 
 No redondear hacia arriba para alcanzar un umbral.
 
-### 10. Ejecutar la mejora sin autoaprobación
+### 11. Ejecutar la mejora sin autoaprobación
 
 Secuencia obligatoria:
 
@@ -280,16 +308,22 @@ No editar el sujeto dentro de la pasada que lo evalúa.
 - Un score no sustituye findings ni evidencia.
 - Toda remediación exige nueva auditoría.
 - Declarar limitaciones de independencia.
+- Blind decode se cierra antes de abrir semantic specs, contratos o referencias.
+- La semantic spec gobierna significado y la referencia aprobada gobierna percepción.
+- Mostrar la referencia aprobada como imagen fullscreen no constituye implementación.
+- Reference fidelity no exige pixel-perfect y nunca depende solo de pixel diff.
 
 ## Acciones prohibidas
 
 - Leer primero el rationale del Producer por conveniencia.
+- Ver la referencia aprobada antes de cerrar blind decode.
 - Auditar solo screenshots elegidos por el creador.
 - Arreglar antes de emitir informe.
 - Cambiar diseño, motion o código desde autoridad de Auditor.
 - Ocultar findings porque el usuario aún no los verá.
 - Autoaprobar una remediación sin pasada nueva.
 - Declarar `reference_candidate` por promedio si falla un umbral reforzado.
+- Aprobar reference fidelity si falta un binding, hash o screenshot comparable.
 - Invocar automáticamente otra skill.
 
 ## Blockers y escalado upstream
@@ -300,6 +334,9 @@ No editar el sujeto dentro de la pasada que lo evalúa.
 | Evidencia crítica ausente | Frontend Producer | capturar; nueva auditoría |
 | Claim no sostenible | `narrative-owner` | corregir narrativa; invalidar cadena |
 | Composición impide comprensión | Visual Director | nuevo visual contract y checkpoint |
+| Spec y referencia se contradicen materialmente | Visual Director o usuario/upstream source owner | bloquear y corregir el bundle |
+| Referencia adecuada pero output pierde jerarquía/composición | Frontend Producer | corregir reconstrucción y reauditar |
+| Referencia abierta antes de cerrar blind decode | Auditor | invalidar la pasada y reiniciarla |
 | Motion destruye identidad o causalidad | Motion Director | nuevo motion contract |
 | Independencia insuficiente para referencia | usuario | mantener veredicto inferior o pedir auditor independiente |
 
@@ -308,6 +345,8 @@ No editar el sujeto dentro de la pasada que lo evalúa.
 - Sujeto congelado y reproducido.
 - Independencia y limitaciones declaradas.
 - Blind decode cerrado antes de leer rationale/contratos.
+- Cuando aplica, fidelidad semántica precede a fidelity perceptual y `reference_fidelity` cubre cada binding.
+- Los fallos upstream y de implementación tienen `failure_origin` y owner coherentes.
 - Todos los holds, beats y estados de riesgo inspeccionados.
 - Móvil, downsample y reduced motion cubiertos.
 - Ocho scores y total calculados con evidencia.
