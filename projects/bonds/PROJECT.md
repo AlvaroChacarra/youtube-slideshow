@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Construir una explicación visual progresiva de bonos que parta de la intuición económica, pase por la anatomía del instrumento y llegue a valoración, yield y sensibilidad a tipos.
+Construir una explicación visual progresiva de bonos que parta de la intuición económica, pase por la anatomía del instrumento y llegue a valoración, yield, funcionamiento de mercado y sensibilidad a tipos.
 
 El espectador debe poder seguir cada idea sin conocimientos avanzados y sin leer una slide saturada. La narración oral y la imagen se complementan; la imagen no debe intentar contener todo el discurso.
 
@@ -26,34 +26,58 @@ Consecuencias del ejemplo:
 
 En este ejemplo notional y face value coinciden en 100 €. Se mantienen ambos nombres porque cumplen funciones conceptuales distintas: el notional sirve como base del cupón y el face value es el principal que se devuelve al vencimiento.
 
-## Secuencia aprobada hasta ahora
+## Secuencia aprobada
 
 1. `01-what-is-a-bond.md` — **¿Qué es un bono?**
 2. `02-bond-anatomy.md` — **Anatomía de un bono a través de un ejemplo**
 3. `03-discounting-theory.md` — **Descuento de flujos — teoría**
 4. `04-discounting-example.md` — **Descuento de flujos — ejemplo**
+5. `05-ytm-vs-cagr.md` — **YTM vs CAGR**
+6. `06-same-ytm-different-cagr.md` — **Mismo YTM, distinto CAGR**
 
-Las cuatro tienen referencia visual aprobada.
+Slides 01–04 y 06 tienen referencia visual persistida en `references/`. Slide 05 tiene composición aprobada y especificación persistida.
 
-## Siguiente bloque previsto
+## Slide 05 — YTM vs CAGR
 
-### Slide 05 — Yield to Maturity
+Comparar dos formas de resumir la rentabilidad del bono canónico:
 
-Introducir el YTM como la tasa única `y` que hace que el valor presente de los flujos sea igual al precio observado:
+- **YTM = 4.00%**: tasa interna que iguala precio y valor presente de los flujos bajo la convención de reinversión de cupones al mismo rendimiento;
+- **CAGR sin reinversión = 3.71%**: anualización de la riqueza terminal si los cupones cobrados se mantienen aparte al 0% hasta vencimiento.
 
-`P_mercado - P_DCF(y) ≈ 0`.
+La diferencia entre ambas métricas debe explicarse como diferencia de hipótesis sobre los cupones, no como error de cálculo.
 
-Para el bono canónico, al cotizar a par (`P = 100 €`) y tener cupón anual del 4%, el resultado es `YTM = 4%`.
+## Slide 06 — Mismo YTM, distinto CAGR
 
-La slide debe explicar tanto la intuición como el procedimiento de resolución: una aproximación cerrada puede servir como estimación, mientras que el valor exacto se obtiene resolviendo numéricamente la ecuación de precio.
+Tres bonos a 5 años, face value 100 €, pagos anuales y YTM común del 4%:
+
+- cupón 8% → precio 117.81 € → CAGR sin reinversión 3.51%;
+- cupón 1% → precio 86.64 € → CAGR sin reinversión 3.92%;
+- cupón 0% → precio 82.19 € → CAGR sin reinversión 4.00%.
+
+Mensaje central: **el mismo YTM no implica el mismo rendimiento compuesto realizado si no se reinvierten los cupones**. Cuanto mayor es el cupón, mayor es la relevancia de la reinversión intermedia; en el cupón cero no existe esa reinversión y YTM y CAGR coinciden.
+
+## Próximo bloque — Slide 07
+
+Introducir mercado primario y secundario para explicar por qué bonos con cupones diferentes cotizan a precios diferentes de 100 y por qué el YTM es la métrica que conecta precio de mercado y flujos contractuales.
+
+Usar el Tesoro español como ejemplo institucional, distinguiendo:
+
+- creación de nuevas referencias;
+- reaperturas / nuevos tramos del mismo ISIN;
+- formación del precio en subasta primaria;
+- negociación posterior en mercado secundario;
+- crecimiento del saldo en circulación de una referencia mediante sucesivas reaperturas.
+
+No fijar cifras institucionales sin fuente oficial actualizada.
 
 ## Convenciones matemáticas actuales
 
 - Slides 03–04 presentan primero la valoración general usando `r_t`, tasa aplicable al flujo de cada periodo.
-- La slide 05 introducirá explícitamente el caso de una única tasa interna `y` / YTM aplicada a todos los flujos.
-- No confundir **coupon rate** (4%) con **coupon payment** (4 €).
+- Slides 05–06 introducen el caso de una única tasa interna `y` / YTM aplicada a todos los flujos.
+- No confundir **coupon rate** con **coupon payment**.
 - En vencimiento el numerador contiene cupón más devolución de principal; antes del vencimiento contiene solo el cupón.
+- `CAGR sin reinversión` significa en este proyecto la anualización de la riqueza terminal cuando los cupones se mantienen en efectivo al 0%; no es la TIR estándar del bono.
 
 ## Regla narrativa
 
-Cada slide debe añadir una sola pieza conceptual nueva y conservar lo ya aprendido. Cuando un concepto merezca intuición y cálculo, preferir dos slides consecutivas —teoría y ejemplo— antes que comprimir ambas en una sola.
+Cada slide debe añadir una sola pieza conceptual nueva y conservar lo ya aprendido. Cuando un concepto merezca intuición y cálculo, preferir dos slides consecutivas antes que comprimir ambas en una sola.
