@@ -1,10 +1,10 @@
-# Pipeline Contract V2
+# Pipeline Contract V2.1
 
 ## 1. Propósito y autoridad
 
 Este contrato define la única transferencia válida de autoridad entre cuatro etapas. Ante contradicción prevalecen, por orden:
 
-1. narrativa semántica versionada para claims y contenido;
+1. narrativa o spec semántica versionada para claims y contenido;
 2. este contrato para fronteras, gates e invalidación;
 3. schema del artefacto producido;
 4. `SKILL.md` de la etapa propietaria;
@@ -13,22 +13,33 @@ Este contrato define la única transferencia válida de autoridad entre cuatro e
 
 La conversación, el rationale y las fuentes externas no pueden corregir ni completar implícitamente un handoff.
 
+Cuando existe un bundle aprobado se separan dos autoridades:
+
+- semántica y contenido: la spec markdown prevalece sobre la imagen;
+- composición, jerarquía y apariencia: la referencia perceptual prevalece sobre descripciones textuales aproximadas.
+
+Una contradicción material bloquea el bundle upstream. Production no puede elegir silenciosamente una fuente ni inferir semántica solo desde píxeles.
+
 ## 2. Etapas y artefactos
 
 | Etapa | Propietario | Input normativo | Output normativo | Gate de salida |
 |---|---|---|---|---|
-| Dirección visual | `visual-director-lienzo` | narrativa semántica + constraints | `visual-contract.json` | aprobación humana explícita |
+| Dirección visual | `visual-director-lienzo` | narrativa/spec + constraints + bundle perceptual opcional | `visual-contract.json` | checkpoint explícito o aprobación upstream verificable |
 | Dirección de motion | `motion-director-lienzo` | narrativa + visual contract aprobado | `motion-contract.json` | contrato completo o blocker upstream |
 | Producción frontend | `frontend-producer-lienzo` | narrativa + visual + motion vigentes | `implementation-manifest.json` | build, evidencia y desviaciones registradas |
 | Auditoría | `audita-y-mejora-lienzo-didactico` | output real + manifest + contratos | `audit-report.json` | veredicto y siguiente propietario explícitos |
 
 El nombre de archivo es convencional; su contenido y hash son normativos. Cada artefacto debe validar contra su schema antes de ser consumido.
 
+El upstream Image-to-Code no añade una etapa ni una skill. Entrega, de forma selectiva, diseño global, proyecto, spec de unidad y referencia aprobada al Visual Director. Su contrato genérico se documenta en [`image-to-code-integration.md`](../docs/image-to-code-integration.md).
+
 ## 3. Flujo de estados
 
 ### 3.1 Visual contract
 
-`draft` → `pending_user_approval` → `approved`
+Modo `concept_first`: `draft` → `pending_user_approval` → `approved`.
+
+Modo `approved_reference`: `draft` → `approved` solo si la aprobación upstream es verificable; si no, `draft` → `pending_user_approval`.
 
 Ramas terminales o de sustitución: `rejected`, `superseded`.
 
@@ -57,7 +68,9 @@ Todo informe termina en exactamente uno de:
 
 Una remediación no cambia el veredicto anterior: produce nueva implementación, nueva evidencia y nuevo informe.
 
-## 4. Checkpoint humano
+## 4. Gate de aprobación
+
+### 4.1 Concept-first
 
 El Visual Director debe persistir antes de aprobar:
 
@@ -69,6 +82,18 @@ El Visual Director debe persistir antes de aprobar:
 
 Sin respuesta explícita, el estado permanece `pending_user_approval`. Silencio, ejecución no interactiva, aceptación de un plan general o aprobación de la narrativa no equivalen a aprobación visual.
 
+### 4.2 Approved-reference
+
+Visual no genera tres alternativas ni repite una elección ya cerrada. Puede heredar el gate solo si persiste:
+
+- `approval_source = approved_reference`;
+- branch y commit fijados;
+- spec semántica y referencia con path + hash;
+- `approval_reference` verificable;
+- bindings entre referencia, escena y hold.
+
+La mera existencia de una imagen no prueba aprobación. Si falta evidencia, el estado es `pending_user_approval`.
+
 ## 5. Hashes y trazabilidad
 
 Todos los hashes de contenido usan SHA-256 y el formato `sha256:<64 hex minúsculas>`.
@@ -77,6 +102,7 @@ Todos los hashes de contenido usan SHA-256 y el formato `sha256:<64 hex minúscu
 - `visual_contract_hash`: JSON del visual contract canonicalizado conforme a RFC 8785, excluyendo únicamente un campo de hash propio si en el futuro existiera.
 - `motion_contract_hash`: misma regla para motion.
 - `implementation_manifest_hash` y hashes de evidencia: misma regla o bytes exactos del archivo, según el tipo registrado.
+- cada archivo del `reference_bundle`: bytes exactos del diseño, proyecto, spec o referencia citada;
 - `commit` y `subject_commit`: commit Git que permite reproducir el sujeto.
 
 El consumidor debe copiar los hashes del artefacto que realmente leyó. Una coincidencia de nombre de archivo no demuestra identidad.
@@ -86,6 +112,10 @@ El consumidor debe copiar los hashes del artefacto que realmente leyó. Una coin
 | Cambio material | Invalida |
 |---|---|
 | Narrativa | visual, motion, implementation y audit |
+| Diseño global upstream | visual, motion, implementation y audit para las unidades afectadas |
+| Proyecto upstream | visual y downstream si cambia narrativa o una convención consumida |
+| Spec de unidad | visual, motion, implementation y audit |
+| Referencia perceptual aprobada | visual, motion, implementation y audit |
 | Visual contract | motion, implementation y audit |
 | Motion contract | implementation y audit |
 | Implementación, assets, datos de demo o configuración de render | audit |
@@ -123,6 +153,8 @@ Está prohibido:
 - que Visual escriba JSX, CSS, timings o decisiones de stack;
 - que Motion cambie composición, contenido o labels;
 - que Production altere contratos o añada comprensión mediante diseño no aprobado;
+- que Production satisfaga una referencia mostrándola como imagen fullscreen en lugar de reconstruirla;
+- que Visual infiera semántica solo desde una imagen o trate la existencia de un archivo como aprobación;
 - que Audit autoapruebe, oculte rationale antes de su primera lectura del output, o convierta un finding en una modificación silenciosa;
 - que una skill invoque automáticamente otra antes de persistir su output;
 - que un mismo artefacto sea a la vez borrador creativo y evidencia de auditoría;
@@ -149,3 +181,4 @@ El pipeline puede cerrar una iteración cuando:
 - el informe contiene un veredicto válido y siguiente propietario;
 - `reference_candidate` satisface sus umbrales reforzados;
 - cualquier limitación de independencia o cobertura permanece explícita.
+- si existe `reference_bundle`, cada binding tiene reconstrucción, screenshot, comparación perceptual y auditoría de fidelidad aprobadas.

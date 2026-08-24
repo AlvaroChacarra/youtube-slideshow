@@ -25,3 +25,22 @@ Consulta fijada el 2026-08-24. Cada fila registra el commit exacto leído; ning�
 - Motion necesita verbo semántico, estados estables, continuidad y fallback, no atmósfera.
 - Mobile y output estático se diseñan antes del renderer.
 - Separar creación, implementación y evaluación reduce autojustificación; no elimina la obligación de declarar límites de independencia.
+
+## Internal design precedent
+
+Precedente consultado en modo solo lectura:
+
+- branch: `image-to-code`;
+- commit fijado: `9f22a3ef48bafc2bd9e979688a96cf4787fb76bf`;
+- capas observadas: instrucciones globales, diseño transversal, contrato de proyecto, specs de unidades afectadas y referencias perceptuales citadas.
+
+Principios sintetizados:
+
+- separar autoridad global, de proyecto, de unidad y de referencia;
+- usar markdown como verdad semántica y la referencia aprobada como verdad perceptual;
+- fijar referencia antes de código y actualizar spec + referencia juntas cuando cambia una decisión visual;
+- no generalizar componentes antes de observar invariantes repetidas;
+- cargar solo diseño, proyecto, unidades afectadas y referencias citadas;
+- bloquear discrepancias materiales en el bundle upstream.
+
+Este precedente no es dependencia runtime ni fuente superior a los contratos locales. No se importaron archivos, contenido temático ni soluciones visuales concretas.
