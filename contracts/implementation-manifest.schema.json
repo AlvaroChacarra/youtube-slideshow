@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/implementation-manifest.schema.json",
-  "x-schema-version": "2.0.0",
+  "x-schema-version": "2.1.0",
   "title": "Implementation Manifest",
   "type": "object",
   "additionalProperties": false,
@@ -46,6 +46,11 @@
     "scenes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/scene" } },
     "tests": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/test" } },
     "visual_evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/evidence" } },
+    "reference_comparisons": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/referenceComparison" }
+    },
     "viewports": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/viewport" } },
     "deviations": { "type": "array", "items": { "$ref": "#/$defs/deviation" } },
     "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
@@ -70,6 +75,15 @@
                 "type": "object",
                 "properties": { "approved": { "const": false } },
                 "required": ["approved"]
+              }
+            }
+          },
+          "reference_comparisons": {
+            "not": {
+              "contains": {
+                "type": "object",
+                "properties": { "status": { "enum": ["failed", "not_tested"] } },
+                "required": ["status"]
               }
             }
           }
@@ -135,6 +149,88 @@
         "viewport_id": { "$ref": "#/$defs/nonEmpty" },
         "path": { "$ref": "#/$defs/nonEmpty" },
         "content_hash": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "referenceDifference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "difference_id",
+        "property",
+        "description",
+        "material",
+        "deliberate",
+        "approval_reference"
+      ],
+      "properties": {
+        "difference_id": { "$ref": "#/$defs/nonEmpty" },
+        "property": { "$ref": "#/$defs/nonEmpty" },
+        "description": { "$ref": "#/$defs/nonEmpty" },
+        "material": { "type": "boolean" },
+        "deliberate": { "type": "boolean" },
+        "approval_reference": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "material": { "const": true } }, "required": ["material"] },
+          "then": {
+            "properties": {
+              "deliberate": { "const": true },
+              "approval_reference": { "$ref": "#/$defs/nonEmpty" }
+            }
+          }
+        }
+      ]
+    },
+    "referenceComparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_id",
+        "reference_hash",
+        "screenshot_hash",
+        "viewport_id",
+        "hold_id",
+        "status",
+        "comparison_methods",
+        "pixel_diff_only",
+        "fullscreen_reference_used",
+        "reconstruction_evidence",
+        "material_differences"
+      ],
+      "properties": {
+        "reference_id": { "$ref": "#/$defs/nonEmpty" },
+        "reference_hash": { "$ref": "#/$defs/sha256" },
+        "screenshot_hash": { "$ref": "#/$defs/sha256" },
+        "viewport_id": { "$ref": "#/$defs/nonEmpty" },
+        "hold_id": { "$ref": "#/$defs/nonEmpty" },
+        "status": { "enum": ["passed", "failed", "limited", "not_tested"] },
+        "comparison_methods": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "screenshot_diff",
+              "bounding_boxes",
+              "dom_geometry",
+              "perceptual_comparison",
+              "computer_vision",
+              "human_or_agent_inspection"
+            ]
+          }
+        },
+        "pixel_diff_only": { "const": false },
+        "fullscreen_reference_used": { "const": false },
+        "reconstruction_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/nonEmpty" }
+        },
+        "material_differences": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/referenceDifference" }
+        }
       }
     },
     "viewport": {

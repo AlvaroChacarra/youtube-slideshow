@@ -1,6 +1,6 @@
 ---
 name: motion-director-lienzo
-description: Convierte un visual contract aprobado en transformaciones semánticas presenter-paced con estados, continuidad, timing, easing, holds, interrupción, reverse, reset y reduced motion. Usar después del checkpoint visual; no usar para rediseñar composición, añadir contenido o implementar código.
+description: Convierte un visual contract aprobado, incluidos sus anclajes perceptuales cuando existan, en transformaciones semánticas presenter-paced con continuidad, timing, holds, reverse, reset y reduced motion. Usar después del gate visual; no usar para rediseñar composición, añadir contenido o implementar código.
 ---
 
 # Motion Director Lienzo
@@ -30,6 +30,7 @@ Exigir:
 - política de reduced motion;
 - viewports y constraints móviles;
 - cualquier riesgo o exclusión declarado por Visual.
+- cuando `workflow_mode = approved_reference`, el `reference_bundle`, los `reference_bindings` y la evidencia de aprobación heredada contenidos en el visual contract.
 
 No inferir un estado visual ausente ni reconstruir la aprobación desde el chat.
 
@@ -37,11 +38,13 @@ No inferir un estado visual ausente ni reconstruir la aprobación desde el chat.
 
 Aplicar este orden:
 
-1. narrativa para el cambio semántico;
-2. visual contract aprobado para composición y objetos;
-3. [`pipeline-contract.md`](../../contracts/pipeline-contract.md) para gates y fronteras;
-4. [`motion-contract.schema.json`](../../contracts/motion-contract.schema.json) para el output;
-5. [`source-map.md`](../../docs/source-map.md) como doctrina consultiva.
+1. narrativa o semantic spec para el cambio semántico;
+2. visual contract aprobado para composición, objetos y bindings;
+3. referencia aprobada vinculada para las propiedades perceptuales del keyframe, nunca para inferir semántica;
+4. [`pipeline-contract.md`](../../contracts/pipeline-contract.md) para gates y fronteras;
+5. [`image-to-code-integration.md`](../../docs/image-to-code-integration.md) cuando exista `reference_bundle`;
+6. [`motion-contract.schema.json`](../../contracts/motion-contract.schema.json) para el output;
+7. [`source-map.md`](../../docs/source-map.md) como doctrina consultiva.
 
 ## Autoridad exclusiva
 
@@ -60,7 +63,7 @@ No decide composición, representación, contenido, labels, stack, código ni ve
 
 ## Output canónico
 
-Emitir `motion-contract.json`, válido contra [`motion-contract.schema.json`](../../contracts/motion-contract.schema.json). Usar `status = ready` solo cuando todos los beats son deterministas y ejecutables; usar `blocked` si el visual contract no puede animarse sin degradarse.
+Emitir `motion-contract.json`, válido contra [`motion-contract.schema.json`](../../contracts/motion-contract.schema.json). Cuando haya bindings, emitir un `reference_anchor` por hold vinculado con sus invariantes perceptuales y propiedades mutables. Usar `status = ready` solo cuando todos los beats son deterministas y ejecutables; usar `blocked` si el visual contract no puede animarse sin degradarse.
 
 ## Workflow obligatorio
 
@@ -69,14 +72,28 @@ Emitir `motion-contract.json`, válido contra [`motion-contract.schema.json`](..
 Comprobar:
 
 - estado visual `approved`;
-- aprobación humana completa;
+- aprobación verificable, directa o heredada conforme al visual contract;
 - hash recibido igual al artefacto leído;
 - todos los source/target holds existentes;
 - composición, protagonista y ownership inequívocos.
 
 Si falta algo, devolver a Visual. No completar el contrato visual desde Motion.
 
-### 2. Construir el ledger de estados e identidades
+### 2. Convertir bindings en keyframes perceptuales
+
+Cuando exista `reference_bundle`:
+
+- resolver cada `reference_id` solo desde el bundle fijado por hash;
+- comprobar que cada `scene_id` y `hold_id` vinculados existen en el visual contract;
+- trasladar a `reference_anchors` las propiedades perceptuales obligatorias y las propiedades autorizadas a cambiar;
+- declarar el rol de cada anclaje como keyframe de origen, destino o intermedio;
+- mantener reconocible la composición material del hold aprobado.
+
+El patrón permitido es `approved frame A → preparation → action → resolution → approved frame B`. Los estados intermedios pueden diferir porque explican la transformación; los holds no cubiertos por imagen se derivan del visual contract. Una composición material nueva que no esté contratada vuelve al Visual Director.
+
+La referencia es un anclaje perceptual, no una exigencia de identidad de píxel ni un fotograma fullscreen que Motion pueda ordenar mostrar.
+
+### 3. Construir el ledger de estados e identidades
 
 Para cada escena enumerar:
 
@@ -89,13 +106,13 @@ Para cada escena enumerar:
 
 Si el mismo concepto aparece en dos estados, conservar el mismo `object_id` y declarar la regla de continuidad. Un remount visualmente parecido no demuestra identidad.
 
-### 3. Aislar un cambio semántico dominante por beat
+### 4. Aislar un cambio semántico dominante por beat
 
 Nombrar el verbo explicativo de cada beat: revelar, transferir, acumular, comparar, transformar, sustituir, acercar o destacar. Registrar una sola propiedad semántica dominante.
 
 Si un beat mezcla cambios que el espectador no puede atribuir, dividirlo. La simultaneidad solo se permite cuando muestra una relación causal indivisible.
 
-### 4. Diseñar preparación → acción → resolución → hold
+### 5. Diseñar preparación → acción → resolución → hold
 
 Para cada beat definir:
 
@@ -106,7 +123,7 @@ Para cada beat definir:
 
 No usar preparación, anticipación o follow-through por receta. Cada fase debe justificar su función semántica.
 
-### 5. Especificar timing, easing y stagger
+### 6. Especificar timing, easing y stagger
 
 Asignar duración por distancia perceptual, complejidad y tiempo necesario para atribuir causalidad. Para cada easing explicar qué comunica su aceleración y llegada.
 
@@ -114,7 +131,7 @@ Usar stagger solo si el orden codifica secuencia, prioridad, acumulación o prop
 
 No diseñar una animación que obligue al presentador a hablar a velocidad fija. El movimiento termina y el hold espera indefinidamente.
 
-### 6. Preservar continuidad y eliminar ghost layers
+### 7. Preservar continuidad y eliminar ghost layers
 
 Para cada objeto persistente declarar cómo conserva identidad espacial y semántica. Preferir transformación del objeto existente frente a desaparecer y recrear.
 
@@ -127,7 +144,7 @@ Para cada elemento saliente declarar:
 
 No conservar capas antiguas con baja opacidad. Si ya no aportan contexto necesario, deben desaparecer completamente.
 
-### 7. Diseñar interruptibilidad, reverse y reset
+### 8. Diseñar interruptibilidad, reverse y reset
 
 Cada beat debe:
 
@@ -140,7 +157,7 @@ Cada beat debe:
 
 Reverse no es reproducir fotogramas al revés si eso contradice causalidad o jerarquía. Es volver de forma determinista al estado semántico anterior.
 
-### 8. Diseñar reduced motion
+### 9. Diseñar reduced motion
 
 Para cada beat definir un fallback que:
 
@@ -152,7 +169,7 @@ Para cada beat definir un fallback que:
 
 Reduced motion no puede eliminar información ni dejar un estado intermedio.
 
-### 9. Auditar solapes y coexistencia
+### 10. Auditar solapes y coexistencia
 
 Inspeccionar los intervalos de entrada/salida y el máximo cambio. Registrar:
 
@@ -166,7 +183,7 @@ Inspeccionar los intervalos de entrada/salida y el máximo cambio. Registrar:
 
 Si solo puede resolverse cambiando composición, devolver blocker a Visual.
 
-### 10. Emitir y validar el motion contract
+### 11. Emitir y validar el motion contract
 
 Completar escenas, beats, reduced motion, reglas globales y riesgos. Validar contra el schema y comprobar que no contiene decisiones nuevas de composición, labels, contenido o stack.
 
@@ -183,6 +200,9 @@ Completar escenas, beats, reduced motion, reglas globales y riesgos. Validar con
 - Opacidad baja no es una solución general para capas antiguas.
 - No hay loops ornamentales por defecto.
 - No mover elementos si el movimiento no comunica.
+- Un hold vinculado conserva materialmente composición, jerarquía, escala relativa y protagonista de su referencia.
+- Elevar un frame estático a una transición no autoriza rediseñarlo.
+- Mostrar la referencia aprobada como imagen fullscreen no satisface Image-to-Code.
 
 ## Acciones prohibidas
 
@@ -193,6 +213,8 @@ Completar escenas, beats, reduced motion, reglas globales y riesgos. Validar con
 - Diseñar motion para disimular un money frame débil.
 - Usar stagger, overshoot, bounce, parallax o partículas sin significado.
 - Dejar elementos invisibles pero interactivos.
+- Exigir fidelidad pixel-perfect o usar un pixel diff como autoridad creativa.
+- Rasterizar como fondo fullscreen los objetos que deben conservar identidad o participar en motion semántico.
 - Invocar automáticamente al Producer.
 
 ## Blockers y escalado upstream
@@ -201,6 +223,8 @@ Completar escenas, beats, reduced motion, reglas globales y riesgos. Validar con
 |---|---|---|
 | Visual contract no aprobado o hash incorrecto | Visual Director | corregir gate y versionar |
 | Faltan source/target holds | Visual Director | completar estados estáticos |
+| Binding apunta a una escena, hold o referencia inexistente | Visual Director | corregir el visual contract y volver a hashear |
+| Keyframe aprobado solo puede alcanzarse con otra composición material | Visual Director | resolver el conflicto; Motion no rediseña |
 | Animar exige cambiar composición | Visual Director | emitir blocker con evidencia y alternativa |
 | Beat contiene varios cambios inseparables pero ambiguos | `narrative-owner` o Visual | resegmentar semántica/holds |
 | Reduced motion pierde el takeaway | Visual Director | rediseñar el estado estático |
@@ -210,6 +234,8 @@ Completar escenas, beats, reduced motion, reglas globales y riesgos. Validar con
 ## Definition of Done
 
 - Visual contract aprobado y hash verificado.
+- Cada binding tiene un `reference_anchor` que apunta a un hold existente y declara invariantes/mutables.
+- Los keyframes aprobados siguen siendo perceptualmente reconocibles; no se exige identidad de píxel.
 - Todos los objetos persistentes tienen identidad y continuidad declaradas.
 - Cada beat define source, target y un cambio semántico dominante.
 - Preparación, acción, resolución y hold están especificados.

@@ -1,6 +1,6 @@
 ---
 name: frontend-producer-lienzo
-description: Implementa de forma fiel, determinista y reproducible una narrativa y contratos visual/motion aprobados, incluidos presenter pacing, reverse, reset, reduced motion, móvil, tests y evidencia. Usar cuando los dos contratos upstream están vigentes; no usar para rediseñar, añadir contenido o emitir veredictos.
+description: Reconstruye e implementa de forma fiel, determinista y reproducible contratos visual/motion aprobados, incluidas referencias perceptuales, presenter pacing, reverse, reset, móvil, tests y evidencia comparativa. Usar con contratos upstream vigentes; no usar para rediseñar, añadir contenido o emitir veredictos.
 ---
 
 # Frontend Producer Lienzo
@@ -27,6 +27,7 @@ Exigir:
 - requisitos de build, test y reproducción;
 - Definition of Done del encargo;
 - cualquier asset, dato o fórmula exigidos por los contratos.
+- cuando exista `reference_bundle`, semantic specs, referencias y bindings fijados por path/hash, junto con su aprobación verificable.
 
 No iniciar si un hash no coincide, un contrato está invalidado o un input existe solo en conversación.
 
@@ -34,13 +35,17 @@ No iniciar si un hash no coincide, un contrato está invalidado o un input exist
 
 Aplicar este orden:
 
-1. narrativa para contenido y claims;
-2. visual contract aprobado para representación y composición;
-3. motion contract listo para estados y tiempo;
-4. [`pipeline-contract.md`](../../contracts/pipeline-contract.md) para fronteras e invalidación;
-5. [`implementation-manifest.schema.json`](../../contracts/implementation-manifest.schema.json) para el output;
-6. constraints técnicos explícitos del repositorio;
-7. [`source-map.md`](../../docs/source-map.md) como doctrina consultiva.
+1. narrativa o semantic spec para contenido, datos y claims;
+2. referencia aprobada para fidelidad perceptual en los holds vinculados;
+3. visual contract aprobado para representación, composición, clasificación y tolerancias;
+4. motion contract listo para comportamiento, estados y tiempo;
+5. [`pipeline-contract.md`](../../contracts/pipeline-contract.md) para fronteras e invalidación;
+6. [`image-to-code-integration.md`](../../docs/image-to-code-integration.md) cuando exista `reference_bundle`;
+7. [`implementation-manifest.schema.json`](../../contracts/implementation-manifest.schema.json) para el output;
+8. constraints técnicos explícitos del repositorio;
+9. [`source-map.md`](../../docs/source-map.md) como doctrina consultiva.
+
+Si texto e imagen difieren materialmente, la semantic spec gobierna el significado y la referencia gobierna composición, jerarquía y apariencia. Production no arbitra el conflicto: bloquea y lo devuelve upstream.
 
 Una heurística técnica nunca puede prevalecer sobre un contrato aprobado.
 
@@ -73,6 +78,7 @@ Emitir `implementation-manifest.json`, válido contra [`implementation-manifest.
 - limitaciones;
 - hashes exactos de narrativa y contratos consumidos;
 - versiones exactas de los contratos y del schema de manifest consumidos.
+- una `reference_comparison` por binding, con hashes de referencia y screenshot, viewport, hold, métodos, estado y diferencias materiales.
 
 El código y los assets son outputs de producción; el manifest es su índice normativo. `status = implemented` significa que pueden reproducirse e inspeccionarse, no que estén aprobados.
 
@@ -83,11 +89,12 @@ El código y los assets son outputs de producción; el manifest es su índice no
 Antes de editar:
 
 - recalcular o verificar los tres hashes;
-- comprobar `visual.status = approved` y aprobación humana completa;
+- comprobar `visual.status = approved` y aprobación verificable, directa o heredada;
 - comprobar `motion.status = ready`;
 - comprobar compatibilidad de versions major;
 - confirmar que ningún input cambió después de calcular el hash;
 - resolver paths de narrativa, assets, datos y comandos.
+- cuando aplique, verificar `source_commit`, hashes de DESIGN/PROJECT/spec/reference, bindings y `approval_reference` sin cargar unidades no afectadas.
 
 Ante un fallo, registrar blocker y devolver al propietario. No normalizar ni corregir contratos desde Production.
 
@@ -105,6 +112,7 @@ Mapear cada obligación a una evidencia futura:
 | reset | estado inicial canónico | repetición idempotente |
 | reduced motion | rama equivalente | captura/recorrido específico |
 | móvil | composición hermana | viewport y downsample |
+| referencia vinculada | reconstrucción del hold | screenshot + `reference_comparison` |
 
 Todo requisito sin propietario o evidencia es un gap antes de programar.
 
@@ -114,7 +122,14 @@ Elegir stack por capacidades requeridas, restricciones existentes, reproducibili
 
 Preferir capacidades nativas o ya presentes cuando cumplen el contrato. Añadir una librería solo si reduce riesgo real de geometría, estado, motion, accesibilidad o testing. No seleccionar tecnología porque sugiera una nueva solución visual.
 
-### 4. Implementar primero los holds estáticos
+Clasificar antes de implementar:
+
+- **Code-native por defecto:** texto, cifras, fórmulas, ejes, curvas, charts, timelines, conectores, labels, estados interactivos, valores variables y objetos que participan en motion semántico.
+- **Asset permitido:** fotografía, ilustración, textura o material artístico complejo sin manipulación estructural; conservar path, hash, licencia/procedencia y rol.
+
+La clasificación del visual contract gobierna. Una limitación técnica no autoriza convertir en bitmap un elemento code-native.
+
+### 4. Reconstruir primero los holds estáticos
 
 Construir cada money frame sin motion y comparar con el visual contract:
 
@@ -124,6 +139,17 @@ Construir cada money frame sin motion y comparar con el visual contract:
 - texto y cifras exactas;
 - ausencia de elementos excluidos;
 - responsive y downsample móvil.
+
+Para cada hold vinculado, comparar `approved reference ↔ browser screenshot` en el viewport contractual. Revisar explícitamente:
+
+- layout, protagonista y jerarquía;
+- escala, proporciones, spacing, alignment y whitespace;
+- jerarquía tipográfica y roles de color;
+- geometría, labels, assets y densidad.
+
+Registrar hashes, métodos y diferencias en `reference_comparisons`. La fidelidad es perceptual y estructural, no pixel-perfect: pixel diff puede aportar evidencia, pero nunca gobernar por sí solo. No avanzar a motion mientras exista drift material sin corregir o una diferencia deliberada sin `approval_reference`.
+
+Renderizar la referencia como una imagen fullscreen no es reconstrucción ni satisface el contrato, aunque el screenshot coincida.
 
 No avanzar a transiciones mientras un hold difiera materialmente. Si el contrato es imposible o ambiguo, devolver a Visual; no improvisar.
 
@@ -183,6 +209,8 @@ Capturar, como mínimo:
 
 Nombrar y hashear cada artefacto. Un build verde o una inspección de código no sustituyen evidencia visual.
 
+Cuando haya referencias, incluir screenshot del hold exacto y evidencia de que texto, datos, geometría y objetos animables siguen siendo programáticos. Usar una combinación proporcional de inspección perceptual, geometría DOM/bounding boxes, computer vision, screenshot diff o revisión humana/agente; nunca exclusivamente pixel diff.
+
 ### 10. Ejecutar tests proporcionales al riesgo
 
 Cubrir como mínimo:
@@ -209,6 +237,8 @@ Realizar una comparación explícita, hold por hold y beat por beat. Clasificar 
 
 Toda desviación material necesita aprobación y `approval_reference`. Una desviación silenciosa bloquea el handoff.
 
+En un bundle aprobado, cada binding debe tener una comparación `passed`, `failed`, `limited` o `not_tested`. Un manifest `implemented` no puede cerrar con `failed` o `not_tested`; `limited` debe explicar el límite y no ocultar drift material.
+
 ### 12. Emitir el manifest reproducible
 
 Registrar commit, comandos sin pasos manuales ocultos, outputs, tests, evidencia, viewports, desviaciones y limitaciones. Validar el JSON y reproducir los comandos desde estado limpio o un entorno equivalente antes de cerrar.
@@ -225,6 +255,10 @@ Registrar commit, comandos sin pasos manuales ocultos, outputs, tests, evidencia
 - Inspeccionar todos los holds y transiciones de riesgo.
 - Registrar toda desviación; las silenciosas bloquean.
 - Mantener build, reverse, reset y evidencia reproducibles.
+- La semantic spec gobierna contenido; la referencia vinculada gobierna percepción; los contratos gobiernan estados y comportamiento.
+- La reconstrucción estática y su comparación preceden al motion.
+- Mostrar una referencia aprobada como imagen fullscreen no constituye implementación.
+- Los elementos semánticos, variables o animables son code-native por defecto.
 
 ## Acciones prohibidas
 
@@ -233,6 +267,10 @@ Registrar commit, comandos sin pasos manuales ocultos, outputs, tests, evidencia
 - Cambiar timing/easing por preferencia técnica sin volver a Motion.
 - Introducir autoplay, loops ornamentales o ghost layers.
 - Crear assets aproximados que alteren la representación aprobada.
+- Usar la imagen como única fuente semántica o inferir de sus píxeles claims ausentes de la spec.
+- Incrustar la referencia fullscreen para simular fidelidad.
+- Exigir pixel-perfect o declarar un pixel diff como criterio único de aceptación.
+- Rasterizar texto, datos, fórmulas, charts o estados interactivos que deban ser editables o animables.
 - Ocultar fallos detrás de mocks, screenshots o estados seed no reproducibles.
 - Marcar el output `ready_for_user_review` o `reference_candidate`.
 - Invocar automáticamente al Auditor.
@@ -245,6 +283,10 @@ Registrar commit, comandos sin pasos manuales ocultos, outputs, tests, evidencia
 | Hold ambiguo o técnicamente imposible sin cambiar composición | Visual Director | emitir evidencia y opciones, esperar nuevo contrato |
 | Beat imposible sin cambiar timing/continuidad | Motion Director | emitir evidencia y esperar nuevo contrato |
 | Asset/dato/claim ausente | `narrative-owner` o usuario | aportar fuente o limitar alcance |
+| Spec y referencia se contradicen materialmente | Visual Director o upstream image-to-code/usuario | corregir el bundle; Production no elige |
+| Referencia, hash, binding o aprobación no verificable | Visual Director | corregir y versionar el visual contract |
+| Browser screenshot pierde composición/jerarquía de una buena referencia | esta skill | corregir reconstrucción antes de motion |
+| Diferencia material deliberada sin aprobación | propietario upstream o usuario | detenerse y persistir decisión |
 | Entorno no permite una capacidad requerida | usuario + propietario afectado | decidir constraint o rediseño explícito |
 | Evidencia no reproducible | esta skill | corregir harness/comandos antes de handoff |
 | Desviación material no aprobada | propietario upstream o usuario | detenerse hasta decisión persistida |
@@ -254,6 +296,8 @@ Registrar commit, comandos sin pasos manuales ocultos, outputs, tests, evidencia
 - Gates, hashes y versions upstream verificados.
 - Stack mínimo y dependencias materiales justificados.
 - Todos los holds implementados y comparados antes del motion.
+- Todo binding tiene `reference_comparison`; un manifest implementado no contiene `failed` ni `not_tested`.
+- Ningún elemento code-native fue sustituido por la referencia fullscreen o por un raster opaco.
 - Todos los beats, identidades, timings y desapariciones reproducidos.
 - Presenter pacing, interrupción, reverse y reset funcionan.
 - Reset es idempotente y cleanup verificable.
