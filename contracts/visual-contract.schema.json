@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/visual-contract.schema.json",
-  "x-schema-version": "2.0.0",
+  "x-schema-version": "2.1.0",
   "title": "Visual Contract",
   "type": "object",
   "additionalProperties": false,
@@ -22,6 +22,7 @@
   ],
   "properties": {
     "contract_version": { "$ref": "#/$defs/version" },
+    "workflow_mode": { "enum": ["concept_first", "approved_reference"] },
     "project_id": { "$ref": "#/$defs/nonEmpty" },
     "narrative_hash": { "$ref": "#/$defs/sha256" },
     "status": {
@@ -30,10 +31,14 @@
     "direction_id": { "$ref": "#/$defs/nonEmpty" },
     "direction_options": {
       "type": "array",
-      "minItems": 3,
-      "maxItems": 3,
       "uniqueItems": true,
       "items": { "$ref": "#/$defs/directionOption" }
+    },
+    "reference_bundle": { "$ref": "#/$defs/referenceBundle" },
+    "reference_bindings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/referenceBinding" }
     },
     "user_approval": { "$ref": "#/$defs/userApproval" },
     "global_system": { "$ref": "#/$defs/globalSystem" },
@@ -60,7 +65,31 @@
       "items": { "$ref": "#/$defs/nonEmpty" }
     }
   },
+  "dependentSchemas": {
+    "reference_bundle": {
+      "required": ["workflow_mode", "reference_bindings"],
+      "properties": { "workflow_mode": { "const": "approved_reference" } }
+    }
+  },
   "allOf": [
+    {
+      "if": {
+        "properties": { "workflow_mode": { "const": "approved_reference" } },
+        "required": ["workflow_mode"]
+      },
+      "then": {
+        "required": ["reference_bundle", "reference_bindings"],
+        "properties": {
+          "direction_options": { "maxItems": 0 },
+          "reference_bindings": { "minItems": 1 }
+        }
+      },
+      "else": {
+        "properties": {
+          "direction_options": { "minItems": 3, "maxItems": 3 }
+        }
+      }
+    },
     {
       "if": { "properties": { "status": { "const": "approved" } }, "required": ["status"] },
       "then": {
@@ -71,6 +100,28 @@
               "reviewer": { "$ref": "#/$defs/nonEmpty" },
               "reviewed_at": { "type": "string", "format": "date-time" },
               "approval_reference": { "$ref": "#/$defs/nonEmpty" },
+              "changes_resolved": { "const": true }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          { "properties": { "status": { "const": "approved" } }, "required": ["status"] },
+          {
+            "not": {
+              "properties": { "workflow_mode": { "const": "approved_reference" } },
+              "required": ["workflow_mode"]
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "user_approval": {
+            "properties": {
               "selected_direction_id": { "$ref": "#/$defs/nonEmpty" },
               "rejected_direction_ids": {
                 "type": "array",
@@ -79,8 +130,38 @@
                 "uniqueItems": true,
                 "items": { "$ref": "#/$defs/nonEmpty" }
               },
-              "selection_reason": { "$ref": "#/$defs/nonEmpty" },
-              "changes_resolved": { "const": true }
+              "selection_reason": { "$ref": "#/$defs/nonEmpty" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "allOf": [
+          { "properties": { "workflow_mode": { "const": "approved_reference" } }, "required": ["workflow_mode"] },
+          { "properties": { "status": { "const": "approved" } }, "required": ["status"] }
+        ]
+      },
+      "then": {
+        "properties": {
+          "reference_bundle": {
+            "properties": {
+              "units": {
+                "items": {
+                  "properties": { "approval_reference": { "$ref": "#/$defs/nonEmpty" } }
+                }
+              }
+            }
+          },
+          "user_approval": {
+            "required": ["approval_source", "source_branch", "source_commit", "semantic_spec", "reference"],
+            "properties": {
+              "approval_source": { "const": "approved_reference" },
+              "source_branch": { "$ref": "#/$defs/nonEmpty" },
+              "source_commit": { "$ref": "#/$defs/gitSha" },
+              "semantic_spec": { "$ref": "#/$defs/artifactPointer" },
+              "reference": { "$ref": "#/$defs/artifactPointer" }
             }
           }
         }
@@ -107,6 +188,7 @@
     "nonEmpty": { "type": "string", "minLength": 1 },
     "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
     "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
     "stringList": {
       "type": "array",
       "items": { "$ref": "#/$defs/nonEmpty" }
@@ -166,7 +248,148 @@
         "rejected_direction_ids": { "$ref": "#/$defs/stringList" },
         "selection_reason": { "type": ["string", "null"] },
         "requested_changes": { "$ref": "#/$defs/stringList" },
-        "changes_resolved": { "type": "boolean" }
+        "changes_resolved": { "type": "boolean" },
+        "approval_source": { "enum": ["human_checkpoint", "approved_reference", null] },
+        "source_branch": { "type": ["string", "null"] },
+        "source_commit": { "type": ["string", "null"], "pattern": "^[a-f0-9]{40,64}$" },
+        "semantic_spec": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["path", "content_hash"],
+          "properties": {
+            "path": { "$ref": "#/$defs/nonEmpty" },
+            "content_hash": { "$ref": "#/$defs/sha256" }
+          }
+        },
+        "reference": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["path", "content_hash"],
+          "properties": {
+            "path": { "$ref": "#/$defs/nonEmpty" },
+            "content_hash": { "$ref": "#/$defs/sha256" }
+          }
+        }
+      }
+    },
+    "artifactPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "content_hash"],
+      "properties": {
+        "path": { "$ref": "#/$defs/nonEmpty" },
+        "content_hash": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "perceptualReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference_id", "path", "content_hash", "media_type"],
+      "properties": {
+        "reference_id": { "$ref": "#/$defs/nonEmpty" },
+        "path": { "$ref": "#/$defs/nonEmpty" },
+        "content_hash": { "$ref": "#/$defs/sha256" },
+        "media_type": { "type": "string", "pattern": "^image/[a-z0-9.+-]+$" }
+      }
+    },
+    "elementClassification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["element_id", "role", "render_mode", "rationale", "source_provenance"],
+      "properties": {
+        "element_id": { "$ref": "#/$defs/nonEmpty" },
+        "role": { "$ref": "#/$defs/nonEmpty" },
+        "render_mode": { "enum": ["code_native", "asset"] },
+        "rationale": { "$ref": "#/$defs/nonEmpty" },
+        "source_provenance": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "render_mode": { "const": "asset" } }, "required": ["render_mode"] },
+          "then": { "properties": { "source_provenance": { "$ref": "#/$defs/nonEmpty" } } }
+        }
+      ]
+    },
+    "referenceUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_id",
+        "semantic_spec",
+        "perceptual_reference",
+        "approval_reference",
+        "reference_role",
+        "element_classification"
+      ],
+      "properties": {
+        "unit_id": { "$ref": "#/$defs/nonEmpty" },
+        "semantic_spec": { "$ref": "#/$defs/artifactPointer" },
+        "perceptual_reference": { "$ref": "#/$defs/perceptualReference" },
+        "approval_reference": { "type": ["string", "null"] },
+        "reference_role": { "enum": ["key_hold", "initial_hold", "final_hold", "multi_hold"] },
+        "element_classification": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/elementClassification" }
+        }
+      }
+    },
+    "referenceBundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_branch", "source_commit", "design", "project", "authority_resolution", "units"],
+      "properties": {
+        "source_branch": { "$ref": "#/$defs/nonEmpty" },
+        "source_commit": { "$ref": "#/$defs/gitSha" },
+        "design": { "$ref": "#/$defs/artifactPointer" },
+        "project": { "$ref": "#/$defs/artifactPointer" },
+        "authority_resolution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["semantic_authority", "perceptual_authority", "conflict_policy"],
+          "properties": {
+            "semantic_authority": { "const": "semantic_spec" },
+            "perceptual_authority": { "const": "approved_reference" },
+            "conflict_policy": { "const": "block_upstream" }
+          }
+        },
+        "units": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/referenceUnit" }
+        }
+      }
+    },
+    "referenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_id",
+        "scene_id",
+        "hold_ids",
+        "required_perceptual_properties",
+        "mutable_properties",
+        "conceptual_tolerances",
+        "uncovered_parts"
+      ],
+      "properties": {
+        "reference_id": { "$ref": "#/$defs/nonEmpty" },
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "hold_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmpty" }
+        },
+        "required_perceptual_properties": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/nonEmpty" }
+        },
+        "mutable_properties": { "$ref": "#/$defs/stringList" },
+        "conceptual_tolerances": { "$ref": "#/$defs/stringList" },
+        "uncovered_parts": { "$ref": "#/$defs/stringList" }
       }
     },
     "globalSystem": {
