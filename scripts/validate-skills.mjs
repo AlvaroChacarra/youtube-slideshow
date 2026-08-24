@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import fs from "node:fs";
+import { createHash } from "node:crypto";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -30,6 +31,7 @@ const EXPECTED_FILES = [
   "contracts/motion-contract.schema.json",
   "contracts/pipeline-contract.md",
   "contracts/visual-contract.schema.json",
+  "docs/image-to-code-integration.md",
   "docs/source-map.md",
   "scripts/validate-skills.mjs",
   "skills/README.md",
@@ -116,6 +118,15 @@ const REQUIRED_SCHEMA_FIELDS = {
 };
 
 const SEMVER = /^[0-9]+\.[0-9]+\.[0-9]+$/;
+const SHA256 = /^sha256:[a-f0-9]{64}$/;
+const GIT_SHA = /^[a-f0-9]{40,64}$/;
+
+const INTEGRATION_SCHEMA_FIELDS = {
+  "contracts/visual-contract.schema.json": ["workflow_mode", "reference_bundle", "reference_bindings"],
+  "contracts/motion-contract.schema.json": ["reference_anchors"],
+  "contracts/implementation-manifest.schema.json": ["reference_comparisons"],
+  "contracts/audit-report.schema.json": ["reference_context"],
+};
 
 const FORBIDDEN_DIRS = new Set([
   "app",
@@ -143,6 +154,12 @@ const contaminationTerms = [
   ["Scene", "Repricing"].join(""),
   ["ADR-001-", "html-runtime-", "canonic"].join(""),
   ["source-", "interactive-teaching-", "canvas"].join(""),
+];
+
+const projectSpecificTerms = [
+  ["cup", "ón 4% anual"].join(""),
+  ["5 a", "ños"].join(""),
+  ["valor nominal ", "100"].join(""),
 ];
 
 const issue = (code, file, message) => ({ code, file, message });
@@ -344,6 +361,21 @@ function validate(root) {
     ) {
       errors.push(issue("EXTERNAL_RUNTIME_SKILL", relative, "external installed skills cannot be runtime requirements"));
     }
+    if (!/fullscreen/iu.test(text)) {
+      errors.push(issue("REFERENCE_FULLSCREEN_POLICY", relative, "skill must reject fullscreen reference rendering as implementation"));
+    }
+    if (!/(?:pixel-perfect|identidad de p[ií]xel)/iu.test(text)) {
+      errors.push(issue("REFERENCE_PIXEL_POLICY", relative, "skill must reject pixel identity as the sole fidelity target"));
+    }
+    if (/(?<!no )\b(?:la skill\s+)?exige\s+(?:fidelidad\s+)?pixel-perfect/iu.test(text)) {
+      errors.push(issue("SKILL_PIXEL_PERFECT", relative, "skill cannot require pixel-perfect fidelity"));
+    }
+    if (/fullscreen\s+(?:s[ií]\s+)?constituye\s+implementaci[oó]n/iu.test(text)) {
+      errors.push(issue("SKILL_FULLSCREEN", relative, "skill cannot authorize a fullscreen reference as implementation"));
+    }
+    if (/la imagen\s+es\s+la\s+[uú]nica\s+fuente\s+sem[aá]ntica/iu.test(text)) {
+      errors.push(issue("SKILL_SEMANTIC_IMAGE", relative, "skill cannot make pixels the sole semantic authority"));
+    }
   }
 
   const ownership = [
@@ -388,6 +420,9 @@ function validate(root) {
     if (!SEMVER.test(schema["x-schema-version"] || "")) {
       errors.push(issue("SCHEMA_VERSION", relative, "schema must declare a SemVer x-schema-version"));
     }
+    if (schema["x-schema-version"] !== "2.1.0") {
+      errors.push(issue("SCHEMA_INTEGRATION_VERSION", relative, "Image-to-Code integration schemas must declare version 2.1.0"));
+    }
     if (schema.additionalProperties !== false) {
       errors.push(issue("SCHEMA_ROOT_STRICT", relative, "schema root must reject undeclared properties"));
     }
@@ -402,6 +437,17 @@ function validate(root) {
       if (ref.startsWith("#/") && !resolveJsonPointer(schema, ref)) {
         errors.push(issue("SCHEMA_REF", relative, `unresolved local JSON pointer: ${ref}`));
       }
+    }
+    for (const field of INTEGRATION_SCHEMA_FIELDS[relative] || []) {
+      if (!schema.properties || !(field in schema.properties)) {
+        errors.push(issue("SCHEMA_INTEGRATION_FIELD", relative, `missing Image-to-Code property: ${field}`));
+      }
+    }
+    if (
+      relative === "contracts/audit-report.schema.json" &&
+      !schema.$defs?.evidence?.properties?.reference_fidelity
+    ) {
+      errors.push(issue("SCHEMA_INTEGRATION_FIELD", relative, "missing evidence.reference_fidelity"));
     }
   }
 
@@ -446,6 +492,11 @@ function validate(root) {
     for (const [index, term] of contaminationTerms.entries()) {
       if (text.toLowerCase().includes(term.toLowerCase())) {
         errors.push(issue("CONTAMINATION", relative, `contains a forbidden prior-benchmark identifier (#${index + 1})`));
+      }
+    }
+    for (const [index, term] of projectSpecificTerms.entries()) {
+      if (text.toLowerCase().includes(term.toLowerCase())) {
+        errors.push(issue("PROJECT_CONTAMINATION", relative, `contains project-specific reference content (#${index + 1})`));
       }
     }
   }
@@ -493,6 +544,418 @@ function appendTo(root, relative, content) {
   fs.appendFileSync(path.join(root, relative), content);
 }
 
+function digest(value) {
+  return `sha256:${createHash("sha256").update(value).digest("hex")}`;
+}
+
+function writeIntegrationArtifact(root, relative, content) {
+  const absolute = path.join(root, relative);
+  fs.mkdirSync(path.dirname(absolute), { recursive: true });
+  fs.writeFileSync(absolute, content);
+  return { path: relative, content_hash: digest(content) };
+}
+
+function buildIntegrationFixture(root, { mode = "approved_reference", unitCount = 1 } = {}) {
+  const policies = {
+    require_pixel_perfect: false,
+    fullscreen_reference_is_implementation: false,
+  };
+
+  if (mode === "concept_first") {
+    return {
+      root,
+      policies,
+      visual: {
+        status: "approved",
+        direction_options: ["direction-a", "direction-b", "direction-c"],
+        scenes: [{ scene_id: "scene-01", holds: [{ hold_id: "hold-final" }] }],
+      },
+      motion: {},
+      implementation: {},
+      audit: { verdict: "ready_for_user_review" },
+    };
+  }
+
+  const design = writeIntegrationArtifact(root, "design/DESIGN.md", "# Global design doctrine\n");
+  const project = writeIntegrationArtifact(root, "projects/example/PROJECT.md", "# Project narrative\n");
+  const units = [];
+  const bindings = [];
+  const scenes = [];
+  const anchors = [];
+  const comparisons = [];
+  const auditComparisons = [];
+
+  for (let index = 1; index <= unitCount; index += 1) {
+    const suffix = String(index).padStart(2, "0");
+    const unitId = `unit-${suffix}`;
+    const sceneId = `scene-${suffix}`;
+    const holdId = `hold-${suffix}-final`;
+    const semanticSpec = writeIntegrationArtifact(
+      root,
+      `projects/example/slides/${unitId}.md`,
+      `# ${unitId}\n\nGeneric pedagogical objective.\n`,
+    );
+    const perceptualReference = {
+      reference_id: unitId,
+      ...writeIntegrationArtifact(
+        root,
+        `projects/example/references/${unitId}.webp`,
+        Buffer.from(`synthetic-reference-${unitId}`),
+      ),
+      media_type: "image/webp",
+    };
+
+    units.push({
+      unit_id: unitId,
+      semantic_spec: semanticSpec,
+      perceptual_reference: perceptualReference,
+      approval_reference: `approval://${unitId}`,
+      reference_role: "key_hold",
+      element_classification: [
+        {
+          element_id: `text-${suffix}`,
+          role: "semantic label",
+          render_mode: "code_native",
+          rationale: "Editable semantic text",
+          source_provenance: null,
+        },
+      ],
+    });
+    bindings.push({
+      reference_id: unitId,
+      scene_id: sceneId,
+      hold_ids: [holdId],
+      required_perceptual_properties: ["protagonist", "hierarchy", "spatial ownership"],
+      mutable_properties: ["responsive spacing"],
+      conceptual_tolerances: ["font rasterization may differ"],
+      uncovered_parts: ["intermediate motion states"],
+    });
+    scenes.push({ scene_id: sceneId, holds: [{ hold_id: holdId }] });
+    anchors.push({
+      reference_id: unitId,
+      scene_id: sceneId,
+      hold_id: holdId,
+      keyframe_role: "target_keyframe",
+      perceptual_invariants: ["protagonist", "hierarchy", "spatial ownership"],
+      mutable_in_motion: ["intermediate position"],
+      material_composition_preserved: true,
+    });
+    const screenshotHash = digest(`browser-screenshot-${unitId}`);
+    comparisons.push({
+      reference_id: unitId,
+      reference_hash: perceptualReference.content_hash,
+      screenshot_hash: screenshotHash,
+      viewport_id: "desktop-capture",
+      hold_id: holdId,
+      status: "passed",
+      comparison_methods: ["perceptual_comparison", "dom_geometry"],
+      pixel_diff_only: false,
+      fullscreen_reference_used: false,
+      reconstruction_evidence: ["Editable DOM/SVG inspection"],
+      material_differences: [],
+    });
+    auditComparisons.push({
+      reference_id: unitId,
+      semantic_spec_hash: semanticSpec.content_hash,
+      reference_hash: perceptualReference.content_hash,
+      output_hash: screenshotHash,
+      scene_id: sceneId,
+      hold_id: holdId,
+      viewport_id: "desktop-capture",
+      semantic_fidelity: "passed",
+      perceptual_fidelity: "passed",
+      failure_origin: "none",
+      evidence: "Output preserves the bound semantic and perceptual properties.",
+    });
+  }
+
+  return {
+    root,
+    policies,
+    visual: {
+      workflow_mode: "approved_reference",
+      status: "approved",
+      direction_options: [],
+      scenes,
+      user_approval: {
+        status: "approved",
+        approval_source: "approved_reference",
+        approval_reference: "approval://bundle",
+        source_branch: "image-to-code",
+        source_commit: "9f22a3ef48bafc2bd9e979688a96cf4787fb76bf",
+        semantic_spec: units[0].semantic_spec,
+        reference: {
+          path: units[0].perceptual_reference.path,
+          content_hash: units[0].perceptual_reference.content_hash,
+        },
+      },
+      reference_bundle: {
+        source_branch: "image-to-code",
+        source_commit: "9f22a3ef48bafc2bd9e979688a96cf4787fb76bf",
+        design,
+        project,
+        authority_resolution: {
+          semantic_authority: "semantic_spec",
+          perceptual_authority: "approved_reference",
+          conflict_policy: "block_upstream",
+        },
+        units,
+      },
+      reference_bindings: bindings,
+    },
+    motion: { reference_anchors: anchors },
+    implementation: { status: "implemented", reference_comparisons: comparisons },
+    audit: {
+      verdict: "ready_for_user_review",
+      reference_context: { applicable: true, reference_ids: units.map((unit) => unit.unit_id) },
+      evidence: {
+        reference_fidelity: {
+          status: "passed",
+          evidence: "Semantic and perceptual comparison completed after blind decode.",
+          comparisons: auditComparisons,
+        },
+      },
+    },
+  };
+}
+
+function validateIntegrationPointer(root, pointer, label, code, errors) {
+  if (!pointer || typeof pointer.path !== "string") {
+    errors.push(issue(code, label, "artifact path is required"));
+    return;
+  }
+  if (!SHA256.test(pointer.content_hash || "")) {
+    errors.push(issue(code, label, "artifact requires a well-formed sha256 content hash"));
+    return;
+  }
+  const absolute = path.resolve(root, pointer.path);
+  if (!absolute.startsWith(`${path.resolve(root)}${path.sep}`) || !fs.existsSync(absolute)) {
+    errors.push(issue(code, label, "artifact path must resolve inside the pinned bundle"));
+    return;
+  }
+  if (digest(fs.readFileSync(absolute)) !== pointer.content_hash) {
+    errors.push(issue(code, label, "artifact content does not match its declared hash"));
+  }
+}
+
+function validateIntegrationFixture(fixture) {
+  const errors = [];
+  const visual = fixture.visual || {};
+  const mode = visual.workflow_mode || "concept_first";
+
+  if (fixture.policies?.require_pixel_perfect === true) {
+    errors.push(issue("PIXEL_PERFECT", "fixture", "pixel-perfect cannot be required"));
+  }
+  if (fixture.policies?.fullscreen_reference_is_implementation === true) {
+    errors.push(issue("FULLSCREEN_REFERENCE", "fixture", "fullscreen reference rendering is not implementation"));
+  }
+
+  const serialized = JSON.stringify(fixture);
+  for (const term of projectSpecificTerms) {
+    if (serialized.toLowerCase().includes(term.toLowerCase())) {
+      errors.push(issue("PROJECT_CONTAMINATION", "fixture", "project-specific content entered the canonical pipeline fixture"));
+    }
+  }
+
+  if (mode === "concept_first") {
+    if (!Array.isArray(visual.direction_options) || visual.direction_options.length !== 3) {
+      errors.push(issue("CONCEPT_FIRST", "visual", "concept-first must preserve exactly three material directions"));
+    }
+    if (visual.reference_bundle || visual.reference_bindings) {
+      errors.push(issue("CONCEPT_FIRST", "visual", "concept-first cannot silently masquerade as approved-reference mode"));
+    }
+    return errors;
+  }
+
+  if (mode !== "approved_reference") {
+    errors.push(issue("REFERENCE_MODE", "visual", "unknown visual workflow mode"));
+    return errors;
+  }
+
+  const bundle = visual.reference_bundle;
+  if (!bundle) {
+    errors.push(issue("REFERENCE_BUNDLE", "visual", "approved-reference mode requires a bundle"));
+    return errors;
+  }
+  if (!GIT_SHA.test(bundle.source_commit || "")) {
+    errors.push(issue("SOURCE_COMMIT", "visual.reference_bundle", "pinned source commit is required"));
+  }
+  if (typeof bundle.source_branch !== "string" || !bundle.source_branch) {
+    errors.push(issue("SOURCE_BRANCH", "visual.reference_bundle", "source branch is required"));
+  }
+  validateIntegrationPointer(fixture.root, bundle.design, "reference_bundle.design", "REFERENCE_HASH", errors);
+  validateIntegrationPointer(fixture.root, bundle.project, "reference_bundle.project", "REFERENCE_HASH", errors);
+
+  const authority = bundle.authority_resolution || {};
+  if (authority.semantic_authority !== "semantic_spec") {
+    errors.push(issue("SEMANTIC_AUTHORITY", "reference_bundle", "semantic spec must remain semantic authority"));
+  }
+  if (authority.perceptual_authority !== "approved_reference" || authority.conflict_policy !== "block_upstream") {
+    errors.push(issue("PERCEPTUAL_AUTHORITY", "reference_bundle", "reference must govern perception and material conflicts must block upstream"));
+  }
+
+  const units = Array.isArray(bundle.units) ? bundle.units : [];
+  if (!units.length) errors.push(issue("REFERENCE_BUNDLE", "reference_bundle.units", "at least one unit is required"));
+  const unitById = new Map();
+  for (const unit of units) {
+    const label = `reference_bundle.units.${unit?.unit_id || "unknown"}`;
+    if (!unit?.semantic_spec) {
+      errors.push(issue("REFERENCE_SPEC", label, "reference requires its semantic spec"));
+    } else {
+      validateIntegrationPointer(fixture.root, unit.semantic_spec, `${label}.semantic_spec`, "REFERENCE_HASH", errors);
+    }
+    if (!unit?.perceptual_reference) {
+      errors.push(issue("REFERENCE_IMAGE", label, "approved-reference mode requires a perceptual reference for every declared unit"));
+    } else {
+      validateIntegrationPointer(fixture.root, unit.perceptual_reference, `${label}.perceptual_reference`, "REFERENCE_HASH", errors);
+      if (unit.perceptual_reference.reference_id !== unit.unit_id) {
+        errors.push(issue("REFERENCE_ID", label, "perceptual reference id must equal the unit id used by bindings"));
+      }
+    }
+    if (typeof unit?.approval_reference !== "string" || !unit.approval_reference) {
+      errors.push(issue("REFERENCE_APPROVAL", label, "file presence cannot substitute for persisted approval evidence"));
+    }
+    if (unit?.unit_id) unitById.set(unit.unit_id, unit);
+  }
+  if (
+    visual.status === "approved" &&
+    (visual.user_approval?.approval_source !== "approved_reference" || !visual.user_approval?.approval_reference)
+  ) {
+    errors.push(issue("REFERENCE_APPROVAL", "visual.user_approval", "inherited approval requires a verifiable approval reference"));
+  }
+
+  const holdsByScene = new Map(
+    (visual.scenes || []).map((scene) => [
+      scene.scene_id,
+      new Set((scene.holds || []).map((hold) => (typeof hold === "string" ? hold : hold.hold_id))),
+    ]),
+  );
+  const bindings = Array.isArray(visual.reference_bindings) ? visual.reference_bindings : [];
+  const bindingKeys = new Set();
+  for (const binding of bindings) {
+    if (!unitById.has(binding.reference_id)) {
+      errors.push(issue("REFERENCE_BINDING", "visual.reference_bindings", `unknown reference: ${binding.reference_id}`));
+    }
+    const holds = holdsByScene.get(binding.scene_id);
+    for (const holdId of binding.hold_ids || []) {
+      const key = `${binding.reference_id}:${binding.scene_id}:${holdId}`;
+      bindingKeys.add(key);
+      if (!holds?.has(holdId)) {
+        errors.push(issue("REFERENCE_BINDING", "visual.reference_bindings", `binding targets missing hold: ${binding.scene_id}/${holdId}`));
+      }
+    }
+  }
+  for (const unitId of unitById.keys()) {
+    if (!bindings.some((binding) => binding.reference_id === unitId)) {
+      errors.push(issue("REFERENCE_BINDING", "visual.reference_bindings", `reference has no hold binding: ${unitId}`));
+    }
+  }
+
+  const anchorKeys = new Set(
+    (fixture.motion?.reference_anchors || []).map(
+      (anchor) => `${anchor.reference_id}:${anchor.scene_id}:${anchor.hold_id}`,
+    ),
+  );
+  for (const key of bindingKeys) {
+    if (!anchorKeys.has(key)) errors.push(issue("REFERENCE_ANCHOR", "motion", `missing perceptual keyframe anchor: ${key}`));
+  }
+  if ((fixture.motion?.reference_anchors || []).some((anchor) => anchor.material_composition_preserved !== true)) {
+    errors.push(issue("REFERENCE_ANCHOR", "motion", "reference keyframes must preserve material composition"));
+  }
+
+  const comparisons = fixture.implementation?.reference_comparisons || [];
+  const comparisonKeys = new Set(
+    comparisons.map((comparison) => `${comparison.reference_id}:${comparison.hold_id}`),
+  );
+  for (const binding of bindings) {
+    for (const holdId of binding.hold_ids || []) {
+      if (!comparisonKeys.has(`${binding.reference_id}:${holdId}`)) {
+        errors.push(issue("REFERENCE_COMPARISON", "implementation", `missing browser/reference comparison: ${binding.reference_id}/${holdId}`));
+      }
+    }
+  }
+  for (const comparison of comparisons) {
+    if (!SHA256.test(comparison.reference_hash || "") || !SHA256.test(comparison.screenshot_hash || "")) {
+      errors.push(issue("REFERENCE_HASH", "implementation.reference_comparisons", "comparison hashes must be well formed"));
+    }
+    if (comparison.pixel_diff_only !== false) {
+      errors.push(issue("PIXEL_PERFECT", "implementation.reference_comparisons", "pixel diff cannot be the sole comparison method"));
+    }
+    if (comparison.fullscreen_reference_used !== false) {
+      errors.push(issue("FULLSCREEN_REFERENCE", "implementation.reference_comparisons", "fullscreen reference cannot count as reconstruction"));
+    }
+  }
+
+  const fidelity = fixture.audit?.evidence?.reference_fidelity;
+  if (["ready_for_user_review", "reference_candidate"].includes(fixture.audit?.verdict) && fidelity?.status !== "passed") {
+    errors.push(issue("REFERENCE_VERDICT", "audit", "review-ready verdicts require passed reference fidelity"));
+  }
+  const auditedReferences = new Set((fidelity?.comparisons || []).map((comparison) => comparison.reference_id));
+  for (const unitId of unitById.keys()) {
+    if (!auditedReferences.has(unitId)) {
+      errors.push(issue("REFERENCE_AUDIT_COVERAGE", "audit", `missing reference-fidelity evidence: ${unitId}`));
+    }
+  }
+  return errors;
+}
+
+function runIntegrationTests() {
+  const positiveCases = [
+    { name: "concept-first compatibility", mode: "concept_first", unitCount: 0 },
+    { name: "one approved reference", mode: "approved_reference", unitCount: 1 },
+    { name: "ten approved references", mode: "approved_reference", unitCount: 10 },
+  ];
+  const positiveFailures = [];
+  for (const testCase of positiveCases) {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "validate-integration-positive-"));
+    try {
+      const fixture = buildIntegrationFixture(root, testCase);
+      const errors = validateIntegrationFixture(fixture);
+      if (errors.length) positiveFailures.push(`${testCase.name}: ${errors.map((error) => error.code).join(", ")}`);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  }
+
+  const negativeCases = [
+    { name: "reference without spec", code: "REFERENCE_SPEC", mutate: (f) => delete f.visual.reference_bundle.units[0].semantic_spec },
+    { name: "spec without reference", code: "REFERENCE_IMAGE", mutate: (f) => delete f.visual.reference_bundle.units[0].perceptual_reference },
+    { name: "reference without hash", code: "REFERENCE_HASH", mutate: (f) => delete f.visual.reference_bundle.units[0].perceptual_reference.content_hash },
+    { name: "missing source commit", code: "SOURCE_COMMIT", mutate: (f) => delete f.visual.reference_bundle.source_commit },
+    { name: "malformed hash", code: "REFERENCE_HASH", mutate: (f) => { f.visual.reference_bundle.units[0].semantic_spec.content_hash = "sha256:not-a-hash"; } },
+    { name: "binding to absent hold", code: "REFERENCE_BINDING", mutate: (f) => { f.visual.reference_bindings[0].hold_ids = ["missing-hold"]; } },
+    { name: "producer without comparison", code: "REFERENCE_COMPARISON", mutate: (f) => { f.implementation.reference_comparisons = []; } },
+    { name: "reference candidate without passed fidelity", code: "REFERENCE_VERDICT", mutate: (f) => { f.audit.verdict = "reference_candidate"; f.audit.evidence.reference_fidelity.status = "failed"; } },
+    { name: "image as semantic authority", code: "SEMANTIC_AUTHORITY", mutate: (f) => { f.visual.reference_bundle.authority_resolution.semantic_authority = "approved_reference"; } },
+    { name: "approval inferred from file", code: "REFERENCE_APPROVAL", mutate: (f) => { f.visual.reference_bundle.units[0].approval_reference = null; f.visual.user_approval.approval_reference = null; } },
+    { name: "pixel-perfect requirement", code: "PIXEL_PERFECT", mutate: (f) => { f.policies.require_pixel_perfect = true; } },
+    { name: "fullscreen image implementation", code: "FULLSCREEN_REFERENCE", mutate: (f) => { f.policies.fullscreen_reference_is_implementation = true; } },
+    { name: "project-specific content", code: "PROJECT_CONTAMINATION", mutate: (f) => { f.visual.reference_bundle.units[0].notes = projectSpecificTerms[0]; } },
+  ];
+  const negativeFailures = [];
+  for (const testCase of negativeCases) {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), "validate-integration-negative-"));
+    try {
+      const fixture = buildIntegrationFixture(root, { mode: "approved_reference", unitCount: 1 });
+      testCase.mutate(fixture);
+      const errors = validateIntegrationFixture(fixture);
+      if (!errors.some((error) => error.code === testCase.code)) {
+        negativeFailures.push(`${testCase.name}: expected ${testCase.code}`);
+      }
+    } catch (error) {
+      negativeFailures.push(`${testCase.name}: fixture error: ${error.message}`);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  }
+
+  return {
+    failures: [...positiveFailures, ...negativeFailures],
+    positiveCount: positiveCases.length,
+    negativeCount: negativeCases.length,
+  };
+}
+
 function runNegativeTests(source) {
   const cases = [
     {
@@ -523,7 +986,7 @@ function runNegativeTests(source) {
     {
       name: "schema without a contractual version",
       code: "SCHEMA_VERSION",
-      mutate: (root) => replaceIn(root, "contracts/visual-contract.schema.json", '"x-schema-version": "2.0.0"', '"x-schema-version": "latest"'),
+      mutate: (root) => replaceIn(root, "contracts/visual-contract.schema.json", '"x-schema-version": "2.1.0"', '"x-schema-version": "latest"'),
     },
     {
       name: "required schema field without a property",
@@ -583,6 +1046,26 @@ function runNegativeTests(source) {
       code: "EXTERNAL_RUNTIME_SKILL",
       mutate: (root) => appendTo(root, "skills/visual-director-lienzo/SKILL.md", "\nRequiere la skill externa de referencia instalada.\n"),
     },
+    {
+      name: "skill requires pixel-perfect",
+      code: "SKILL_PIXEL_PERFECT",
+      mutate: (root) => appendTo(root, "skills/frontend-producer-lienzo/SKILL.md", "\nLa skill exige fidelidad pixel-perfect.\n"),
+    },
+    {
+      name: "skill authorizes fullscreen reference",
+      code: "SKILL_FULLSCREEN",
+      mutate: (root) => appendTo(root, "skills/frontend-producer-lienzo/SKILL.md", "\nLa referencia fullscreen constituye implementación.\n"),
+    },
+    {
+      name: "skill makes image sole semantic source",
+      code: "SKILL_SEMANTIC_IMAGE",
+      mutate: (root) => appendTo(root, "skills/visual-director-lienzo/SKILL.md", "\nLa imagen es la única fuente semántica.\n"),
+    },
+    {
+      name: "project-specific reference content",
+      code: "PROJECT_CONTAMINATION",
+      mutate: (root) => appendTo(root, "README.md", `\n${projectSpecificTerms[0]}\n`),
+    },
   ];
 
   const failures = [];
@@ -620,6 +1103,13 @@ if (negative.failures.length) {
   process.exit(1);
 }
 
+const integration = runIntegrationTests();
+if (integration.failures.length) {
+  console.error(`validate-skills: FAIL (${integration.failures.length} integration-test failure(s))`);
+  for (const failure of integration.failures) console.error(failure);
+  process.exit(1);
+}
+
 console.log(
-  `validate-skills: PASS (${SKILLS.length} skills, ${SCHEMAS.length} schemas, ${result.metrics.links} internal links, ${negative.count} negative fixtures)`,
+  `validate-skills: PASS (${SKILLS.length} skills, ${SCHEMAS.length} schemas, ${result.metrics.links} internal links, ${integration.positiveCount} integration fixtures, ${negative.count + integration.negativeCount} negative fixtures)`,
 );
