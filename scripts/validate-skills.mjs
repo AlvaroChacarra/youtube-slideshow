@@ -124,7 +124,7 @@ const GIT_SHA = /^[a-f0-9]{40,64}$/;
 const INTEGRATION_SCHEMA_FIELDS = {
   "contracts/visual-contract.schema.json": ["workflow_mode", "reference_bundle", "reference_bindings"],
   "contracts/motion-contract.schema.json": ["reference_anchors"],
-  "contracts/implementation-manifest.schema.json": ["reference_comparisons"],
+  "contracts/implementation-manifest.schema.json": ["reference_context", "reference_comparisons"],
   "contracts/audit-report.schema.json": ["reference_context"],
 };
 
@@ -449,6 +449,29 @@ function validate(root) {
     ) {
       errors.push(issue("SCHEMA_INTEGRATION_FIELD", relative, "missing evidence.reference_fidelity"));
     }
+    if (relative === "contracts/audit-report.schema.json") {
+      for (const field of [
+        "semantic_sources_hidden_first_pass",
+        "contracts_hidden_first_pass",
+        "reference_hidden_first_pass",
+      ]) {
+        if (!schema.$defs?.independence?.properties?.[field]) {
+          errors.push(issue("SCHEMA_INTEGRATION_FIELD", relative, `missing independence.${field}`));
+        }
+      }
+    }
+    if (
+      relative === "contracts/visual-contract.schema.json" &&
+      !schema.$defs?.userApproval?.properties?.supplemental_approvals
+    ) {
+      errors.push(issue("SCHEMA_INTEGRATION_FIELD", relative, "missing user_approval.supplemental_approvals"));
+    }
+    if (
+      relative === "contracts/implementation-manifest.schema.json" &&
+      !schema.$defs?.referenceComparison?.properties?.scene_id
+    ) {
+      errors.push(issue("SCHEMA_INTEGRATION_FIELD", relative, "missing reference_comparison.scene_id"));
+    }
   }
 
   for (const relative of tree.files.filter((file) => file.endsWith(".md"))) {
@@ -566,6 +589,7 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
       root,
       policies,
       visual: {
+        contract_version: "2.0.0",
         status: "approved",
         direction_options: ["direction-a", "direction-b", "direction-c"],
         scenes: [{ scene_id: "scene-01", holds: [{ hold_id: "hold-final" }] }],
@@ -588,6 +612,7 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
   for (let index = 1; index <= unitCount; index += 1) {
     const suffix = String(index).padStart(2, "0");
     const unitId = `unit-${suffix}`;
+    const referenceId = `reference-${suffix}`;
     const sceneId = `scene-${suffix}`;
     const holdId = `hold-${suffix}-final`;
     const semanticSpec = writeIntegrationArtifact(
@@ -596,7 +621,7 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
       `# ${unitId}\n\nGeneric pedagogical objective.\n`,
     );
     const perceptualReference = {
-      reference_id: unitId,
+      reference_id: referenceId,
       ...writeIntegrationArtifact(
         root,
         `projects/example/references/${unitId}.webp`,
@@ -622,7 +647,7 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
       ],
     });
     bindings.push({
-      reference_id: unitId,
+      reference_id: referenceId,
       scene_id: sceneId,
       hold_ids: [holdId],
       required_perceptual_properties: ["protagonist", "hierarchy", "spatial ownership"],
@@ -632,7 +657,7 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
     });
     scenes.push({ scene_id: sceneId, holds: [{ hold_id: holdId }] });
     anchors.push({
-      reference_id: unitId,
+      reference_id: referenceId,
       scene_id: sceneId,
       hold_id: holdId,
       keyframe_role: "target_keyframe",
@@ -642,9 +667,10 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
     });
     const screenshotHash = digest(`browser-screenshot-${unitId}`);
     comparisons.push({
-      reference_id: unitId,
+      reference_id: referenceId,
       reference_hash: perceptualReference.content_hash,
       screenshot_hash: screenshotHash,
+      scene_id: sceneId,
       viewport_id: "desktop-capture",
       hold_id: holdId,
       status: "passed",
@@ -655,7 +681,7 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
       material_differences: [],
     });
     auditComparisons.push({
-      reference_id: unitId,
+      reference_id: referenceId,
       semantic_spec_hash: semanticSpec.content_hash,
       reference_hash: perceptualReference.content_hash,
       output_hash: screenshotHash,
@@ -673,6 +699,7 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
     root,
     policies,
     visual: {
+      contract_version: "2.1.0",
       workflow_mode: "approved_reference",
       status: "approved",
       direction_options: [],
@@ -703,17 +730,49 @@ function buildIntegrationFixture(root, { mode = "approved_reference", unitCount 
       },
       reference_bindings: bindings,
     },
-    motion: { reference_anchors: anchors },
-    implementation: { status: "implemented", reference_comparisons: comparisons },
+    motion: { contract_version: "2.1.0", reference_anchors: anchors },
+    implementation: {
+      status: "implemented",
+      consumed_versions: {
+        implementation_manifest_schema: "2.1.0",
+      },
+      reference_context: {
+        applicable: true,
+        reference_ids: units.map((unit) => unit.perceptual_reference.reference_id),
+      },
+      reference_comparisons: comparisons,
+    },
     audit: {
       verdict: "ready_for_user_review",
-      reference_context: { applicable: true, reference_ids: units.map((unit) => unit.unit_id) },
+      consumed_versions: {
+        audit_report_schema: "2.1.0",
+      },
+      reference_context: {
+        applicable: true,
+        reference_ids: units.map((unit) => unit.perceptual_reference.reference_id),
+      },
+      independence: {
+        semantic_sources_hidden_first_pass: true,
+        contracts_hidden_first_pass: true,
+        reference_hidden_first_pass: true,
+      },
       evidence: {
         reference_fidelity: {
           status: "passed",
           evidence: "Semantic and perceptual comparison completed after blind decode.",
           comparisons: auditComparisons,
         },
+      },
+      scores: {
+        pedagogical_comprehension: 9,
+        composition_and_hierarchy: 9,
+        visual_craft_and_taste: 9,
+        motion_and_continuity: 9,
+        cognitive_load_and_pacing: 9,
+        interaction_and_holds: 9,
+        mobile_legibility: 9,
+        technical_robustness: 9,
+        total: 9,
       },
     },
   };
@@ -771,6 +830,9 @@ function validateIntegrationFixture(fixture) {
     errors.push(issue("REFERENCE_MODE", "visual", "unknown visual workflow mode"));
     return errors;
   }
+  if (visual.contract_version !== "2.1.0" || fixture.motion?.contract_version !== "2.1.0") {
+    errors.push(issue("REFERENCE_VERSION", "fixture", "reference-aware visual and motion contracts must use version 2.1.0"));
+  }
 
   const bundle = visual.reference_bundle;
   if (!bundle) {
@@ -796,7 +858,7 @@ function validateIntegrationFixture(fixture) {
 
   const units = Array.isArray(bundle.units) ? bundle.units : [];
   if (!units.length) errors.push(issue("REFERENCE_BUNDLE", "reference_bundle.units", "at least one unit is required"));
-  const unitById = new Map();
+  const referenceById = new Map();
   for (const unit of units) {
     const label = `reference_bundle.units.${unit?.unit_id || "unknown"}`;
     if (!unit?.semantic_spec) {
@@ -808,14 +870,18 @@ function validateIntegrationFixture(fixture) {
       errors.push(issue("REFERENCE_IMAGE", label, "approved-reference mode requires a perceptual reference for every declared unit"));
     } else {
       validateIntegrationPointer(fixture.root, unit.perceptual_reference, `${label}.perceptual_reference`, "REFERENCE_HASH", errors);
-      if (unit.perceptual_reference.reference_id !== unit.unit_id) {
-        errors.push(issue("REFERENCE_ID", label, "perceptual reference id must equal the unit id used by bindings"));
+      const referenceId = unit.perceptual_reference.reference_id;
+      if (typeof referenceId !== "string" || !referenceId) {
+        errors.push(issue("REFERENCE_ID", label, "perceptual reference requires a stable reference_id"));
+      } else if (referenceById.has(referenceId)) {
+        errors.push(issue("REFERENCE_ID", label, `duplicate perceptual reference id: ${referenceId}`));
+      } else {
+        referenceById.set(referenceId, unit);
       }
     }
     if (typeof unit?.approval_reference !== "string" || !unit.approval_reference) {
       errors.push(issue("REFERENCE_APPROVAL", label, "file presence cannot substitute for persisted approval evidence"));
     }
-    if (unit?.unit_id) unitById.set(unit.unit_id, unit);
   }
   if (
     visual.status === "approved" &&
@@ -833,7 +899,7 @@ function validateIntegrationFixture(fixture) {
   const bindings = Array.isArray(visual.reference_bindings) ? visual.reference_bindings : [];
   const bindingKeys = new Set();
   for (const binding of bindings) {
-    if (!unitById.has(binding.reference_id)) {
+    if (!referenceById.has(binding.reference_id)) {
       errors.push(issue("REFERENCE_BINDING", "visual.reference_bindings", `unknown reference: ${binding.reference_id}`));
     }
     const holds = holdsByScene.get(binding.scene_id);
@@ -845,9 +911,9 @@ function validateIntegrationFixture(fixture) {
       }
     }
   }
-  for (const unitId of unitById.keys()) {
-    if (!bindings.some((binding) => binding.reference_id === unitId)) {
-      errors.push(issue("REFERENCE_BINDING", "visual.reference_bindings", `reference has no hold binding: ${unitId}`));
+  for (const referenceId of referenceById.keys()) {
+    if (!bindings.some((binding) => binding.reference_id === referenceId)) {
+      errors.push(issue("REFERENCE_BINDING", "visual.reference_bindings", `reference has no hold binding: ${referenceId}`));
     }
   }
 
@@ -864,22 +930,63 @@ function validateIntegrationFixture(fixture) {
   }
 
   const comparisons = fixture.implementation?.reference_comparisons || [];
+  const implementationContext = fixture.implementation?.reference_context;
+  if (implementationContext?.applicable !== true) {
+    errors.push(issue("REFERENCE_COMPARISON", "implementation.reference_context", "reference applicability and ids must be declared"));
+  } else {
+    const declared = new Set(implementationContext.reference_ids || []);
+    for (const referenceId of referenceById.keys()) {
+      if (!declared.has(referenceId)) {
+        errors.push(issue("REFERENCE_COMPARISON", "implementation.reference_context", `missing consumed reference id: ${referenceId}`));
+      }
+    }
+    for (const referenceId of declared) {
+      if (!referenceById.has(referenceId)) {
+        errors.push(issue("REFERENCE_COMPARISON", "implementation.reference_context", `unknown consumed reference id: ${referenceId}`));
+      }
+    }
+  }
   const comparisonKeys = new Set(
-    comparisons.map((comparison) => `${comparison.reference_id}:${comparison.hold_id}`),
+    comparisons.map((comparison) => `${comparison.reference_id}:${comparison.scene_id}:${comparison.hold_id}`),
   );
+  const implementationComparisonsByViewport = new Map();
   for (const binding of bindings) {
     for (const holdId of binding.hold_ids || []) {
-      if (!comparisonKeys.has(`${binding.reference_id}:${holdId}`)) {
-        errors.push(issue("REFERENCE_COMPARISON", "implementation", `missing browser/reference comparison: ${binding.reference_id}/${holdId}`));
+      if (!comparisonKeys.has(`${binding.reference_id}:${binding.scene_id}:${holdId}`)) {
+        errors.push(issue("REFERENCE_COMPARISON", "implementation", `missing browser/reference comparison: ${binding.reference_id}/${binding.scene_id}/${holdId}`));
       }
     }
   }
   for (const comparison of comparisons) {
+    const comparisonKey = `${comparison.reference_id}:${comparison.scene_id}:${comparison.hold_id}`;
+    if (!bindingKeys.has(comparisonKey)) {
+      errors.push(issue("REFERENCE_COMPARISON", "implementation.reference_comparisons", `comparison is not bound by the visual contract: ${comparisonKey}`));
+    }
     if (!SHA256.test(comparison.reference_hash || "") || !SHA256.test(comparison.screenshot_hash || "")) {
       errors.push(issue("REFERENCE_HASH", "implementation.reference_comparisons", "comparison hashes must be well formed"));
     }
+    const sourceUnit = referenceById.get(comparison.reference_id);
+    if (sourceUnit?.perceptual_reference && comparison.reference_hash !== sourceUnit.perceptual_reference.content_hash) {
+      errors.push(issue("REFERENCE_HASH_LINK", "implementation.reference_comparisons", `reference hash does not match the pinned bundle: ${comparison.reference_id}`));
+    }
+    const viewportKey = `${comparisonKey}:${comparison.viewport_id}`;
+    if (implementationComparisonsByViewport.has(viewportKey)) {
+      errors.push(issue("REFERENCE_COMPARISON", "implementation.reference_comparisons", `duplicate comparison: ${viewportKey}`));
+    } else {
+      implementationComparisonsByViewport.set(viewportKey, comparison);
+    }
     if (comparison.pixel_diff_only !== false) {
       errors.push(issue("PIXEL_PERFECT", "implementation.reference_comparisons", "pixel diff cannot be the sole comparison method"));
+    }
+    const nonPixelMethods = new Set([
+      "bounding_boxes",
+      "dom_geometry",
+      "perceptual_comparison",
+      "computer_vision",
+      "human_or_agent_inspection",
+    ]);
+    if (!(comparison.comparison_methods || []).some((method) => nonPixelMethods.has(method))) {
+      errors.push(issue("PIXEL_PERFECT", "implementation.reference_comparisons", "pixel_diff_only=false requires a real non-pixel comparison method"));
     }
     if (comparison.fullscreen_reference_used !== false) {
       errors.push(issue("FULLSCREEN_REFERENCE", "implementation.reference_comparisons", "fullscreen reference cannot count as reconstruction"));
@@ -887,13 +994,113 @@ function validateIntegrationFixture(fixture) {
   }
 
   const fidelity = fixture.audit?.evidence?.reference_fidelity;
+  const independence = fixture.audit?.independence || {};
+  const auditContext = fixture.audit?.reference_context;
+  if (auditContext?.applicable !== true) {
+    errors.push(issue("REFERENCE_AUDIT_CONTEXT", "audit.reference_context", "reference applicability and ids must be declared"));
+  } else {
+    const declared = new Set(auditContext.reference_ids || []);
+    for (const referenceId of referenceById.keys()) {
+      if (!declared.has(referenceId)) {
+        errors.push(issue("REFERENCE_AUDIT_CONTEXT", "audit.reference_context", `missing consumed reference id: ${referenceId}`));
+      }
+    }
+    for (const referenceId of declared) {
+      if (!referenceById.has(referenceId)) {
+        errors.push(issue("REFERENCE_AUDIT_CONTEXT", "audit.reference_context", `unknown consumed reference id: ${referenceId}`));
+      }
+    }
+  }
+  if (
+    independence.semantic_sources_hidden_first_pass !== true ||
+    independence.contracts_hidden_first_pass !== true ||
+    independence.reference_hidden_first_pass !== true
+  ) {
+    errors.push(issue("BLIND_REFERENCE_ORDER", "audit.independence", "semantic sources, contracts, and references must remain hidden until blind decode closes"));
+  }
   if (["ready_for_user_review", "reference_candidate"].includes(fixture.audit?.verdict) && fidelity?.status !== "passed") {
     errors.push(issue("REFERENCE_VERDICT", "audit", "review-ready verdicts require passed reference fidelity"));
   }
-  const auditedReferences = new Set((fidelity?.comparisons || []).map((comparison) => comparison.reference_id));
-  for (const unitId of unitById.keys()) {
-    if (!auditedReferences.has(unitId)) {
-      errors.push(issue("REFERENCE_AUDIT_COVERAGE", "audit", `missing reference-fidelity evidence: ${unitId}`));
+  const auditComparisons = fidelity?.comparisons || [];
+  const auditedBindings = new Set(
+    auditComparisons.map((comparison) => `${comparison.reference_id}:${comparison.scene_id}:${comparison.hold_id}`),
+  );
+  for (const key of bindingKeys) {
+    if (!auditedBindings.has(key)) {
+      errors.push(issue("REFERENCE_AUDIT_COVERAGE", "audit", `missing reference-fidelity evidence: ${key}`));
+    }
+  }
+  for (const comparison of auditComparisons) {
+    const key = `${comparison.reference_id}:${comparison.scene_id}:${comparison.hold_id}`;
+    if (!bindingKeys.has(key)) {
+      errors.push(issue("REFERENCE_AUDIT_COVERAGE", "audit", `comparison is not bound by the visual contract: ${key}`));
+    }
+    const sourceUnit = referenceById.get(comparison.reference_id);
+    if (sourceUnit) {
+      if (sourceUnit.semantic_spec && comparison.semantic_spec_hash !== sourceUnit.semantic_spec.content_hash) {
+        errors.push(issue("REFERENCE_HASH_LINK", "audit", `semantic spec hash does not match the pinned bundle: ${key}`));
+      }
+      if (sourceUnit.perceptual_reference && comparison.reference_hash !== sourceUnit.perceptual_reference.content_hash) {
+        errors.push(issue("REFERENCE_HASH_LINK", "audit", `reference hash does not match the pinned bundle: ${key}`));
+      }
+    }
+    const producerComparison = implementationComparisonsByViewport.get(`${key}:${comparison.viewport_id}`);
+    if (!producerComparison) {
+      errors.push(issue("REFERENCE_HASH_LINK", "audit", `no producer comparison exists for audit evidence: ${key}/${comparison.viewport_id}`));
+    } else if (comparison.output_hash !== producerComparison.screenshot_hash) {
+      errors.push(issue("REFERENCE_HASH_LINK", "audit", `output hash does not match the producer screenshot: ${key}/${comparison.viewport_id}`));
+    }
+    const bothPassed = comparison.semantic_fidelity === "passed" && comparison.perceptual_fidelity === "passed";
+    if (bothPassed !== (comparison.failure_origin === "none")) {
+      errors.push(issue("REFERENCE_FIDELITY", "audit", `failure origin contradicts comparison result: ${key}`));
+    }
+  }
+  if (
+    fidelity?.status === "passed" &&
+    auditComparisons.some(
+      (comparison) =>
+        comparison.semantic_fidelity !== "passed" ||
+        comparison.perceptual_fidelity !== "passed" ||
+        comparison.failure_origin !== "none",
+    )
+  ) {
+    errors.push(issue("REFERENCE_FIDELITY", "audit", "passed reference fidelity requires every bound comparison to pass"));
+  }
+  if (
+    fidelity?.status === "failed" &&
+    !auditComparisons.some(
+      (comparison) => comparison.semantic_fidelity === "failed" || comparison.perceptual_fidelity === "failed",
+    )
+  ) {
+    errors.push(issue("REFERENCE_FIDELITY", "audit", "failed reference fidelity requires a failed comparison"));
+  }
+  if (fidelity?.status === "limited") {
+    const hasLimited = auditComparisons.some(
+      (comparison) => comparison.semantic_fidelity === "limited" || comparison.perceptual_fidelity === "limited",
+    );
+    const hasFailed = auditComparisons.some(
+      (comparison) => comparison.semantic_fidelity === "failed" || comparison.perceptual_fidelity === "failed",
+    );
+    if (!hasLimited || hasFailed) {
+      errors.push(issue("REFERENCE_FIDELITY", "audit", "limited reference fidelity requires a limitation and no failed comparison"));
+    }
+  }
+
+  const scoreKeys = [
+    "pedagogical_comprehension",
+    "composition_and_hierarchy",
+    "visual_craft_and_taste",
+    "motion_and_continuity",
+    "cognitive_load_and_pacing",
+    "interaction_and_holds",
+    "mobile_legibility",
+    "technical_robustness",
+  ];
+  const scores = fixture.audit?.scores;
+  if (scores && scoreKeys.every((key) => typeof scores[key] === "number") && typeof scores.total === "number") {
+    const expectedTotal = Math.round((scoreKeys.reduce((sum, key) => sum + scores[key], 0) / scoreKeys.length) * 10) / 10;
+    if (Math.abs(scores.total - expectedTotal) > 0.001) {
+      errors.push(issue("AUDIT_TOTAL", "audit.scores", `total must equal the eight-dimension mean: ${expectedTotal}`));
     }
   }
   return errors;
@@ -922,14 +1129,27 @@ function runIntegrationTests() {
     { name: "spec without reference", code: "REFERENCE_IMAGE", mutate: (f) => delete f.visual.reference_bundle.units[0].perceptual_reference },
     { name: "reference without hash", code: "REFERENCE_HASH", mutate: (f) => delete f.visual.reference_bundle.units[0].perceptual_reference.content_hash },
     { name: "missing source commit", code: "SOURCE_COMMIT", mutate: (f) => delete f.visual.reference_bundle.source_commit },
+    { name: "reference mode on legacy contract version", code: "REFERENCE_VERSION", mutate: (f) => { f.visual.contract_version = "2.0.0"; } },
     { name: "malformed hash", code: "REFERENCE_HASH", mutate: (f) => { f.visual.reference_bundle.units[0].semantic_spec.content_hash = "sha256:not-a-hash"; } },
     { name: "binding to absent hold", code: "REFERENCE_BINDING", mutate: (f) => { f.visual.reference_bindings[0].hold_ids = ["missing-hold"]; } },
     { name: "producer without comparison", code: "REFERENCE_COMPARISON", mutate: (f) => { f.implementation.reference_comparisons = []; } },
+    { name: "producer without reference context", code: "REFERENCE_COMPARISON", mutate: (f) => { delete f.implementation.reference_context; } },
+    { name: "producer comparison for wrong scene", code: "REFERENCE_COMPARISON", mutate: (f) => { f.implementation.reference_comparisons[0].scene_id = "wrong-scene"; } },
+    { name: "producer reference hash from another image", code: "REFERENCE_HASH_LINK", mutate: (f) => { f.implementation.reference_comparisons[0].reference_hash = digest("another-reference"); } },
     { name: "reference candidate without passed fidelity", code: "REFERENCE_VERDICT", mutate: (f) => { f.audit.verdict = "reference_candidate"; f.audit.evidence.reference_fidelity.status = "failed"; } },
+    { name: "auditor without reference context", code: "REFERENCE_AUDIT_CONTEXT", mutate: (f) => { delete f.audit.reference_context; } },
+    { name: "audit comparison for wrong hold", code: "REFERENCE_AUDIT_COVERAGE", mutate: (f) => { f.audit.evidence.reference_fidelity.comparisons[0].hold_id = "wrong-hold"; } },
+    { name: "audit semantic hash from another spec", code: "REFERENCE_HASH_LINK", mutate: (f) => { f.audit.evidence.reference_fidelity.comparisons[0].semantic_spec_hash = digest("another-spec"); } },
+    { name: "audit output hash from another screenshot", code: "REFERENCE_HASH_LINK", mutate: (f) => { f.audit.evidence.reference_fidelity.comparisons[0].output_hash = digest("another-output"); } },
+    { name: "passed fidelity with failed comparison", code: "REFERENCE_FIDELITY", mutate: (f) => { f.audit.evidence.reference_fidelity.comparisons[0].perceptual_fidelity = "failed"; f.audit.evidence.reference_fidelity.comparisons[0].failure_origin = "implementation"; } },
+    { name: "incoherent audit total", code: "AUDIT_TOTAL", mutate: (f) => { f.audit.scores.total = 10; } },
     { name: "image as semantic authority", code: "SEMANTIC_AUTHORITY", mutate: (f) => { f.visual.reference_bundle.authority_resolution.semantic_authority = "approved_reference"; } },
     { name: "approval inferred from file", code: "REFERENCE_APPROVAL", mutate: (f) => { f.visual.reference_bundle.units[0].approval_reference = null; f.visual.user_approval.approval_reference = null; } },
     { name: "pixel-perfect requirement", code: "PIXEL_PERFECT", mutate: (f) => { f.policies.require_pixel_perfect = true; } },
+    { name: "pixel-only method mislabeled", code: "PIXEL_PERFECT", mutate: (f) => { f.implementation.reference_comparisons[0].comparison_methods = ["screenshot_diff"]; } },
     { name: "fullscreen image implementation", code: "FULLSCREEN_REFERENCE", mutate: (f) => { f.policies.fullscreen_reference_is_implementation = true; } },
+    { name: "fullscreen comparison recorded as implemented", code: "FULLSCREEN_REFERENCE", mutate: (f) => { f.implementation.reference_comparisons[0].fullscreen_reference_used = true; } },
+    { name: "reference visible before blind decode", code: "BLIND_REFERENCE_ORDER", mutate: (f) => { f.audit.independence.reference_hidden_first_pass = false; } },
     { name: "project-specific content", code: "PROJECT_CONTAMINATION", mutate: (f) => { f.visual.reference_bundle.units[0].notes = projectSpecificTerms[0]; } },
   ];
   const negativeFailures = [];

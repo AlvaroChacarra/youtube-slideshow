@@ -26,7 +26,7 @@ Exigir:
 - criterios de auditoría y evidencia requerida;
 - requisitos de build, test y reproducción;
 - Definition of Done del encargo;
-- cualquier asset, dato o fórmula exigidos por los contratos.
+- cualquier asset, dato o fórmula exigidos por los contratos;
 - cuando exista `reference_bundle`, semantic specs, referencias y bindings fijados por path/hash, junto con su aprobación verificable.
 
 No iniciar si un hash no coincide, un contrato está invalidado o un input existe solo en conversación.
@@ -77,8 +77,9 @@ Emitir `implementation-manifest.json`, válido contra [`implementation-manifest.
 - desviaciones y aprobaciones;
 - limitaciones;
 - hashes exactos de narrativa y contratos consumidos;
-- versiones exactas de los contratos y del schema de manifest consumidos.
-- una `reference_comparison` por binding, con hashes de referencia y screenshot, viewport, hold, métodos, estado y diferencias materiales.
+- versiones exactas de los contratos y del schema de manifest consumidos;
+- `reference_context` con aplicabilidad e IDs consumidos;
+- una `reference_comparison` por binding, con hashes de referencia y screenshot, escena, viewport, hold, métodos, estado y diferencias materiales.
 
 El código y los assets son outputs de producción; el manifest es su índice normativo. `status = implemented` significa que pueden reproducirse e inspeccionarse, no que estén aprobados.
 
@@ -93,7 +94,7 @@ Antes de editar:
 - comprobar `motion.status = ready`;
 - comprobar compatibilidad de versions major;
 - confirmar que ningún input cambió después de calcular el hash;
-- resolver paths de narrativa, assets, datos y comandos.
+- resolver paths de narrativa, assets, datos y comandos;
 - cuando aplique, verificar `source_commit`, hashes de DESIGN/PROJECT/spec/reference, bindings y `approval_reference` sin cargar unidades no afectadas.
 
 Ante un fallo, registrar blocker y devolver al propietario. No normalizar ni corregir contratos desde Production.
@@ -150,6 +151,8 @@ Para cada hold vinculado, comparar `approved reference ↔ browser screenshot` e
 Registrar hashes, métodos y diferencias en `reference_comparisons`. La fidelidad es perceptual y estructural, no pixel-perfect: pixel diff puede aportar evidencia, pero nunca gobernar por sí solo. No avanzar a motion mientras exista drift material sin corregir o una diferencia deliberada sin `approval_reference`.
 
 Renderizar la referencia como una imagen fullscreen no es reconstrucción ni satisface el contrato, aunque el screenshot coincida.
+
+Si una implementación exploratoria incurre en fullscreen o usa solo pixel diff, declararlo verazmente con los booleanos correspondientes, `reference_comparison.status = failed` o `limited` según el schema y evidencia negativa explícita; mantener el manifest en `draft` o `blocked`. Un manifest `implemented` exige ambos booleanos en `false`; nunca falsearlos para hacer pasar el schema.
 
 No avanzar a transiciones mientras un hold difiera materialmente. Si el contrato es imposible o ambiguo, devolver a Visual; no improvisar.
 
@@ -239,6 +242,8 @@ Toda desviación material necesita aprobación y `approval_reference`. Una desvi
 
 En un bundle aprobado, cada binding debe tener una comparación `passed`, `failed`, `limited` o `not_tested`. Un manifest `implemented` no puede cerrar con `failed` o `not_tested`; `limited` debe explicar el límite y no ocultar drift material.
 
+Todo manifest que consuma la versión 2.1 del schema declara `reference_context`: `applicable = true` con todos los `reference_ids` consumidos cuando hay bundle, o `applicable = false` con lista vacía en concept-first. Cada comparación identifica exactamente `reference_id + scene_id + hold_id`; su `reference_hash` debe ser idéntico al del bundle. Omitir el contexto o las comparaciones para eludir un fallo es una desviación silenciosa.
+
 ### 12. Emitir el manifest reproducible
 
 Registrar commit, comandos sin pasos manuales ocultos, outputs, tests, evidencia, viewports, desviaciones y limitaciones. Validar el JSON y reproducir los comandos desde estado limpio o un entorno equivalente antes de cerrar.
@@ -297,6 +302,7 @@ Registrar commit, comandos sin pasos manuales ocultos, outputs, tests, evidencia
 - Stack mínimo y dependencias materiales justificados.
 - Todos los holds implementados y comparados antes del motion.
 - Todo binding tiene `reference_comparison`; un manifest implementado no contiene `failed` ni `not_tested`.
+- Cuando hay bundle, `reference_context` declara todos los IDs; fullscreen o pixel-only solo pueden aparecer verazmente en un manifest no implementado.
 - Ningún elemento code-native fue sustituido por la referencia fullscreen o por un raster opaco.
 - Todos los beats, identidades, timings y desapariciones reproducidos.
 - Presenter pacing, interrupción, reverse y reset funcionan.

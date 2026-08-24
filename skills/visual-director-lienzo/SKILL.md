@@ -78,6 +78,8 @@ Usar `approved` solo después del checkpoint humano o de heredar una aprobación
 
 El contrato debe ser ejecutable por otro agente sin acceso al chat: cada escena y hold debe identificar qué domina, qué apoya, qué está ausente, por dónde se lee y qué no puede aparecer.
 
+En `approved_reference`, `direction_id` identifica de forma estable la dirección formalizada desde el bundle; no representa una alternativa nueva. `narrative_hash` apunta al artefacto narrativo canónico consumido —por ejemplo PROJECT cuando contiene la narrativa— y no sustituye los hashes separados de cada spec.
+
 ## Workflow obligatorio
 
 ### 1. Bloquear la verdad semántica
@@ -135,7 +137,9 @@ Después formalizar, sin explorar alternativas nuevas:
 
 Clasificar cada elemento como `code_native` o `asset`. Texto, cifras, fórmulas, ejes, curvas, charts, timelines, conectores, labels, interacción y objetos con motion semántico son code-native por defecto. Fotografía, ilustración, textura o arte complejo pueden ser assets si conservan procedencia.
 
-No generar tres direcciones, no rediseñar, no sustituir la referencia por el gusto del agente y no pedir una elección ya cerrada. Heredar aprobación solo con `approval_source = approved_reference`, branch, commit, spec, referencia y `approval_reference` verificables; si falta cualquiera, usar `pending_user_approval`.
+No generar tres direcciones, no rediseñar, no sustituir la referencia por el gusto del agente y no pedir una elección ya cerrada. Los `anti_defaults` registran al menos cinco drifts de reconstrucción que el bundle prohíbe; no son propuestas estéticas nuevas.
+
+Heredar aprobación solo con `approval_source = approved_reference`, branch, commit, spec, referencia y `approval_reference` verificables. Mapear `checkpoint_id` al identificador estable del registro upstream; tomar reviewer y fecha de esa evidencia; dejar `selected_direction_id = null`, `rejected_direction_ids = []` y `selection_reason = null`. Si reviewer, fecha o cualquier evidencia exigida no pueden verificarse, usar `pending_user_approval`.
 
 ### 4. Formalizar escenas, holds y bindings
 
@@ -150,7 +154,11 @@ En ambos modos, para cada escena y hold declarar:
 
 En `approved_reference`, vincular cada `reference_id` a escenas y holds existentes. Registrar propiedades perceptuales obligatorias, propiedades mutables, tolerancias conceptuales y partes no cubiertas. Una referencia puede anclar uno o varios holds; no se presume que describa toda la escena.
 
+`unit_id` identifica la unidad semántica y `perceptual_reference.reference_id` identifica la imagen que resuelven los bindings. Si una unidad tiene varias referencias, usar registros con la misma spec hasheada y `reference_id` distintos; no introducir aliases implícitos.
+
 La meta es fidelidad perceptual, no identidad de píxel. Los holds no cubiertos se derivan del visual contract. Una nueva composición material exige volver a esta skill.
+
+Toda composición o hold material no mostrado por la referencia debe declararse en `uncovered_parts` y no hereda aprobación por defecto: requiere un checkpoint explícito persistido en `user_approval.supplemental_approvals` con scope, reviewer, fecha y referencia verificable. Esto incluye una composición móvil hermana cuando cambia materialmente composición o jerarquía. `approval_source` sigue identificando el origen del bundle; el registro suplementario cubre únicamente el alcance nuevo.
 
 ### 5. Emitir y validar el visual contract
 
@@ -162,6 +170,8 @@ Calcular el hash conforme a [`pipeline-contract.md`](../../contracts/pipeline-co
 - todos los bindings apuntan a referencias, escenas y holds existentes;
 - `status = approved` coincide con aprobación verificable;
 - no hay timing, stack, JSX, CSS ni decisiones de implementación.
+
+El `visual_contract_hash` se entrega como metadato externo calculado sobre el JSON canonicalizado; no se inserta dentro del propio contrato ni se obtiene de un campo autorreferencial.
 
 ## Reglas duras
 

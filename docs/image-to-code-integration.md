@@ -25,6 +25,8 @@ Ningún consumidor puede escoger la fuente más conveniente ni completar un conf
 
 El Visual Director recibe branch y commit fijados, paths y hashes del diseño global, proyecto, specs afectadas y referencias citadas. Cada referencia necesita evidencia de aprobación y un identificador estable.
 
+`unit_id` identifica la unidad semántica; `reference_id` identifica cada imagen. Una misma spec puede acompañar varias referencias con IDs distintos sin perder su hash común.
+
 Para trabajar en una unidad cargar únicamente:
 
 1. diseño global;
@@ -45,6 +47,8 @@ Usar cuando no existe un bundle perceptual aprobado y verificable. Mantener expl
 Usar cuando existen simultáneamente diseño global, proyecto, spec de unidad, referencia y aprobación verificable. Visual interpreta y formaliza; no genera alternativas, no rediseña y no repite el checkpoint.
 
 Si existe la imagen pero no la evidencia de aprobación, mantener `pending_user_approval`.
+
+Un hold o una composición móvil material no cubiertos por la imagen necesitan un checkpoint adicional. Se persiste como aprobación suplementaria con alcance explícito; no altera la procedencia `approved_reference` del bundle original.
 
 ## 5. Binding a holds
 
@@ -86,6 +90,8 @@ Antes de motion, Production compara referencia aprobada y screenshot del navegad
 
 La comparación puede combinar diff de screenshot, bounding boxes, geometría DOM, visión, comparación perceptual e inspección humana/agente. Un pixel diff aislado no decide fidelidad. Toda diferencia material deliberada necesita aprobación verificable.
 
+Todo manifest 2.1 declara `reference_context` y una comparación por binding exacto `reference_id + scene_id + hold_id`; en concept-first declara que no aplica. Si una exploración usa fullscreen o exclusivamente pixel diff, debe registrarlo con veracidad y permanecer `draft`/`blocked`; esos flags impiden `implemented` hasta reconstruir el hold.
+
 ## 9. Auditoría
 
 El orden es obligatorio:
@@ -94,6 +100,10 @@ El orden es obligatorio:
 2. comprobación de fidelidad semántica contra la spec;
 3. comprobación de fidelidad perceptual contra la referencia;
 4. inspección de implementación y causas.
+
+Todo audit report 2.1 declara también `reference_context`. Cuando aplica, su evidencia cubre cada binding exacto y un estado global `passed` solo es válido si todas las comparaciones semánticas y perceptuales pasan. El gate prueba igualdad de hashes entre bundle, manifest e informe —incluido screenshot por viewport—, no solo que parezcan SHA-256. Si un blocker invalida la lectura antes de inspeccionar, los scores pueden quedar explícitamente `null`; no se fabrican notas.
+
+Cuando aplica el bundle, el informe registra por separado que semantic specs, contratos y referencias permanecieron ocultos durante la primera pasada. Si cualquiera se abrió antes, la pasada queda `blocked` y debe repetirse.
 
 El Auditor distingue:
 

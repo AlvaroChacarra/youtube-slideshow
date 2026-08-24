@@ -76,7 +76,7 @@ Emitir `audit-report.json`, válido contra [`audit-report.schema.json`](../../co
 - independencia declarada;
 - evidencia y cobertura;
 - `reference_context` y `reference_fidelity` cuando existan referencias aprobadas;
-- scores 0–10;
+- scores 0–10; si un blocker temprano invalida la inspección, mantener las nueve claves y usar `null` en vez de inventar notas;
 - findings con severidad, consecuencia, causa probable, corrección verificable y propietario;
 - blockers y limitaciones;
 - veredicto;
@@ -92,6 +92,7 @@ La primera pasada debe ocultar rationale y contratos. Registrar:
 - si el auditor creó el sujeto;
 - si lo remedió;
 - si pudo mantener rationale oculto;
+- cuando haya referencias, si semantic specs, contratos y referencias permanecieron ocultos hasta cerrar el blind decode;
 - qué limitaciones afectan independencia.
 
 Si el mismo agente crea o remedia, puede ejecutar la auditoría, pero no declarar independencia plena. `reference_candidate` exige que esta limitación no comprometa el blind decode; ante duda, mantener `ready_for_user_review` y pedir revisión independiente.
@@ -178,9 +179,11 @@ Solo después del blind decode, y en este orden:
 2. abrir cada referencia aprobada vinculada;
 3. comparar referencia y browser output en el mismo hold/viewport;
 4. contrastar layout, protagonista, escala, proporciones, spacing, alignment, whitespace, jerarquía tipográfica, roles de color, geometría, labels, assets y densidad;
-5. registrar `reference_fidelity` como `passed`, `failed`, `limited` o `not_applicable`, con hashes y evidencia por binding.
+5. registrar `reference_fidelity` como `passed`, `failed`, `limited` o `not_applicable`, con hashes y evidencia por binding exacto `reference_id + scene_id + hold_id`; los hashes de spec/referencia deben coincidir con el bundle y `output_hash` con el screenshot del manifest para el mismo viewport.
 
 Evaluar fidelidad perceptual y estructural; no exigir identidad de píxel ni dejar que un pixel diff sustituya el juicio. Confirmar además que la referencia fue reconstruida: mostrarla fullscreen no constituye implementación, incluso si produce una coincidencia visual perfecta.
+
+Si la referencia, la spec o los contratos se vieron antes de cerrar las notas ciegas, declarar los flags de independencia en `false`, usar `reference_fidelity.status = not_tested` con comparaciones vacías, invalidar esa pasada y emitir `blocked`. Usar `required_next_owner = user` para encargar una pasada nueva; el Auditor no se invoca automáticamente.
 
 Distinguir obligatoriamente:
 
@@ -203,6 +206,8 @@ Asignar 0–10 con evidencia específica:
 8. `technical_robustness`.
 
 Calcular `total` como media aritmética de las ocho, redondeada a una decimal. No subir una nota por esfuerzo, dificultad técnica o calidad del rationale.
+
+Excepción acotada: si un blocker invalida la auditoría antes de observar holds o beats —por ejemplo, referencia revelada antes del blind decode— usar `null` en las ocho dimensiones y en `total`, y arrays de cobertura vacíos. Cualquier veredicto distinto de `blocked` exige cobertura y scores numéricos.
 
 ### 8. Emitir findings accionables
 
@@ -244,7 +249,7 @@ Usar exactamente estas reglas:
 
 #### `blocked`
 
-Aplicar si el sujeto no reproduce, hashes/gates son inválidos, falta evidencia crítica, existe un claim materialmente falso o no puede realizarse una auditoría fiable.
+Aplicar si el sujeto no reproduce, hashes/gates son inválidos, falta evidencia crítica, existe un claim materialmente falso, se contaminó el blind decode o no puede realizarse una auditoría fiable. Usar también blocker cuando Production sustituyó la reconstrucción por la referencia fullscreen o falseó evidencia para aparentar fidelidad.
 
 #### `revision_required`
 
@@ -259,7 +264,7 @@ Exigir:
 - cobertura mínima completa;
 - blind decode, móvil y reduced motion satisfactorios;
 - total ≥ 8;
-- comprensión, composición y craft ≥ 8.
+- comprensión, composición y craft ≥ 8;
 - cuando `reference_context.applicable = true`, `reference_fidelity = passed`.
 
 Puede conservar minors explícitos que no alteren el takeaway.
@@ -309,6 +314,7 @@ No editar el sujeto dentro de la pasada que lo evalúa.
 - Toda remediación exige nueva auditoría.
 - Declarar limitaciones de independencia.
 - Blind decode se cierra antes de abrir semantic specs, contratos o referencias.
+- Todo informe que consuma el schema 2.1 declara `reference_context`, incluso si `applicable = false`.
 - La semantic spec gobierna significado y la referencia aprobada gobierna percepción.
 - Mostrar la referencia aprobada como imagen fullscreen no constituye implementación.
 - Reference fidelity no exige pixel-perfect y nunca depende solo de pixel diff.
@@ -324,6 +330,7 @@ No editar el sujeto dentro de la pasada que lo evalúa.
 - Autoaprobar una remediación sin pasada nueva.
 - Declarar `reference_candidate` por promedio si falla un umbral reforzado.
 - Aprobar reference fidelity si falta un binding, hash o screenshot comparable.
+- Rebajar a major un fullscreen que impide considerar el sujeto una implementación.
 - Invocar automáticamente otra skill.
 
 ## Blockers y escalado upstream
@@ -336,7 +343,7 @@ No editar el sujeto dentro de la pasada que lo evalúa.
 | Composición impide comprensión | Visual Director | nuevo visual contract y checkpoint |
 | Spec y referencia se contradicen materialmente | Visual Director o usuario/upstream source owner | bloquear y corregir el bundle |
 | Referencia adecuada pero output pierde jerarquía/composición | Frontend Producer | corregir reconstrucción y reauditar |
-| Referencia abierta antes de cerrar blind decode | Auditor | invalidar la pasada y reiniciarla |
+| Referencia abierta antes de cerrar blind decode | usuario | emitir `blocked` y encargar una pasada nueva |
 | Motion destruye identidad o causalidad | Motion Director | nuevo motion contract |
 | Independencia insuficiente para referencia | usuario | mantener veredicto inferior o pedir auditor independiente |
 
@@ -345,11 +352,12 @@ No editar el sujeto dentro de la pasada que lo evalúa.
 - Sujeto congelado y reproducido.
 - Independencia y limitaciones declaradas.
 - Blind decode cerrado antes de leer rationale/contratos.
+- Los flags de ocultación semántica, contractual y perceptual coinciden con el orden realmente seguido.
 - Cuando aplica, fidelidad semántica precede a fidelity perceptual y `reference_fidelity` cubre cada binding.
 - Los fallos upstream y de implementación tienen `failure_origin` y owner coherentes.
 - Todos los holds, beats y estados de riesgo inspeccionados.
 - Móvil, downsample y reduced motion cubiertos.
-- Ocho scores y total calculados con evidencia.
+- Ocho scores y total calculados con evidencia, o todos `null` solo ante un blocker temprano que invalida la inspección.
 - Cada finding tiene severidad, consecuencia, causa probable, corrección y propietario.
 - Veredicto cumple umbrales exactos.
 - `required_next_owner` es coherente con findings.

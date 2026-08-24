@@ -55,6 +55,18 @@
   },
   "allOf": [
     {
+      "if": {
+        "properties": {
+          "consumed_versions": {
+            "properties": { "audit_report_schema": { "const": "2.1.0" } },
+            "required": ["audit_report_schema"]
+          }
+        },
+        "required": ["consumed_versions"]
+      },
+      "then": { "required": ["reference_context"] }
+    },
+    {
       "if": { "properties": { "verdict": { "const": "blocked" } }, "required": ["verdict"] },
       "then": { "properties": { "blockers": { "minItems": 1 } } }
     },
@@ -134,6 +146,35 @@
     },
     {
       "if": {
+        "properties": { "verdict": { "not": { "const": "blocked" } } },
+        "required": ["verdict"]
+      },
+      "then": {
+        "properties": {
+          "scores": {
+            "properties": {
+              "pedagogical_comprehension": { "type": "number" },
+              "composition_and_hierarchy": { "type": "number" },
+              "visual_craft_and_taste": { "type": "number" },
+              "motion_and_continuity": { "type": "number" },
+              "cognitive_load_and_pacing": { "type": "number" },
+              "interaction_and_holds": { "type": "number" },
+              "mobile_legibility": { "type": "number" },
+              "technical_robustness": { "type": "number" },
+              "total": { "type": "number" }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "inspected_holds": { "minItems": 1 },
+              "inspected_beats": { "minItems": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
         "properties": {
           "reference_context": {
             "properties": { "applicable": { "const": true } },
@@ -144,13 +185,20 @@
       },
       "then": {
         "properties": {
+          "independence": {
+            "required": [
+              "semantic_sources_hidden_first_pass",
+              "contracts_hidden_first_pass",
+              "reference_hidden_first_pass"
+            ]
+          },
           "evidence": {
             "required": ["reference_fidelity"],
             "properties": {
               "reference_fidelity": {
                 "properties": {
                   "status": { "enum": ["passed", "failed", "limited", "not_tested"] },
-                  "comparisons": { "minItems": 1 }
+                  "comparisons": { "type": "array" }
                 }
               }
             }
@@ -178,6 +226,13 @@
                 "properties": { "status": { "const": "passed" } },
                 "required": ["status"]
               }
+            }
+          },
+          "independence": {
+            "properties": {
+              "semantic_sources_hidden_first_pass": { "const": true },
+              "contracts_hidden_first_pass": { "const": true },
+              "reference_hidden_first_pass": { "const": true }
             }
           }
         }
@@ -207,6 +262,52 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "allOf": [
+          {
+            "properties": {
+              "reference_context": {
+                "properties": { "applicable": { "const": true } },
+                "required": ["applicable"]
+              }
+            },
+            "required": ["reference_context"]
+          },
+          {
+            "properties": {
+              "independence": {
+                "anyOf": [
+                  {
+                    "properties": { "semantic_sources_hidden_first_pass": { "const": false } },
+                    "required": ["semantic_sources_hidden_first_pass"]
+                  },
+                  {
+                    "properties": { "contracts_hidden_first_pass": { "const": false } },
+                    "required": ["contracts_hidden_first_pass"]
+                  },
+                  {
+                    "properties": { "reference_hidden_first_pass": { "const": false } },
+                    "required": ["reference_hidden_first_pass"]
+                  }
+                ]
+              }
+            },
+            "required": ["independence"]
+          }
+        ]
+      },
+      "then": { "properties": { "verdict": { "const": "blocked" } } }
+    },
+    {
+      "if": {
+        "properties": {
+          "evidence": { "required": ["reference_fidelity"] }
+        },
+        "required": ["evidence"]
+      },
+      "then": { "required": ["reference_context"] }
     }
   ],
   "$defs": {
@@ -231,6 +332,9 @@
         "rationale_hidden_first_pass": { "type": "boolean" },
         "auditor_created_subject": { "type": "boolean" },
         "auditor_remediated_subject": { "type": "boolean" },
+        "semantic_sources_hidden_first_pass": { "type": "boolean" },
+        "contracts_hidden_first_pass": { "type": "boolean" },
+        "reference_hidden_first_pass": { "type": "boolean" },
         "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
       }
     },
@@ -270,8 +374,16 @@
       ],
       "properties": {
         "artifacts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/artifact" } },
-        "inspected_holds": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
-        "inspected_beats": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/beatCoverage" } },
+        "inspected_holds": {
+          "type": "array",
+          "description": "May be empty only when an early blocker invalidates inspection.",
+          "items": { "$ref": "#/$defs/nonEmpty" }
+        },
+        "inspected_beats": {
+          "type": "array",
+          "description": "May be empty only when an early blocker invalidates inspection.",
+          "items": { "$ref": "#/$defs/beatCoverage" }
+        },
         "reverse": { "$ref": "#/$defs/result" },
         "reset": { "$ref": "#/$defs/result" },
         "reduced_motion": { "$ref": "#/$defs/result" },
@@ -292,7 +404,71 @@
           "type": "array",
           "items": { "$ref": "#/$defs/referenceAuditComparison" }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "enum": ["not_tested", "not_applicable"] } },
+            "required": ["status"]
+          },
+          "then": { "properties": { "comparisons": { "maxItems": 0 } } },
+          "else": { "properties": { "comparisons": { "minItems": 1 } } }
+        },
+        {
+          "if": { "properties": { "status": { "const": "passed" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "comparisons": {
+                "items": {
+                  "properties": {
+                    "semantic_fidelity": { "const": "passed" },
+                    "perceptual_fidelity": { "const": "passed" },
+                    "failure_origin": { "const": "none" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "failed" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "comparisons": {
+                "contains": {
+                  "anyOf": [
+                    { "properties": { "semantic_fidelity": { "const": "failed" } }, "required": ["semantic_fidelity"] },
+                    { "properties": { "perceptual_fidelity": { "const": "failed" } }, "required": ["perceptual_fidelity"] }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "const": "limited" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "comparisons": {
+                "contains": {
+                  "anyOf": [
+                    { "properties": { "semantic_fidelity": { "const": "limited" } }, "required": ["semantic_fidelity"] },
+                    { "properties": { "perceptual_fidelity": { "const": "limited" } }, "required": ["perceptual_fidelity"] }
+                  ]
+                },
+                "not": {
+                  "contains": {
+                    "anyOf": [
+                      { "properties": { "semantic_fidelity": { "const": "failed" } }, "required": ["semantic_fidelity"] },
+                      { "properties": { "perceptual_fidelity": { "const": "failed" } }, "required": ["perceptual_fidelity"] }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "referenceAuditComparison": {
       "type": "object",
@@ -322,7 +498,19 @@
         "perceptual_fidelity": { "enum": ["passed", "failed", "limited"] },
         "failure_origin": { "enum": ["none", "upstream_design", "implementation", "motion", "semantic_spec"] },
         "evidence": { "$ref": "#/$defs/nonEmpty" }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              { "properties": { "semantic_fidelity": { "enum": ["failed", "limited"] } }, "required": ["semantic_fidelity"] },
+              { "properties": { "perceptual_fidelity": { "enum": ["failed", "limited"] } }, "required": ["perceptual_fidelity"] }
+            ]
+          },
+          "then": { "properties": { "failure_origin": { "not": { "const": "none" } } } },
+          "else": { "properties": { "failure_origin": { "const": "none" } } }
+        }
+      ]
     },
     "artifact": {
       "type": "object",
@@ -347,7 +535,12 @@
         "layer_coexistence": { "$ref": "#/$defs/nonEmpty" }
       }
     },
-    "score": { "type": "number", "minimum": 0, "maximum": 10 },
+    "score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Null means not scored because an early blocker invalidated inspection; non-blocked verdicts require numbers."
+    },
     "scores": {
       "type": "object",
       "additionalProperties": false,
@@ -371,7 +564,10 @@
         "interaction_and_holds": { "$ref": "#/$defs/score" },
         "mobile_legibility": { "$ref": "#/$defs/score" },
         "technical_robustness": { "$ref": "#/$defs/score" },
-        "total": { "$ref": "#/$defs/score" }
+        "total": {
+          "$ref": "#/$defs/score",
+          "description": "Arithmetic mean of the eight dimensions, rounded to one decimal; checked by the repository validator."
+        }
       }
     },
     "finding": {

@@ -63,7 +63,7 @@ No decide composición, representación, contenido, labels, stack, código ni ve
 
 ## Output canónico
 
-Emitir `motion-contract.json`, válido contra [`motion-contract.schema.json`](../../contracts/motion-contract.schema.json). Cuando haya bindings, emitir un `reference_anchor` por hold vinculado con sus invariantes perceptuales y propiedades mutables. Usar `status = ready` solo cuando todos los beats son deterministas y ejecutables; usar `blocked` si el visual contract no puede animarse sin degradarse.
+Emitir `motion-contract.json`, válido contra [`motion-contract.schema.json`](../../contracts/motion-contract.schema.json). Cuando haya bindings, usar `contract_version = 2.1.0` y emitir un `reference_anchor` por hold vinculado con sus invariantes perceptuales y propiedades mutables. Usar `status = ready` solo cuando todos los beats son deterministas y ejecutables; usar `blocked` si el visual contract no puede animarse sin degradarse.
 
 ## Workflow obligatorio
 
@@ -92,6 +92,8 @@ Cuando exista `reference_bundle`:
 El patrón permitido es `approved frame A → preparation → action → resolution → approved frame B`. Los estados intermedios pueden diferir porque explican la transformación; los holds no cubiertos por imagen se derivan del visual contract. Una composición material nueva que no esté contratada vuelve al Visual Director.
 
 La referencia es un anclaje perceptual, no una exigencia de identidad de píxel ni un fotograma fullscreen que Motion pueda ordenar mostrar.
+
+Cuando un elemento clasificado por Visual persiste, reutilizar su `element_id` como `object_id` o declarar una correspondencia explícita uno-a-uno. No crear aliases implícitos.
 
 ### 3. Construir el ledger de estados e identidades
 
@@ -126,6 +128,8 @@ No usar preparación, anticipación o follow-through por receta. Cada fase debe 
 ### 6. Especificar timing, easing y stagger
 
 Asignar duración por distancia perceptual, complejidad y tiempo necesario para atribuir causalidad. Para cada easing explicar qué comunica su aceleración y llegada.
+
+No fijar milisegundos si faltan geometría, distancia perceptual, complejidad o constraints de presenter pacing verificables. En ese caso emitir blocker, no una duración de plantilla. `duration_ms` debe ser igual a la suma de preparación, acción y resolución.
 
 Usar stagger solo si el orden codifica secuencia, prioridad, acumulación o propagación. Registrar orden, delay y justificación. Si el stagger solo añade espectáculo, desactivarlo.
 
@@ -215,6 +219,7 @@ Completar escenas, beats, reduced motion, reglas globales y riesgos. Validar con
 - Dejar elementos invisibles pero interactivos.
 - Exigir fidelidad pixel-perfect o usar un pixel diff como autoridad creativa.
 - Rasterizar como fondo fullscreen los objetos que deben conservar identidad o participar en motion semántico.
+- Inventar timings numéricos antes de medir los estados y constraints reales.
 - Invocar automáticamente al Producer.
 
 ## Blockers y escalado upstream
@@ -235,11 +240,13 @@ Completar escenas, beats, reduced motion, reglas globales y riesgos. Validar con
 
 - Visual contract aprobado y hash verificado.
 - Cada binding tiene un `reference_anchor` que apunta a un hold existente y declara invariantes/mutables.
+- IDs de referencia, escena, hold y objetos persistentes resuelven sin aliases implícitos; invariantes y mutables no se contradicen.
 - Los keyframes aprobados siguen siendo perceptualmente reconocibles; no se exige identidad de píxel.
 - Todos los objetos persistentes tienen identidad y continuidad declaradas.
 - Cada beat define source, target y un cambio semántico dominante.
 - Preparación, acción, resolución y hold están especificados.
 - Timing, easing y stagger tienen justificación.
+- La duración total coincide con la suma de sus fases.
 - Elementos salientes desaparecen y dejan de ser interactivos.
 - Interrupción, reverse, reset y reduced motion están definidos por beat.
 - Solapes y riesgos móvil están registrados.

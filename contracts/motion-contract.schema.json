@@ -21,6 +21,7 @@
     "reference_anchors": {
       "type": "array",
       "uniqueItems": true,
+      "description": "Obligatorio por regla de pipeline cuando el visual contract contiene reference_bindings; opcional en schema para compatibilidad V2.",
       "items": { "$ref": "#/$defs/referenceAnchor" }
     },
     "status": { "enum": ["draft", "ready", "blocked", "superseded"] },
@@ -29,6 +30,11 @@
     "reduced_motion": { "$ref": "#/$defs/reducedMotion" },
     "global_timing_rules": { "$ref": "#/$defs/globalTiming" },
     "known_risks": { "type": "array", "items": { "$ref": "#/$defs/risk" } }
+  },
+  "dependentSchemas": {
+    "reference_anchors": {
+      "properties": { "contract_version": { "const": "2.1.0" } }
+    }
   },
   "$defs": {
     "nonEmpty": { "type": "string", "minLength": 1 },

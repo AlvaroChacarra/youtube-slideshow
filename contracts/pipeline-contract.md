@@ -105,7 +105,9 @@ Todos los hashes de contenido usan SHA-256 y el formato `sha256:<64 hex minúscu
 - cada archivo del `reference_bundle`: bytes exactos del diseño, proyecto, spec o referencia citada;
 - `commit` y `subject_commit`: commit Git que permite reproducir el sujeto.
 
-El consumidor debe copiar los hashes del artefacto que realmente leyó. Una coincidencia de nombre de archivo no demuestra identidad.
+El consumidor debe copiar los hashes del artefacto que realmente leyó. Una coincidencia de nombre de archivo no demuestra identidad. El gate cruzado verifica igualdad, no solo formato: spec y referencia del bundle deben coincidir con manifest e informe, y el `output_hash` auditado debe coincidir con el `screenshot_hash` del mismo `reference_id + scene_id + hold_id + viewport_id`.
+
+`visual_contract_hash` y `motion_contract_hash` son metadatos del handoff consumidos por la etapa siguiente; no se insertan en el artefacto que hashean. Se persisten en el primer artefacto downstream que los consume (`motion-contract.json` o `implementation-manifest.json`) y, antes de ese commit, el gate registra path + hash calculado junto a la aprobación. En `approved_reference`, `narrative_hash` sigue apuntando al artefacto narrativo canónico (por ejemplo PROJECT si contiene la narrativa), mientras cada spec conserva su propio hash dentro del bundle.
 
 ## 6. Invalidación
 
@@ -168,7 +170,7 @@ Está prohibido:
 - minor: campo opcional o capacidad compatible;
 - major: campo obligatorio, significado, estado, gate o regla de invalidación incompatible.
 
-Cada schema declara su propia versión SemVer en `x-schema-version`; Visual y Motion declaran además la versión de cada instancia en `contract_version`. Producer y Auditor deben persistir las versiones efectivamente leídas en `consumed_versions`; el nombre del archivo o un hash aislado no sustituye ese registro. Si no soportan el major recibido, deben bloquear, no aproximar.
+Cada schema declara su propia versión SemVer en `x-schema-version`; Visual y Motion declaran además la versión de cada instancia en `contract_version`. Producer y Auditor deben persistir las versiones efectivamente leídas en `consumed_versions`; el nombre del archivo o un hash aislado no sustituye ese registro. Toda instancia que declare el schema 2.1 explicita `reference_context`, sea aplicable o no, y las comparaciones cubren bindings por `reference_id + scene_id + hold_id`. Si no soportan el major recibido, deben bloquear, no aproximar.
 
 ## 10. Definition of Done del pipeline
 
@@ -180,5 +182,6 @@ El pipeline puede cerrar una iteración cuando:
 - todos los holds, transiciones de riesgo, reverse, reset, reduced motion y móvil tienen evidencia;
 - el informe contiene un veredicto válido y siguiente propietario;
 - `reference_candidate` satisface sus umbrales reforzados;
-- cualquier limitación de independencia o cobertura permanece explícita.
-- si existe `reference_bundle`, cada binding tiene reconstrucción, screenshot, comparación perceptual y auditoría de fidelidad aprobadas.
+- cualquier limitación de independencia o cobertura permanece explícita;
+- si existe `reference_bundle`, cada binding tiene reconstrucción, screenshot, comparación perceptual y auditoría de fidelidad aprobadas;
+- manifest e informe declaran la aplicabilidad e IDs de referencia; una pasada contaminada o una reconstrucción fullscreen permanece bloqueada de forma explícita.
