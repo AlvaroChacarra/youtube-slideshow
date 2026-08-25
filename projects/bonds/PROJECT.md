@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Construir una explicación visual progresiva de bonos que parta de la intuición económica, pase por la anatomía del instrumento y llegue a valoración, yield, funcionamiento de mercado y sensibilidad a tipos.
+Construir una explicación visual progresiva de bonos que parta de la intuición económica, pase por la anatomía del instrumento y llegue a valoración, yield, funcionamiento de mercado, curva de tipos y sensibilidad a tipos.
 
 El espectador debe poder seguir cada idea sin conocimientos avanzados y sin leer una slide saturada. La narración oral y la imagen se complementan; la imagen no debe intentar contener todo el discurso.
 
@@ -34,8 +34,11 @@ En este ejemplo notional y face value coinciden en 100 €. Se mantienen ambos n
 4. `04-discounting-example.md` — **Descuento de flujos — ejemplo**
 5. `05-ytm-vs-cagr.md` — **YTM vs CAGR**
 6. `06-same-ytm-different-cagr.md` — **Mismo YTM, distinto CAGR**
+7. `07-why-many-bonds-same-tenor.md` — **¿Por qué hay varios bonos en un mismo tenor?**
+8. `08-coupon-price-ytm.md` — **Del cupón al precio, y del precio al YTM**
+9. `09-yield-curve.md` — **La curva de tipos**
 
-Slides 01–04 y 06 tienen referencia visual persistida en `references/`. Slide 05 tiene composición aprobada y especificación persistida.
+**Estado:** slides 01–09 están fijadas. Cada una tiene especificación en `slides/` y referencia visual aprobada en `references/`.
 
 ## Slide 05 — YTM vs CAGR
 
@@ -56,27 +59,52 @@ Tres bonos a 5 años, face value 100 €, pagos anuales y YTM común del 4%:
 
 Mensaje central: **el mismo YTM no implica el mismo rendimiento compuesto realizado si no se reinvierten los cupones**. Cuanto mayor es el cupón, mayor es la relevancia de la reinversión intermedia; en el cupón cero no existe esa reinversión y YTM y CAGR coinciden.
 
-## Próximo bloque — Slide 07
+## Slide 07 — ¿Por qué hay varios bonos en un mismo tenor?
 
-Introducir mercado primario y secundario para explicar por qué bonos con cupones diferentes cotizan a precios diferentes de 100 y por qué el YTM es la métrica que conecta precio de mercado y flujos contractuales.
+Usar España como ejemplo para separar dos ideas que no deben mezclarse todavía:
 
-Usar el Tesoro español como ejemplo institucional, distinguiendo:
+- una referencia benchmark nace con vencimiento original y cupón fijado;
+- el paso del tiempo reduce su vida residual;
+- mientras tanto aparecen nuevas referencias y se reabren referencias existentes;
+- emisiones de distintas generaciones pueden acabar conviviendo alrededor de una misma zona de tenor, por ejemplo ~5Y, con cupones diferentes.
 
-- creación de nuevas referencias;
-- reaperturas / nuevos tramos del mismo ISIN;
-- formación del precio en subasta primaria;
-- negociación posterior en mercado secundario;
-- crecimiento del saldo en circulación de una referencia mediante sucesivas reaperturas.
+La slide 07 explica **por qué existen varios bonos cercanos en tenor**. No explicar todavía el ajuste de sus precios.
 
-No fijar cifras institucionales sin fuente oficial actualizada.
+## Slide 08 — Del cupón al precio, y del precio al YTM
+
+Una vez existen varios bonos cercanos en tenor, introducir el mecanismo de mercado:
+
+- el cupón y los cash flows son contractuales;
+- el precio sí cambia;
+- el precio se ajusta para que los YTM de bonos comparables queden alrededor del nivel exigido por el mercado en esa zona de la curva;
+- cupón alto respecto al nivel de mercado → prima;
+- cupón próximo → par;
+- cupón bajo → descuento;
+- con precio y cash flows conocidos puede inferirse el YTM.
+
+La slide introduce visualmente una nube de bonos y una curva fair, pero sin desarrollarlas todavía.
+
+## Slide 09 — La curva de tipos
+
+Convertir la curva en protagonista:
+
+- cada punto = bono observado con vencimiento residual y YTM;
+- la línea = curva fair ajustada sobre la nube;
+- benchmark = referencia más líquida y seguida en un tenor;
+- benchmarks mostrados: 2Y, 3Y, 5Y, 7Y, 10Y, 15Y, 30Y y 50Y;
+- para esta explicación pedagógica, **0–2Y = corto plazo** y **>2Y = largo plazo**;
+- la nube tiene mayor densidad en 0–10Y y menor densidad progresivamente hacia 50Y.
+
+Mensaje central: **la curva de tipos resume cuánto rendimiento exige el mercado según el plazo y ordena muchos bonos individuales en una estructura común.**
 
 ## Convenciones matemáticas actuales
 
 - Slides 03–04 presentan primero la valoración general usando `r_t`, tasa aplicable al flujo de cada periodo.
-- Slides 05–06 introducen el caso de una única tasa interna `y` / YTM aplicada a todos los flujos.
+- Slides 05–08 introducen el caso de una única tasa interna `y` / YTM aplicada a todos los flujos.
 - No confundir **coupon rate** con **coupon payment**.
 - En vencimiento el numerador contiene cupón más devolución de principal; antes del vencimiento contiene solo el cupón.
 - `CAGR sin reinversión` significa en este proyecto la anualización de la riqueza terminal cuando los cupones se mantienen en efectivo al 0%; no es la TIR estándar del bono.
+- Las cifras de mercado institucionales deben apoyarse en fuente oficial actualizada; los ISIN, cupones o fechas inventados dentro de una referencia visual son únicamente ilustrativos.
 
 ## Regla narrativa
 
