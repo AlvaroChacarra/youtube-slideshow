@@ -1,0 +1,849 @@
+{
+  "contract_version": "3.0.0",
+  "visual_contract_hash": "sha256:943c9248a8976d9eeb3128f1b6d60f75d7f998b90bc9ba5a42dd441c2f6feb0b",
+  "status": "ready",
+  "reference_anchors": [
+    {
+      "reference_id": "reference-02",
+      "scene_id": "slide-02",
+      "hold_id": "s2-b3",
+      "role": "baseline_keyframe",
+      "essential_invariants": ["Certificado, siete atributos y timeline completa permanecen reconocibles."],
+      "mutable_in_motion": ["Opacidad, trazado de conectores y reveal de timeline."]
+    },
+    {
+      "reference_id": "reference-02",
+      "scene_id": "slide-02",
+      "hold_id": "s2-e5",
+      "role": "enhanced_keyframe",
+      "essential_invariants": ["El contrato conserva todos sus términos y desemboca en -100, 4, 4, 4, 4 y 104 euros."],
+      "mutable_in_motion": ["Posición relativa del certificado, foco, escala y capítulo visible."
+      ]
+    },
+    {
+      "reference_id": "reference-04",
+      "scene_id": "slide-04",
+      "hold_id": "s4-b4",
+      "role": "baseline_keyframe",
+      "essential_invariants": ["Timeline, regla general y cinco términos expandidos permanecen reconocibles."],
+      "mutable_in_motion": ["Opacidad, trazado y reveal por banda."
+      ]
+    },
+    {
+      "reference_id": "reference-04",
+      "scene_id": "slide-04",
+      "hold_id": "s4-e6",
+      "role": "enhanced_keyframe",
+      "essential_invariants": ["Los cinco cash flows y sus cinco términos de descuento permanecen exactos y conectados."],
+      "mutable_in_motion": ["Foco, escala de término, trayectoria y contraste contextual."
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": "slide-02",
+      "variant": "baseline_faithful",
+      "beat_ids": ["S2-BL-01", "S2-BL-02"],
+      "persistent_objects": ["bond-certificate", "bond-terms"],
+      "initial_hold": "s2-b1",
+      "final_hold": "s2-b3"
+    },
+    {
+      "scene_id": "slide-02",
+      "variant": "enhanced_immersive",
+      "beat_ids": ["S2-EN-01", "S2-EN-02", "S2-EN-03", "S2-EN-04"],
+      "persistent_objects": ["bond-certificate", "bond-terms", "coupon-equation", "cash-flow-timeline"],
+      "initial_hold": "s2-e1",
+      "final_hold": "s2-e5"
+    },
+    {
+      "scene_id": "slide-04",
+      "variant": "baseline_faithful",
+      "beat_ids": ["S4-BL-01", "S4-BL-02", "S4-BL-03"],
+      "persistent_objects": ["discount-timeline", "cash-flow-5"],
+      "initial_hold": "s4-b1",
+      "final_hold": "s4-b4"
+    },
+    {
+      "scene_id": "slide-04",
+      "variant": "enhanced_immersive",
+      "beat_ids": ["S4-EN-01", "S4-EN-02", "S4-EN-03", "S4-EN-04", "S4-EN-05"],
+      "persistent_objects": ["discount-timeline", "cash-flow-1", "cash-flow-2", "cash-flow-3", "cash-flow-4", "cash-flow-5", "expanded-formula"],
+      "initial_hold": "s4-e1",
+      "final_hold": "s4-e6"
+    }
+  ],
+  "beats": [
+    {
+      "beat_id": "S2-BL-01",
+      "scene_id": "slide-02",
+      "variant": "baseline_faithful",
+      "source_hold": "s2-b1",
+      "target_hold": "s2-b2",
+      "persistent_identity": [
+        {
+          "object_id": "bond-certificate",
+          "source_role": "primary instrument",
+          "target_role": "primary instrument",
+          "continuity_rule": "Keep the same certificate node and geometry while callouts draw toward it."
+        }
+      ],
+      "semantic_change": "Reveal the seven contractual attributes around the concrete bond.",
+      "attention_direction": {
+        "protagonist": "bond-certificate",
+        "secondary": ["baseline-callouts"],
+        "enters": ["baseline-callouts", "baseline-connectors"],
+        "persists": ["bond-certificate", "scene-title"],
+        "dims": [],
+        "transforms": ["baseline-connectors draw from certificate to definitions"],
+        "comprehension_rationale": "Definitions remain subordinate because each connector terminates at the concrete term."
+      },
+      "transition_character": {
+        "verb": "reveal",
+        "spatial_signal": "Callouts rise 10px and their connectors draw from the certificate outward.",
+        "generic_fade_only": false,
+        "micro_motion": false,
+        "micro_motion_purpose": "No secondary micro-motion is needed in the faithful baseline."
+      },
+      "preparation": { "purpose": "Hold the certificate alone long enough to establish the object.", "changes": [] },
+      "action": { "purpose": "Reveal definitions in a radial reading order.", "changes": ["Draw connectors.", "Lift callouts into place."] },
+      "resolution": { "purpose": "Restore full sharpness and stop all movement.", "changes": ["Settle callouts and paths."] },
+      "timing": { "duration_ms": 620, "preparation_ms": 100, "action_ms": 400, "resolution_ms": 120 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "Fast comprehension-oriented arrival without bounce." },
+      "stagger": { "used": true, "delay_ms": 35, "order": ["left callouts", "right callouts"], "justification": "The order mirrors the established reading path." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s2-b1", "s2-b2"], "settle_strategy": "Resolve to the nearest source or target hold before accepting the queued input." },
+      "reverse": { "supported": true, "behavior": "Retract connectors and remove callouts while preserving the certificate.", "target_hold": "s2-b1" },
+      "reset": { "supported": true, "target_hold": "s2-b1", "idempotent": true },
+      "continuity_invariants": ["The certificate never remounts or disappears."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Connector paths could cross foreign labels if route ownership drifts."
+      ]
+    },
+    {
+      "beat_id": "S2-BL-02",
+      "scene_id": "slide-02",
+      "variant": "baseline_faithful",
+      "source_hold": "s2-b2",
+      "target_hold": "s2-b3",
+      "persistent_identity": [
+        {
+          "object_id": "bond-certificate",
+          "source_role": "primary instrument",
+          "target_role": "primary instrument above timeline",
+          "continuity_rule": "Keep the same node while the timeline unfolds beneath it."
+        }
+      ],
+      "semantic_change": "Translate contractual terms into investor cash flows.",
+      "attention_direction": {
+        "protagonist": "cash-flow-timeline",
+        "secondary": ["bond-certificate", "baseline-callouts"],
+        "enters": ["cash-flow-timeline"],
+        "persists": ["bond-certificate", "baseline-callouts"],
+        "dims": ["baseline-callouts"],
+        "transforms": ["timeline rail draws left to right and payment nodes rise"],
+        "comprehension_rationale": "The eye moves from the contract into the exact payment sequence."
+      },
+      "transition_character": {
+        "verb": "connect",
+        "spatial_signal": "Draw the rail left-to-right and lift each payment from its time node.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "One finite pulse marks the exceptional 104 euro maturity payment."
+      },
+      "preparation": { "purpose": "Reduce callout contrast to free the lower reading lane.", "changes": ["Dim callout borders."] },
+      "action": { "purpose": "Construct the time sequence.", "changes": ["Draw rail.", "Reveal -100, four coupons and 104 in order."] },
+      "resolution": { "purpose": "Stop at the faithful reference frame.", "changes": ["Settle every timeline node."] },
+      "timing": { "duration_ms": 700, "preparation_ms": 120, "action_ms": 460, "resolution_ms": 120 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "The rail draws continuously and payments land softly." },
+      "stagger": { "used": true, "delay_ms": 45, "order": ["today", "1Y", "2Y", "3Y", "4Y", "5Y"], "justification": "Chronology carries meaning." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s2-b2", "s2-b3"], "settle_strategy": "Snap to the nearest complete timeline state before the next command." },
+      "reverse": { "supported": true, "behavior": "Retract payments in reverse chronology and restore callout contrast.", "target_hold": "s2-b2" },
+      "reset": { "supported": true, "target_hold": "s2-b1", "idempotent": true },
+      "continuity_invariants": ["The certificate remains visible while the timeline is built."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Timeline labels may collide after downsample; baseline reports this honestly."
+      ]
+    },
+    {
+      "beat_id": "S2-EN-01",
+      "scene_id": "slide-02",
+      "variant": "enhanced_immersive",
+      "source_hold": "s2-e1",
+      "target_hold": "s2-e2",
+      "persistent_identity": [
+        {
+          "object_id": "bond-certificate",
+          "source_role": "sole protagonist",
+          "target_role": "supporting contract",
+          "continuity_rule": "Use FLIP on the same DOM node if its workbench footprint changes."
+        }
+      ],
+      "semantic_change": "Reveal who promises payment and what the investor pays today.",
+      "attention_direction": {
+        "protagonist": "entry-chapter",
+        "secondary": ["issuer-term", "price-term", "bond-certificate"],
+        "enters": ["entry-chapter", "entry-connector"],
+        "persists": ["bond-certificate"],
+        "dims": ["non-entry bond terms"],
+        "transforms": ["issuer and price rows receive a shared cyan focus rail"],
+        "comprehension_rationale": "The first relation is an exchange: price today for an issuer promise."
+      },
+      "transition_character": {
+        "verb": "focus",
+        "spatial_signal": "The certificate shifts slightly left while the entry chapter opens on the right and connects back to two rows.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "A finite focus sweep binds issuer and price as one relation."
+      },
+      "preparation": { "purpose": "Create room and lower irrelevant contrast.", "changes": ["Dim non-entry terms.", "Shift certificate within its owned region."] },
+      "action": { "purpose": "Open the first semantic chapter.", "changes": ["Reveal entry chapter.", "Draw connector to issuer and price."] },
+      "resolution": { "purpose": "Settle a two-part relation.", "changes": ["Stop sweep and retain stable focus rail."] },
+      "timing": { "duration_ms": 680, "preparation_ms": 120, "action_ms": 430, "resolution_ms": 130 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "The workbench opens decisively without overshoot." },
+      "stagger": { "used": true, "delay_ms": 60, "order": ["issuer", "price"], "justification": "Promise precedes payment in the explanation." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s2-e1", "s2-e2"], "settle_strategy": "Complete or roll back the workbench shift, then execute the queued command." },
+      "reverse": { "supported": true, "behavior": "Close the entry chapter, clear its connector and restore all certificate terms.", "target_hold": "s2-e1" },
+      "reset": { "supported": true, "target_hold": "s2-e1", "idempotent": true },
+      "continuity_invariants": ["One certificate node persists.", "Issuer and price text never duplicate."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["The entry connector must retain six pixels of clearance from all foreign labels."
+      ]
+    },
+    {
+      "beat_id": "S2-EN-02",
+      "scene_id": "slide-02",
+      "variant": "enhanced_immersive",
+      "source_hold": "s2-e2",
+      "target_hold": "s2-e3",
+      "persistent_identity": [
+        {
+          "object_id": "bond-certificate",
+          "source_role": "supporting contract",
+          "target_role": "supporting contract",
+          "continuity_rule": "Keep its geometry stable; only term focus changes."
+        },
+        {
+          "object_id": "coupon-equation",
+          "source_role": "absent",
+          "target_role": "primary mechanism",
+          "continuity_rule": "Create once in its lower-band owner and retain it for later holds."
+        }
+      ],
+      "semantic_change": "Transform coupon rate and notional into a four-euro annual payment.",
+      "attention_direction": {
+        "protagonist": "coupon-equation",
+        "secondary": ["coupon-term", "notional-term", "frequency-term"],
+        "enters": ["income-chapter", "coupon-equation"],
+        "persists": ["bond-certificate"],
+        "dims": ["entry-chapter", "issuer-term", "price-term"],
+        "transforms": ["4 percent and 100 euro tokens travel into 4 percent × 100 euro = 4 euro annually"],
+        "comprehension_rationale": "The key ambiguity disappears when the percentage visibly becomes money."
+      },
+      "transition_character": {
+        "verb": "transform",
+        "spatial_signal": "Coupon and notional tokens descend into the equation and the result lands with one restrained ring.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "A single result pulse confirms the arithmetic, then stops."
+      },
+      "preparation": { "purpose": "Close the entry chapter and isolate coupon inputs.", "changes": ["Dim entry relation.", "Highlight coupon, notional and frequency rows."] },
+      "action": { "purpose": "Build the payment equation.", "changes": ["Transfer rate token.", "Transfer notional token.", "Reveal result and annual cadence."] },
+      "resolution": { "purpose": "Stabilize the equation as the new protagonist.", "changes": ["Stop pulse.", "Retain equation for downstream continuity."] },
+      "timing": { "duration_ms": 820, "preparation_ms": 140, "action_ms": 540, "resolution_ms": 140 },
+      "easing": { "curve": "cubic-bezier(0.16, 1, 0.3, 1)", "rationale": "Token transfer reads as deliberate convergence into one result." },
+      "stagger": { "used": true, "delay_ms": 90, "order": ["coupon rate", "notional", "result", "frequency"], "justification": "The arithmetic order carries the mechanism." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s2-e2", "s2-e3"], "settle_strategy": "Finish token transfer atomically or restore both tokens to the certificate." },
+      "reverse": { "supported": true, "behavior": "Return conceptual tokens to their certificate rows and reopen the entry chapter.", "target_hold": "s2-e2" },
+      "reset": { "supported": true, "target_hold": "s2-e1", "idempotent": true },
+      "continuity_invariants": ["Coupon means 4 percent; coupon payment means 4 euros.", "No duplicated visible token at settle states."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Token paths may cross the certificate subtitle on mobile if vertical ownership is lost."
+      ]
+    },
+    {
+      "beat_id": "S2-EN-03",
+      "scene_id": "slide-02",
+      "variant": "enhanced_immersive",
+      "source_hold": "s2-e3",
+      "target_hold": "s2-e4",
+      "persistent_identity": [
+        {
+          "object_id": "coupon-equation",
+          "source_role": "primary mechanism",
+          "target_role": "supporting recurring payment",
+          "continuity_rule": "Move to supporting contrast without remounting."
+        },
+        {
+          "object_id": "bond-certificate",
+          "source_role": "supporting contract",
+          "target_role": "supporting contract",
+          "continuity_rule": "Keep geometry fixed and move focus to face value plus maturity."
+        }
+      ],
+      "semantic_change": "Separate recurring coupon from principal returned at maturity.",
+      "attention_direction": {
+        "protagonist": "exit-chapter",
+        "secondary": ["face-value-term", "maturity-term", "coupon-equation"],
+        "enters": ["exit-chapter"],
+        "persists": ["bond-certificate", "coupon-equation"],
+        "dims": ["income-chapter", "coupon-term", "notional-term"],
+        "transforms": ["4 euro result joins 100 euro principal to preview 104 euro"],
+        "comprehension_rationale": "Maturity becomes a separate semantic event instead of another coupon."
+      },
+      "transition_character": {
+        "verb": "connect",
+        "spatial_signal": "A lime principal token joins the cyan coupon result inside the exit chapter.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "A finite merge confirms 4 + 100 = 104."
+      },
+      "preparation": { "purpose": "Lower the recurring-payment chapter.", "changes": ["Reduce equation contrast while preserving its result."] },
+      "action": { "purpose": "Introduce principal and maturity.", "changes": ["Reveal exit chapter.", "Join 4 and 100 tokens into 104."] },
+      "resolution": { "purpose": "Hold the distinction between recurring and final payment.", "changes": ["Settle 104 and stop merge highlight."] },
+      "timing": { "duration_ms": 720, "preparation_ms": 120, "action_ms": 470, "resolution_ms": 130 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "The principal arrives with weight but no theatrical overshoot." },
+      "stagger": { "used": true, "delay_ms": 80, "order": ["maturity", "face value", "104 result"], "justification": "Time condition precedes the returned amount." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s2-e3", "s2-e4"], "settle_strategy": "Complete or undo the 4 plus 100 merge atomically." },
+      "reverse": { "supported": true, "behavior": "Split 104 back into recurring coupon context and remove the exit chapter.", "target_hold": "s2-e3" },
+      "reset": { "supported": true, "target_hold": "s2-e1", "idempotent": true },
+      "continuity_invariants": ["Face value remains 100 euros and appears only in the exit relation."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["The 104 result and exit label may compete on the 390x219 surface."
+      ]
+    },
+    {
+      "beat_id": "S2-EN-04",
+      "scene_id": "slide-02",
+      "variant": "enhanced_immersive",
+      "source_hold": "s2-e4",
+      "target_hold": "s2-e5",
+      "persistent_identity": [
+        {
+          "object_id": "bond-certificate",
+          "source_role": "supporting contract",
+          "target_role": "compact source object",
+          "continuity_rule": "Use the same node and compact it within its visual-owned region."
+        },
+        {
+          "object_id": "coupon-equation",
+          "source_role": "supporting recurring payment",
+          "target_role": "supporting derivation",
+          "continuity_rule": "Keep the same equation node above the timeline."
+        },
+        {
+          "object_id": "cash-flow-timeline",
+          "source_role": "absent",
+          "target_role": "primary payment sequence",
+          "continuity_rule": "Create once, then preserve all payment node IDs."
+        }
+      ],
+      "semantic_change": "Unfold the entire contract into the investor cash-flow timeline.",
+      "attention_direction": {
+        "protagonist": "cash-flow-timeline",
+        "secondary": ["bond-certificate", "coupon-equation"],
+        "enters": ["cash-flow-timeline"],
+        "persists": ["bond-certificate", "coupon-equation"],
+        "dims": ["exit-chapter", "semantic-chapters"],
+        "transforms": ["price becomes the today node", "coupon result repeats at years one to four", "104 result becomes year five"],
+        "comprehension_rationale": "The final hold reveals that every cash flow came from a term already understood."
+      },
+      "transition_character": {
+        "verb": "transfer",
+        "spatial_signal": "Three conceptual tokens land on the rail before the repeated coupon nodes propagate chronologically.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "One finite rail sweep establishes chronology and stops at maturity."
+      },
+      "preparation": { "purpose": "Close semantic chapters and clear the lower band.", "changes": ["Remove chapter from layout.", "Compact certificate."] },
+      "action": { "purpose": "Transfer contract outputs to time.", "changes": ["Place -100 today.", "Propagate four coupon payments.", "Place 104 at 5Y."] },
+      "resolution": { "purpose": "Stabilize the complete investor timeline.", "changes": ["Stop rail sweep.", "Restore secondary certificate sharpness."] },
+      "timing": { "duration_ms": 900, "preparation_ms": 140, "action_ms": 610, "resolution_ms": 150 },
+      "easing": { "curve": "cubic-bezier(0.16, 1, 0.3, 1)", "rationale": "The unfolding feels continuous while each payment remains attributable." },
+      "stagger": { "used": true, "delay_ms": 70, "order": ["today", "1Y", "2Y", "3Y", "4Y", "5Y"], "justification": "Chronology is the semantic order." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s2-e4", "s2-e5"], "settle_strategy": "Complete all timeline nodes or retract all; never leave a partial settled hold." },
+      "reverse": { "supported": true, "behavior": "Retract the rail and restore the exit chapter with 104 decomposed.", "target_hold": "s2-e4" },
+      "reset": { "supported": true, "target_hold": "s2-e1", "idempotent": true },
+      "continuity_invariants": ["Exactly one visible node per cash-flow ID.", "Certificate remains visible throughout."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Coupon node propagation may overlap labels if mobile gaps are not applied."
+      ]
+    },
+    {
+      "beat_id": "S4-BL-01",
+      "scene_id": "slide-04",
+      "variant": "baseline_faithful",
+      "source_hold": "s4-b1",
+      "target_hold": "s4-b2",
+      "persistent_identity": [
+        {
+          "object_id": "discount-timeline",
+          "source_role": "primary cash flows",
+          "target_role": "supporting cash flows",
+          "continuity_rule": "Keep timeline geometry fixed while maturity gains emphasis."
+        }
+      ],
+      "semantic_change": "Explain why the fifth cash flow is 104 euros.",
+      "attention_direction": {
+        "protagonist": "maturity-breakdown",
+        "secondary": ["cash-flow-5", "discount-timeline"],
+        "enters": ["maturity-breakdown"],
+        "persists": ["discount-timeline", "scene-title"],
+        "dims": ["cash-flow-1", "cash-flow-2", "cash-flow-3", "cash-flow-4"],
+        "transforms": ["cash-flow-5 receives a lime connector to the breakdown"],
+        "comprehension_rationale": "The exception at maturity is isolated before algebra appears."
+      },
+      "transition_character": {
+        "verb": "focus",
+        "spatial_signal": "The fifth node receives a finite ring and the side breakdown slides along its connector.",
+        "generic_fade_only": false,
+        "micro_motion": false,
+        "micro_motion_purpose": "No extra motion beyond the semantic focus."
+      },
+      "preparation": { "purpose": "Dim recurring coupons.", "changes": ["Reduce t1–t4 contrast."] },
+      "action": { "purpose": "Reveal the maturity calculation.", "changes": ["Draw connector.", "Reveal 4 + 100 = 104."] },
+      "resolution": { "purpose": "Hold the maturity exception.", "changes": ["Settle callout and ring."] },
+      "timing": { "duration_ms": 600, "preparation_ms": 100, "action_ms": 380, "resolution_ms": 120 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "Direct arrival maintains the faithful baseline." },
+      "stagger": { "used": true, "delay_ms": 70, "order": ["connector", "breakdown"], "justification": "The source appears before its explanation." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s4-b1", "s4-b2"], "settle_strategy": "Resolve the callout fully or remove it before queued input." },
+      "reverse": { "supported": true, "behavior": "Remove breakdown and restore equal timeline contrast.", "target_hold": "s4-b1" },
+      "reset": { "supported": true, "target_hold": "s4-b1", "idempotent": true },
+      "continuity_invariants": ["The fifth cash-flow node never duplicates."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Side callout may collide with timeline on narrow downsample."
+      ]
+    },
+    {
+      "beat_id": "S4-BL-02",
+      "scene_id": "slide-04",
+      "variant": "baseline_faithful",
+      "source_hold": "s4-b2",
+      "target_hold": "s4-b3",
+      "persistent_identity": [
+        {
+          "object_id": "discount-timeline",
+          "source_role": "supporting cash flows",
+          "target_role": "supporting cash flows",
+          "continuity_rule": "Remain fixed above the formula."
+        }
+      ],
+      "semantic_change": "Introduce the general present-value rule.",
+      "attention_direction": {
+        "protagonist": "general-formula",
+        "secondary": ["discount-timeline", "maturity-breakdown"],
+        "enters": ["general-formula"],
+        "persists": ["discount-timeline", "maturity-breakdown"],
+        "dims": ["example-ribbon"],
+        "transforms": ["formula panel rises from the lower safe area"],
+        "comprehension_rationale": "The symbolic rule arrives only after the numerators are understood."
+      },
+      "transition_character": {
+        "verb": "reveal",
+        "spatial_signal": "The formula panel rises and its fraction bar draws from center outward.",
+        "generic_fade_only": false,
+        "micro_motion": false,
+        "micro_motion_purpose": "The mathematical draw is the only required movement."
+      },
+      "preparation": { "purpose": "Free the formula band.", "changes": ["Reduce ribbon contrast."] },
+      "action": { "purpose": "Build the symbolic rule.", "changes": ["Lift panel.", "Draw fraction and definitions."] },
+      "resolution": { "purpose": "Settle the general rule.", "changes": ["Stop fraction draw."] },
+      "timing": { "duration_ms": 700, "preparation_ms": 120, "action_ms": 450, "resolution_ms": 130 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "The panel arrives with calm editorial weight." },
+      "stagger": { "used": true, "delay_ms": 60, "order": ["formula", "CF definition", "r definition"], "justification": "Expression precedes notation support." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s4-b2", "s4-b3"], "settle_strategy": "Complete or remove the entire formula panel." },
+      "reverse": { "supported": true, "behavior": "Lower the formula panel and restore ribbon contrast.", "target_hold": "s4-b2" },
+      "reset": { "supported": true, "target_hold": "s4-b1", "idempotent": true },
+      "continuity_invariants": ["Timeline and maturity breakdown remain geometrically stable."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["General formula definitions may collide after downsample."
+      ]
+    },
+    {
+      "beat_id": "S4-BL-03",
+      "scene_id": "slide-04",
+      "variant": "baseline_faithful",
+      "source_hold": "s4-b3",
+      "target_hold": "s4-b4",
+      "persistent_identity": [
+        {
+          "object_id": "discount-timeline",
+          "source_role": "supporting cash flows",
+          "target_role": "supporting cash flows",
+          "continuity_rule": "Remain fixed while the expanded expression appears."
+        }
+      ],
+      "semantic_change": "Expand the general sum into the five concrete discounted terms.",
+      "attention_direction": {
+        "protagonist": "expanded-formula",
+        "secondary": ["general-formula", "discount-timeline"],
+        "enters": ["expanded-formula"],
+        "persists": ["general-formula", "discount-timeline", "maturity-breakdown"],
+        "dims": ["maturity-breakdown"],
+        "transforms": ["five terms reveal in chronological order"],
+        "comprehension_rationale": "The faithful final frame makes the compact rule concrete."
+      },
+      "transition_character": {
+        "verb": "accumulate",
+        "spatial_signal": "The lower formula surface expands and terms rise in chronological order.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "One finite lime emphasis marks the final 104 term."
+      },
+      "preparation": { "purpose": "Lower maturity callout contrast.", "changes": ["Dim side callout."] },
+      "action": { "purpose": "Reveal all five terms.", "changes": ["Expand formula surface.", "Reveal terms t1 through t5."] },
+      "resolution": { "purpose": "Stop at the reference-like money frame.", "changes": ["Settle all terms and remove active animation."] },
+      "timing": { "duration_ms": 800, "preparation_ms": 120, "action_ms": 540, "resolution_ms": 140 },
+      "easing": { "curve": "cubic-bezier(0.16, 1, 0.3, 1)", "rationale": "The formula grows without bounce and preserves chronology." },
+      "stagger": { "used": true, "delay_ms": 65, "order": ["t1", "t2", "t3", "t4", "t5"], "justification": "Each term maps to a time point." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s4-b3", "s4-b4"], "settle_strategy": "Complete all five terms or remove the expanded surface." },
+      "reverse": { "supported": true, "behavior": "Retract terms from t5 to t1 and restore the maturity callout.", "target_hold": "s4-b3" },
+      "reset": { "supported": true, "target_hold": "s4-b1", "idempotent": true },
+      "continuity_invariants": ["Term numerators and denominators remain exact."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Five terms compete for width in the faithful mobile baseline."
+      ]
+    },
+    {
+      "beat_id": "S4-EN-01",
+      "scene_id": "slide-04",
+      "variant": "enhanced_immersive",
+      "source_hold": "s4-e1",
+      "target_hold": "s4-e2",
+      "persistent_identity": [
+        {
+          "object_id": "cash-flow-5",
+          "source_role": "final payment node",
+          "target_role": "source of maturity breakdown",
+          "continuity_rule": "Keep the same node and connect it to the new breakdown."
+        },
+        {
+          "object_id": "discount-timeline",
+          "source_role": "primary cash-flow sequence",
+          "target_role": "supporting sequence",
+          "continuity_rule": "Do not remount or move its five time columns."
+        }
+      ],
+      "semantic_change": "Decompose 104 into coupon plus principal before discounting.",
+      "attention_direction": {
+        "protagonist": "maturity-breakdown",
+        "secondary": ["cash-flow-5", "coupon-group"],
+        "enters": ["maturity-breakdown", "maturity-connector"],
+        "persists": ["discount-timeline"],
+        "dims": ["cash-flow-1", "cash-flow-2", "cash-flow-3", "cash-flow-4"],
+        "transforms": ["104 splits visually into 4 coupon plus 100 principal"],
+        "comprehension_rationale": "The exceptional numerator is explained before any denominator appears."
+      },
+      "transition_character": {
+        "verb": "decompose",
+        "spatial_signal": "The 104 token expands into two color-coded chips and a connector preserves its origin.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "A finite split motion distinguishes coupon and principal."
+      },
+      "preparation": { "purpose": "Create a clean focus lane at maturity.", "changes": ["Dim t1–t4."] },
+      "action": { "purpose": "Split the final payment.", "changes": ["Draw maturity connector.", "Separate 4 and 100 chips."] },
+      "resolution": { "purpose": "Hold 104 = 4 + 100 as one stable relation.", "changes": ["Stop split and retain lime principal chip."] },
+      "timing": { "duration_ms": 700, "preparation_ms": 110, "action_ms": 460, "resolution_ms": 130 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "The split reads quickly without spectacle." },
+      "stagger": { "used": true, "delay_ms": 70, "order": ["104 source", "4 coupon", "100 principal"], "justification": "Whole precedes its parts." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s4-e1", "s4-e2"], "settle_strategy": "Complete or undo the split atomically." },
+      "reverse": { "supported": true, "behavior": "Merge the parts back into 104 and restore equal timeline contrast.", "target_hold": "s4-e1" },
+      "reset": { "supported": true, "target_hold": "s4-e1", "idempotent": true },
+      "continuity_invariants": ["Cash-flow-5 remains a single persistent node.", "Principal appears only at maturity."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Breakdown chips and t5 label share a narrow mobile column."
+      ]
+    },
+    {
+      "beat_id": "S4-EN-02",
+      "scene_id": "slide-04",
+      "variant": "enhanced_immersive",
+      "source_hold": "s4-e2",
+      "target_hold": "s4-e3",
+      "persistent_identity": [
+        {
+          "object_id": "cash-flow-1",
+          "source_role": "timeline payment",
+          "target_role": "source of first discount term",
+          "continuity_rule": "Keep the timeline node while a lightweight semantic token travels to its formula slot."
+        },
+        {
+          "object_id": "discount-timeline",
+          "source_role": "supporting cash flows",
+          "target_role": "supporting cash flows",
+          "continuity_rule": "Timeline columns stay fixed."
+        }
+      ],
+      "semantic_change": "Map the first cash flow to 4 divided by (1+r1) to the power one.",
+      "attention_direction": {
+        "protagonist": "discount-term-1",
+        "secondary": ["cash-flow-1", "discount-rule"],
+        "enters": ["discount-rule", "discount-term-1", "flow-to-term-tracer"],
+        "persists": ["discount-timeline"],
+        "dims": ["maturity-breakdown", "cash-flow-2", "cash-flow-3", "cash-flow-4", "cash-flow-5"],
+        "transforms": ["4 euro token follows the t1 column into its discounted term"],
+        "comprehension_rationale": "One concrete mapping establishes the rule before accumulation."
+      },
+      "transition_character": {
+        "verb": "transfer",
+        "spatial_signal": "A tracer descends inside the t1 column and lands as the numerator above a drawn fraction bar.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "A single landing pulse confirms identity between payment and numerator."
+      },
+      "preparation": { "purpose": "Close the maturity breakdown and isolate t1.", "changes": ["Remove breakdown from layout.", "Focus t1 column."] },
+      "action": { "purpose": "Build the first discounted term.", "changes": ["Draw tracer.", "Land numerator.", "Draw denominator and exponent."] },
+      "resolution": { "purpose": "Stabilize one complete mapping.", "changes": ["Stop tracer and retain column focus."] },
+      "timing": { "duration_ms": 880, "preparation_ms": 140, "action_ms": 590, "resolution_ms": 150 },
+      "easing": { "curve": "cubic-bezier(0.16, 1, 0.3, 1)", "rationale": "The tracer starts deliberately and lands with precision." },
+      "stagger": { "used": true, "delay_ms": 85, "order": ["numerator", "fraction bar", "denominator", "exponent"], "justification": "The fraction is assembled in reading order." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s4-e2", "s4-e3"], "settle_strategy": "Complete the first term or remove tracer and term together." },
+      "reverse": { "supported": true, "behavior": "Retract the term into t1 and restore the maturity breakdown.", "target_hold": "s4-e2" },
+      "reset": { "supported": true, "target_hold": "s4-e1", "idempotent": true },
+      "continuity_invariants": ["The visible timeline node never disappears during transfer.", "No second cash-flow-1 node persists after settle."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["The tracer must not cross the discount-rule label."
+      ]
+    },
+    {
+      "beat_id": "S4-EN-03",
+      "scene_id": "slide-04",
+      "variant": "enhanced_immersive",
+      "source_hold": "s4-e3",
+      "target_hold": "s4-e4",
+      "persistent_identity": [
+        {
+          "object_id": "cash-flow-1",
+          "source_role": "focused source payment",
+          "target_role": "first member of coupon group",
+          "continuity_rule": "Retain its column and normalize focus as terms two through four accumulate."
+        }
+      ],
+      "semantic_change": "Accumulate the four coupon terms with their own periods and rates.",
+      "attention_direction": {
+        "protagonist": "coupon-term-group",
+        "secondary": ["cash-flow-1", "cash-flow-2", "cash-flow-3", "cash-flow-4", "discount-rule"],
+        "enters": ["discount-term-2", "discount-term-3", "discount-term-4"],
+        "persists": ["discount-term-1", "discount-timeline", "discount-rule"],
+        "dims": ["cash-flow-5"],
+        "transforms": ["three additional coupon columns connect to their formula slots"],
+        "comprehension_rationale": "Repetition reveals the general pattern without animating five unrelated events at once."
+      },
+      "transition_character": {
+        "verb": "accumulate",
+        "spatial_signal": "Terms two through four rise in chronological order inside fixed columns.",
+        "generic_fade_only": false,
+        "micro_motion": false,
+        "micro_motion_purpose": "Chronological stagger is sufficient; no extra pulse."
+      },
+      "preparation": { "purpose": "Normalize t1 as the pattern seed.", "changes": ["Reduce exclusive t1 ring while preserving sharpness."] },
+      "action": { "purpose": "Replicate the discount structure for t2–t4.", "changes": ["Draw each fraction in order.", "Reveal plus signs only after adjacent terms exist."] },
+      "resolution": { "purpose": "Hold four comparable coupon terms.", "changes": ["Set equal coupon-term contrast."] },
+      "timing": { "duration_ms": 900, "preparation_ms": 130, "action_ms": 620, "resolution_ms": 150 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "Each term arrives briskly while the group remains calm." },
+      "stagger": { "used": true, "delay_ms": 110, "order": ["t2", "t3", "t4"], "justification": "Chronology and repeated structure carry meaning." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s4-e3", "s4-e4"], "settle_strategy": "Complete all three new terms or return to the single t1 term." },
+      "reverse": { "supported": true, "behavior": "Remove terms t4 to t2 and restore exclusive focus to t1.", "target_hold": "s4-e3" },
+      "reset": { "supported": true, "target_hold": "s4-e1", "idempotent": true },
+      "continuity_invariants": ["Every term retains its own t and r subscript.", "At most one term enters at a time under stagger."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Plus signs and fraction bounds require contracted gaps on mobile."
+      ]
+    },
+    {
+      "beat_id": "S4-EN-04",
+      "scene_id": "slide-04",
+      "variant": "enhanced_immersive",
+      "source_hold": "s4-e4",
+      "target_hold": "s4-e5",
+      "persistent_identity": [
+        {
+          "object_id": "cash-flow-5",
+          "source_role": "dimmed final payment",
+          "target_role": "source of final discount term",
+          "continuity_rule": "Increase contrast on the same t5 node and reconnect it to the formula."
+        },
+        {
+          "object_id": "expanded-formula",
+          "source_role": "four-term partial sum",
+          "target_role": "five-term sum with t5 protagonist",
+          "continuity_rule": "Append one term to the same formula builder."
+        }
+      ],
+      "semantic_change": "Add the 104-euro maturity payment as the fifth discounted term.",
+      "attention_direction": {
+        "protagonist": "discount-term-5",
+        "secondary": ["cash-flow-5", "maturity-breakdown"],
+        "enters": ["discount-term-5", "maturity-breakdown"],
+        "persists": ["discount-timeline", "discount-rule", "coupon-term-group"],
+        "dims": ["coupon-term-group"],
+        "transforms": ["104 token descends into 104 divided by (1+r5) to the power five"],
+        "comprehension_rationale": "The final term is exceptional only in its numerator; the discount mechanism is identical."
+      },
+      "transition_character": {
+        "verb": "transfer",
+        "spatial_signal": "A lime tracer descends from t5 into the final formula slot while prior terms become context.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "One finite lime landing pulse emphasizes returned principal."
+      },
+      "preparation": { "purpose": "Reserve visual focus for t5.", "changes": ["Dim four coupon terms.", "Highlight t5 node."] },
+      "action": { "purpose": "Build the final discounted term.", "changes": ["Reveal maturity breakdown.", "Transfer 104.", "Draw denominator and exponent five."] },
+      "resolution": { "purpose": "Hold the full sum with t5 still primary.", "changes": ["Stop tracer and landing pulse."] },
+      "timing": { "duration_ms": 800, "preparation_ms": 130, "action_ms": 530, "resolution_ms": 140 },
+      "easing": { "curve": "cubic-bezier(0.16, 1, 0.3, 1)", "rationale": "The final term lands with controlled weight." },
+      "stagger": { "used": true, "delay_ms": 80, "order": ["104", "fraction bar", "denominator", "maturity breakdown"], "justification": "The known cash flow precedes its discount structure and explanation." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s4-e4", "s4-e5"], "settle_strategy": "Append or remove the entire t5 term atomically." },
+      "reverse": { "supported": true, "behavior": "Retract t5 into the timeline and restore the four-term coupon group.", "target_hold": "s4-e4" },
+      "reset": { "supported": true, "target_hold": "s4-e1", "idempotent": true },
+      "continuity_invariants": ["104 stays exact.", "Principal remains absent from terms t1–t4."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Maturity breakdown must vacate the formula owner on 390x219."
+      ]
+    },
+    {
+      "beat_id": "S4-EN-05",
+      "scene_id": "slide-04",
+      "variant": "enhanced_immersive",
+      "source_hold": "s4-e5",
+      "target_hold": "s4-e6",
+      "persistent_identity": [
+        {
+          "object_id": "expanded-formula",
+          "source_role": "five-term sum with t5 protagonist",
+          "target_role": "complete primary valuation",
+          "continuity_rule": "Keep all five terms and normalize their hierarchy within the same builder."
+        },
+        {
+          "object_id": "discount-timeline",
+          "source_role": "supporting source with t5 focus",
+          "target_role": "supporting complete source sequence",
+          "continuity_rule": "Restore equal timeline readability without moving columns."
+        }
+      ],
+      "semantic_change": "Resolve the five mappings into one complete price-today equation.",
+      "attention_direction": {
+        "protagonist": "expanded-formula",
+        "secondary": ["discount-timeline", "discount-rule"],
+        "enters": ["price-today-label"],
+        "persists": ["discount-term-1", "discount-term-2", "discount-term-3", "discount-term-4", "discount-term-5", "discount-timeline"],
+        "dims": ["maturity-breakdown"],
+        "transforms": ["term hierarchy normalizes and the complete equality receives a single focus frame"],
+        "comprehension_rationale": "The viewer can now read the whole equation after understanding every part."
+      },
+      "transition_character": {
+        "verb": "focus",
+        "spatial_signal": "The five-term builder recenters, maturity breakdown exits and a thin focus frame encloses the complete equation.",
+        "generic_fade_only": false,
+        "micro_motion": true,
+        "micro_motion_purpose": "A finite frame draw marks completion and then stops."
+      },
+      "preparation": { "purpose": "Remove local t5 focus and the side explanation.", "changes": ["Exit maturity breakdown.", "Normalize t5 scale."] },
+      "action": { "purpose": "Present one coherent valuation.", "changes": ["Recenter formula.", "Reveal Precio hoy equals label.", "Draw completion frame."] },
+      "resolution": { "purpose": "Hold the complete formula indefinitely.", "changes": ["Stop frame draw and restore timeline context."] },
+      "timing": { "duration_ms": 760, "preparation_ms": 120, "action_ms": 500, "resolution_ms": 140 },
+      "easing": { "curve": "cubic-bezier(0.22, 1, 0.36, 1)", "rationale": "The final composition resolves rather than celebrates." },
+      "stagger": { "used": false, "delay_ms": 0, "order": [], "justification": "The equation is already built; simultaneous normalization communicates one complete object." },
+      "interruptibility": { "interruptible": true, "safe_states": ["s4-e5", "s4-e6"], "settle_strategy": "Complete or undo the final framing as one operation." },
+      "reverse": { "supported": true, "behavior": "Remove the completion frame and restore local focus to t5 with its maturity breakdown.", "target_hold": "s4-e5" },
+      "reset": { "supported": true, "target_hold": "s4-e1", "idempotent": true },
+      "continuity_invariants": ["All five term nodes remain present and exact.", "No formula duplicate appears during recentering."],
+      "simultaneity_limit": 2,
+      "overlap_risks": ["Two-row mobile recentering must not merge fraction bounds or plus signs."
+      ]
+    }
+  ],
+  "attention_rules": [
+    "Maintain exactly one primary protagonist per settled hold and sampled transition.",
+    "Dim context only after the next primary is spatially established.",
+    "Use cyan for structure and recurring cash flows; reserve lime for principal and maturity.",
+    "End every focus treatment before the indefinite hold begins.",
+    "Never animate more than two material changes simultaneously."
+  ],
+  "focus_moments": [
+    { "beat_id": "S2-EN-01", "object_id": "entry-chapter", "treatment": "Finite cyan focus sweep and connector draw.", "purpose": "Bind issuer promise and price today." },
+    { "beat_id": "S2-EN-02", "object_id": "coupon-equation", "treatment": "Token convergence plus one restrained result ring.", "purpose": "Make 4 percent × 100 euros = 4 euros explicit." },
+    { "beat_id": "S2-EN-03", "object_id": "exit-chapter", "treatment": "Lime principal merge into 104.", "purpose": "Separate maturity from recurring coupons." },
+    { "beat_id": "S2-EN-04", "object_id": "cash-flow-timeline", "treatment": "Left-to-right rail sweep and chronological node landing.", "purpose": "Translate the contract into payments." },
+    { "beat_id": "S4-EN-01", "object_id": "maturity-breakdown", "treatment": "Split 104 into cyan 4 and lime 100.", "purpose": "Explain the exceptional final numerator." },
+    { "beat_id": "S4-EN-02", "object_id": "discount-term-1", "treatment": "Vertical tracer and fraction assembly.", "purpose": "Teach one complete discount mapping." },
+    { "beat_id": "S4-EN-03", "object_id": "coupon-term-group", "treatment": "Chronological accumulation without glow.", "purpose": "Generalize the repeated coupon pattern." },
+    { "beat_id": "S4-EN-04", "object_id": "discount-term-5", "treatment": "Lime tracer and finite landing pulse.", "purpose": "Insert principal at maturity only." },
+    { "beat_id": "S4-EN-05", "object_id": "expanded-formula", "treatment": "Recentering and thin completion-frame draw.", "purpose": "Resolve the mechanism into one valuation."
+    }
+  ],
+  "breathing_moments": [
+    { "hold_id": "s2-e1", "stable_relationship": "One concrete bond is the object of study.", "release_condition": "presenter_advance" },
+    { "hold_id": "s2-e2", "stable_relationship": "Issuer promise and investor price are one entry relation.", "release_condition": "presenter_advance" },
+    { "hold_id": "s2-e3", "stable_relationship": "4 percent of 100 euros produces 4 euros annually.", "release_condition": "presenter_advance" },
+    { "hold_id": "s2-e4", "stable_relationship": "Maturity returns 4 euros coupon plus 100 euros principal.", "release_condition": "presenter_advance" },
+    { "hold_id": "s2-e5", "stable_relationship": "The complete contract has become an investor cash-flow timeline.", "release_condition": "presenter_advance" },
+    { "hold_id": "s4-e1", "stable_relationship": "Five concrete future payments await discounting.", "release_condition": "presenter_advance" },
+    { "hold_id": "s4-e2", "stable_relationship": "Only the fifth cash flow contains principal.", "release_condition": "presenter_advance" },
+    { "hold_id": "s4-e3", "stable_relationship": "One cash flow maps to one discounted term.", "release_condition": "presenter_advance" },
+    { "hold_id": "s4-e4", "stable_relationship": "Four recurring coupons use four period-specific denominators.", "release_condition": "presenter_advance" },
+    { "hold_id": "s4-e5", "stable_relationship": "The final 104-euro flow follows the same discount rule.", "release_condition": "presenter_advance" },
+    { "hold_id": "s4-e6", "stable_relationship": "Price today equals the complete five-term present-value sum.", "release_condition": "presenter_advance" }
+  ],
+  "continuity_invariants": [
+    "Persistent objects retain one DOM identity within a scene and variant.",
+    "No settled state contains duplicate persistent IDs.",
+    "The target protagonist becomes visible before the source protagonist loses semantic context.",
+    "Mobile and reduced motion reach the same semantic holds as desktop.",
+    "Every finite highlight stops before the indefinite hold."
+  ],
+  "simultaneity_limits": {
+    "global_max_material_changes": 2,
+    "global_max_primary": 1,
+    "rationale": "Two coordinated changes can express transfer or cause; more would make attribution ambiguous on presenter-paced slides."
+  },
+  "reduced_motion": {
+    "policy": "Replace travel, tracer and scale motion with one discrete hierarchy update plus a brief non-spatial emphasis; preserve every source and target hold.",
+    "preserve_semantic_change": true,
+    "fallback_by_beat": [
+      { "beat_id": "S2-BL-01", "fallback": "Reveal callouts and connectors in one non-spatial step.", "final_hold_unchanged": true },
+      { "beat_id": "S2-BL-02", "fallback": "Reveal the complete timeline in one non-spatial step.", "final_hold_unchanged": true },
+      { "beat_id": "S2-EN-01", "fallback": "Switch from certificate-only to entry focus without translation.", "final_hold_unchanged": true },
+      { "beat_id": "S2-EN-02", "fallback": "Replace entry chapter with the complete coupon equation.", "final_hold_unchanged": true },
+      { "beat_id": "S2-EN-03", "fallback": "Replace coupon focus with the complete maturity relation.", "final_hold_unchanged": true },
+      { "beat_id": "S2-EN-04", "fallback": "Reveal the complete cash-flow timeline and compact context instantly.", "final_hold_unchanged": true },
+      { "beat_id": "S4-BL-01", "fallback": "Reveal maturity breakdown without slide motion.", "final_hold_unchanged": true },
+      { "beat_id": "S4-BL-02", "fallback": "Reveal the complete general formula panel.", "final_hold_unchanged": true },
+      { "beat_id": "S4-BL-03", "fallback": "Reveal all expanded terms together.", "final_hold_unchanged": true },
+      { "beat_id": "S4-EN-01", "fallback": "Switch to the stable 104 equals 4 plus 100 breakdown.", "final_hold_unchanged": true },
+      { "beat_id": "S4-EN-02", "fallback": "Reveal the complete t1 discounted term and column focus.", "final_hold_unchanged": true },
+      { "beat_id": "S4-EN-03", "fallback": "Reveal terms t2 through t4 together as one coupon group.", "final_hold_unchanged": true },
+      { "beat_id": "S4-EN-04", "fallback": "Reveal the complete t5 term and maturity context.", "final_hold_unchanged": true },
+      { "beat_id": "S4-EN-05", "fallback": "Normalize all five terms and reveal the final framing instantly.", "final_hold_unchanged": true }
+    ]
+  },
+  "global_timing_rules": {
+    "presenter_paced": true,
+    "hold_policy": "indefinite_until_presenter_advance",
+    "default_interrupt_policy": "Settle deterministically to the nearest semantic hold, cancel active animations, then apply the queued command.",
+    "ambient_loops_allowed": false
+  },
+  "known_risks": [
+    {
+      "risk_id": "MOT-R01",
+      "beat_id": "S2-EN-04",
+      "description": "A timeline transfer could briefly duplicate the coupon result and payment nodes.",
+      "mitigation": "Use a non-persistent flight token and assert one visible persistent ID per settled or sampled state.",
+      "owner": "frontend-producer-lienzo"
+    },
+    {
+      "risk_id": "MOT-R02",
+      "beat_id": "S4-EN-02",
+      "description": "The tracer could cross the central discount-rule label.",
+      "mitigation": "Route inside the owned time column and sample connector-label clearance in geometry gate.",
+      "owner": "frontend-producer-lienzo"
+    },
+    {
+      "risk_id": "MOT-R03",
+      "beat_id": "S4-EN-05",
+      "description": "Formula recentering could create a transient empty or duplicate formula state.",
+      "mitigation": "Use FLIP on one persistent formula builder and sample midpoint continuity.",
+      "owner": "frontend-producer-lienzo"
+    }
+  ]
+}

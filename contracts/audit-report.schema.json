@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/audit-report.schema.json",
-  "x-schema-version": "2.1.0",
-  "title": "Audit Report",
+  "x-schema-version": "3.0.0",
+  "title": "Comparative Audit Report V3",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,36 +12,40 @@
     "consumed_versions",
     "independence",
     "evidence",
+    "comparative_assessment",
     "scores",
+    "geometry_gate",
     "findings",
     "blockers",
     "limitations",
     "verdict",
+    "decision",
     "required_next_owner"
   ],
   "properties": {
     "audit_id": { "$ref": "#/$defs/nonEmpty" },
     "subject_commit": { "$ref": "#/$defs/gitSha" },
     "implementation_manifest_hash": { "$ref": "#/$defs/sha256" },
-    "consumed_versions": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["visual_contract", "motion_contract", "implementation_manifest_schema", "audit_report_schema"],
-      "properties": {
-        "visual_contract": { "$ref": "#/$defs/version" },
-        "motion_contract": { "$ref": "#/$defs/version" },
-        "implementation_manifest_schema": { "$ref": "#/$defs/version" },
-        "audit_report_schema": { "$ref": "#/$defs/version" }
-      }
-    },
+    "consumed_versions": { "$ref": "#/$defs/consumedVersions" },
     "independence": { "$ref": "#/$defs/independence" },
-    "reference_context": { "$ref": "#/$defs/referenceContext" },
     "evidence": { "$ref": "#/$defs/evidence" },
+    "comparative_assessment": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/comparativeAssessment" }
+    },
     "scores": { "$ref": "#/$defs/scores" },
-    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
-    "blockers": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } },
-    "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } },
-    "verdict": { "enum": ["blocked", "revision_required", "ready_for_user_review", "reference_candidate"] },
+    "geometry_gate": { "$ref": "#/$defs/geometryGate" },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/finding" }
+    },
+    "blockers": { "$ref": "#/$defs/stringList" },
+    "limitations": { "$ref": "#/$defs/stringList" },
+    "verdict": {
+      "enum": ["blocked", "revision_required", "ready_for_user_review", "reference_candidate"]
+    },
+    "decision": { "enum": ["GO_ENHANCED_V3", "NO_GO_ENHANCED_V3"] },
     "required_next_owner": {
       "enum": [
         "visual-director-lienzo",
@@ -56,71 +60,64 @@
   "allOf": [
     {
       "if": {
-        "properties": {
-          "consumed_versions": {
-            "properties": { "audit_report_schema": { "const": "2.1.0" } },
-            "required": ["audit_report_schema"]
-          }
-        },
-        "required": ["consumed_versions"]
+        "properties": { "verdict": { "const": "blocked" } },
+        "required": ["verdict"]
       },
-      "then": { "required": ["reference_context"] }
-    },
-    {
-      "if": { "properties": { "verdict": { "const": "blocked" } }, "required": ["verdict"] },
       "then": { "properties": { "blockers": { "minItems": 1 } } }
     },
     {
-      "if": { "properties": { "verdict": { "const": "ready_for_user_review" } }, "required": ["verdict"] },
+      "if": {
+        "properties": { "decision": { "const": "GO_ENHANCED_V3" } },
+        "required": ["decision"]
+      },
       "then": {
         "properties": {
           "blockers": { "maxItems": 0 },
           "findings": {
             "not": {
               "contains": {
-                "type": "object",
                 "properties": { "severity": { "enum": ["blocker", "major"] } },
                 "required": ["severity"]
               }
             }
           },
-          "scores": {
+          "geometry_gate": {
             "properties": {
-              "pedagogical_comprehension": { "minimum": 8 },
-              "composition_and_hierarchy": { "minimum": 8 },
-              "visual_craft_and_taste": { "minimum": 8 },
-              "total": { "minimum": 8 }
+              "status": { "const": "PASS" },
+              "material_violation_count": { "const": 0 }
+            }
+          },
+          "comparative_assessment": {
+            "items": {
+              "properties": {
+                "essential_fidelity": { "const": "passed" },
+                "visual_uplift": { "const": "material" },
+                "immersive_uplift": { "const": "material" },
+                "pedagogical_uplift": { "enum": ["improved", "preserved"] },
+                "spatial_robustness": { "const": "passed" }
+              }
             }
           },
           "evidence": {
             "properties": {
-              "blind_decode": { "properties": { "status": { "const": "passed" } } },
-              "mobile_downsample": { "properties": { "status": { "const": "passed" } } },
+              "mobile": { "properties": { "status": { "const": "passed" } } },
+              "reverse": { "properties": { "status": { "const": "passed" } } },
+              "reset": { "properties": { "status": { "const": "passed" } } },
               "reduced_motion": { "properties": { "status": { "const": "passed" } } },
               "reproducibility": { "properties": { "status": { "const": "passed" } } }
             }
-          },
-          "independence": {
-            "properties": { "rationale_hidden_first_pass": { "const": true } }
-          },
-          "required_next_owner": { "const": "user" }
+          }
         }
       }
     },
     {
-      "if": { "properties": { "verdict": { "const": "reference_candidate" } }, "required": ["verdict"] },
+      "if": {
+        "properties": { "verdict": { "const": "reference_candidate" } },
+        "required": ["verdict"]
+      },
       "then": {
         "properties": {
-          "blockers": { "maxItems": 0 },
-          "findings": {
-            "not": {
-              "contains": {
-                "type": "object",
-                "properties": { "severity": { "enum": ["blocker", "major"] } },
-                "required": ["severity"]
-              }
-            }
-          },
+          "independence": { "properties": { "fully_independent": { "const": true } } },
           "scores": {
             "properties": {
               "pedagogical_comprehension": { "minimum": 9 },
@@ -129,192 +126,79 @@
               "total": { "minimum": 9 }
             }
           },
-          "evidence": {
-            "properties": {
-              "blind_decode": { "properties": { "status": { "const": "passed" } } },
-              "mobile_downsample": { "properties": { "status": { "const": "passed" } } },
-              "reduced_motion": { "properties": { "status": { "const": "passed" } } },
-              "reproducibility": { "properties": { "status": { "const": "passed" } } }
-            }
-          },
-          "independence": {
-            "properties": { "rationale_hidden_first_pass": { "const": true } }
-          },
           "required_next_owner": { "const": "none" }
         }
       }
     },
     {
       "if": {
-        "properties": { "verdict": { "not": { "const": "blocked" } } },
+        "properties": { "verdict": { "const": "ready_for_user_review" } },
         "required": ["verdict"]
       },
       "then": {
         "properties": {
           "scores": {
             "properties": {
-              "pedagogical_comprehension": { "type": "number" },
-              "composition_and_hierarchy": { "type": "number" },
-              "visual_craft_and_taste": { "type": "number" },
-              "motion_and_continuity": { "type": "number" },
-              "cognitive_load_and_pacing": { "type": "number" },
-              "interaction_and_holds": { "type": "number" },
-              "mobile_legibility": { "type": "number" },
-              "technical_robustness": { "type": "number" },
-              "total": { "type": "number" }
+              "pedagogical_comprehension": { "minimum": 8 },
+              "composition_and_hierarchy": { "minimum": 8 },
+              "visual_craft_and_taste": { "minimum": 8 },
+              "total": { "minimum": 8 }
             }
           },
-          "evidence": {
-            "properties": {
-              "inspected_holds": { "minItems": 1 },
-              "inspected_beats": { "minItems": 1 }
-            }
-          }
+          "required_next_owner": { "const": "user" }
         }
       }
-    },
-    {
-      "if": {
-        "properties": {
-          "reference_context": {
-            "properties": { "applicable": { "const": true } },
-            "required": ["applicable"]
-          }
-        },
-        "required": ["reference_context"]
-      },
-      "then": {
-        "properties": {
-          "independence": {
-            "required": [
-              "semantic_sources_hidden_first_pass",
-              "contracts_hidden_first_pass",
-              "reference_hidden_first_pass"
-            ]
-          },
-          "evidence": {
-            "required": ["reference_fidelity"],
-            "properties": {
-              "reference_fidelity": {
-                "properties": {
-                  "status": { "enum": ["passed", "failed", "limited", "not_tested"] },
-                  "comparisons": { "type": "array" }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "reference_context": {
-            "properties": { "applicable": { "const": true } },
-            "required": ["applicable"]
-          },
-          "verdict": { "enum": ["ready_for_user_review", "reference_candidate"] }
-        },
-        "required": ["reference_context", "verdict"]
-      },
-      "then": {
-        "properties": {
-          "evidence": {
-            "required": ["reference_fidelity"],
-            "properties": {
-              "reference_fidelity": {
-                "properties": { "status": { "const": "passed" } },
-                "required": ["status"]
-              }
-            }
-          },
-          "independence": {
-            "properties": {
-              "semantic_sources_hidden_first_pass": { "const": true },
-              "contracts_hidden_first_pass": { "const": true },
-              "reference_hidden_first_pass": { "const": true }
-            }
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "reference_context": {
-            "properties": { "applicable": { "const": false } },
-            "required": ["applicable"]
-          }
-        },
-        "required": ["reference_context"]
-      },
-      "then": {
-        "properties": {
-          "evidence": {
-            "properties": {
-              "reference_fidelity": {
-                "properties": {
-                  "status": { "const": "not_applicable" },
-                  "comparisons": { "maxItems": 0 }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "allOf": [
-          {
-            "properties": {
-              "reference_context": {
-                "properties": { "applicable": { "const": true } },
-                "required": ["applicable"]
-              }
-            },
-            "required": ["reference_context"]
-          },
-          {
-            "properties": {
-              "independence": {
-                "anyOf": [
-                  {
-                    "properties": { "semantic_sources_hidden_first_pass": { "const": false } },
-                    "required": ["semantic_sources_hidden_first_pass"]
-                  },
-                  {
-                    "properties": { "contracts_hidden_first_pass": { "const": false } },
-                    "required": ["contracts_hidden_first_pass"]
-                  },
-                  {
-                    "properties": { "reference_hidden_first_pass": { "const": false } },
-                    "required": ["reference_hidden_first_pass"]
-                  }
-                ]
-              }
-            },
-            "required": ["independence"]
-          }
-        ]
-      },
-      "then": { "properties": { "verdict": { "const": "blocked" } } }
-    },
-    {
-      "if": {
-        "properties": {
-          "evidence": { "required": ["reference_fidelity"] }
-        },
-        "required": ["evidence"]
-      },
-      "then": { "required": ["reference_context"] }
     }
   ],
   "$defs": {
     "nonEmpty": { "type": "string", "minLength": 1 },
-    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "stringList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmpty" }
+    },
+    "nonEmptyList": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/nonEmpty" }
+    },
     "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
+    "consumedVersions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "visual_contract",
+        "motion_contract",
+        "implementation_manifest_schema",
+        "audit_report_schema"
+      ],
+      "properties": {
+        "visual_contract": { "const": "3.0.0" },
+        "motion_contract": { "const": "3.0.0" },
+        "implementation_manifest_schema": { "const": "3.0.0" },
+        "audit_report_schema": { "const": "3.0.0" }
+      }
+    },
+    "independence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fully_independent",
+        "output_observed_before_rationale",
+        "auditor_created_subject",
+        "auditor_remediated_subject",
+        "known_sources_before_first_pass",
+        "limitations"
+      ],
+      "properties": {
+        "fully_independent": { "type": "boolean" },
+        "output_observed_before_rationale": { "type": "boolean" },
+        "auditor_created_subject": { "type": "boolean" },
+        "auditor_remediated_subject": { "type": "boolean" },
+        "known_sources_before_first_pass": { "type": "boolean" },
+        "limitations": { "$ref": "#/$defs/stringList" }
+      }
+    },
     "result": {
       "type": "object",
       "additionalProperties": false,
@@ -324,39 +208,16 @@
         "evidence": { "$ref": "#/$defs/nonEmpty" }
       }
     },
-    "independence": {
+    "artifact": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["rationale_hidden_first_pass", "auditor_created_subject", "auditor_remediated_subject", "limitations"],
+      "required": ["path", "content_hash", "kind", "viewport_id"],
       "properties": {
-        "rationale_hidden_first_pass": { "type": "boolean" },
-        "auditor_created_subject": { "type": "boolean" },
-        "auditor_remediated_subject": { "type": "boolean" },
-        "semantic_sources_hidden_first_pass": { "type": "boolean" },
-        "contracts_hidden_first_pass": { "type": "boolean" },
-        "reference_hidden_first_pass": { "type": "boolean" },
-        "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
+        "path": { "$ref": "#/$defs/nonEmpty" },
+        "content_hash": { "$ref": "#/$defs/sha256" },
+        "kind": { "enum": ["still", "interactive_session", "build_log", "test_log", "geometry_report", "comparison", "other"] },
+        "viewport_id": { "$ref": "#/$defs/nonEmpty" }
       }
-    },
-    "referenceContext": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["applicable", "reference_ids"],
-      "properties": {
-        "applicable": { "type": "boolean" },
-        "reference_ids": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": { "$ref": "#/$defs/nonEmpty" }
-        }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "applicable": { "const": true } }, "required": ["applicable"] },
-          "then": { "properties": { "reference_ids": { "minItems": 1 } } },
-          "else": { "properties": { "reference_ids": { "maxItems": 0 } } }
-        }
-      ]
     },
     "evidence": {
       "type": "object",
@@ -365,182 +226,54 @@
         "artifacts",
         "inspected_holds",
         "inspected_beats",
+        "mobile",
         "reverse",
         "reset",
         "reduced_motion",
-        "mobile_downsample",
-        "blind_decode",
         "reproducibility"
       ],
       "properties": {
-        "artifacts": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/artifact" } },
-        "inspected_holds": {
+        "artifacts": {
           "type": "array",
-          "description": "May be empty only when an early blocker invalidates inspection.",
-          "items": { "$ref": "#/$defs/nonEmpty" }
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/artifact" }
         },
-        "inspected_beats": {
-          "type": "array",
-          "description": "May be empty only when an early blocker invalidates inspection.",
-          "items": { "$ref": "#/$defs/beatCoverage" }
-        },
+        "inspected_holds": { "$ref": "#/$defs/nonEmptyList" },
+        "inspected_beats": { "$ref": "#/$defs/nonEmptyList" },
+        "mobile": { "$ref": "#/$defs/result" },
         "reverse": { "$ref": "#/$defs/result" },
         "reset": { "$ref": "#/$defs/result" },
         "reduced_motion": { "$ref": "#/$defs/result" },
-        "mobile_downsample": { "$ref": "#/$defs/result" },
-        "blind_decode": { "$ref": "#/$defs/result" },
-        "reproducibility": { "$ref": "#/$defs/result" },
-        "reference_fidelity": { "$ref": "#/$defs/referenceFidelity" }
+        "reproducibility": { "$ref": "#/$defs/result" }
       }
     },
-    "referenceFidelity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["status", "evidence", "comparisons"],
-      "properties": {
-        "status": { "enum": ["passed", "failed", "limited", "not_tested", "not_applicable"] },
-        "evidence": { "$ref": "#/$defs/nonEmpty" },
-        "comparisons": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/referenceAuditComparison" }
-        }
-      },
-      "allOf": [
-        {
-          "if": {
-            "properties": { "status": { "enum": ["not_tested", "not_applicable"] } },
-            "required": ["status"]
-          },
-          "then": { "properties": { "comparisons": { "maxItems": 0 } } },
-          "else": { "properties": { "comparisons": { "minItems": 1 } } }
-        },
-        {
-          "if": { "properties": { "status": { "const": "passed" } }, "required": ["status"] },
-          "then": {
-            "properties": {
-              "comparisons": {
-                "items": {
-                  "properties": {
-                    "semantic_fidelity": { "const": "passed" },
-                    "perceptual_fidelity": { "const": "passed" },
-                    "failure_origin": { "const": "none" }
-                  }
-                }
-              }
-            }
-          }
-        },
-        {
-          "if": { "properties": { "status": { "const": "failed" } }, "required": ["status"] },
-          "then": {
-            "properties": {
-              "comparisons": {
-                "contains": {
-                  "anyOf": [
-                    { "properties": { "semantic_fidelity": { "const": "failed" } }, "required": ["semantic_fidelity"] },
-                    { "properties": { "perceptual_fidelity": { "const": "failed" } }, "required": ["perceptual_fidelity"] }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        {
-          "if": { "properties": { "status": { "const": "limited" } }, "required": ["status"] },
-          "then": {
-            "properties": {
-              "comparisons": {
-                "contains": {
-                  "anyOf": [
-                    { "properties": { "semantic_fidelity": { "const": "limited" } }, "required": ["semantic_fidelity"] },
-                    { "properties": { "perceptual_fidelity": { "const": "limited" } }, "required": ["perceptual_fidelity"] }
-                  ]
-                },
-                "not": {
-                  "contains": {
-                    "anyOf": [
-                      { "properties": { "semantic_fidelity": { "const": "failed" } }, "required": ["semantic_fidelity"] },
-                      { "properties": { "perceptual_fidelity": { "const": "failed" } }, "required": ["perceptual_fidelity"] }
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    "referenceAuditComparison": {
+    "comparativeAssessment": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "reference_id",
-        "semantic_spec_hash",
-        "reference_hash",
-        "output_hash",
         "scene_id",
-        "hold_id",
-        "viewport_id",
-        "semantic_fidelity",
-        "perceptual_fidelity",
-        "failure_origin",
-        "evidence"
+        "comparison_evidence",
+        "essential_fidelity",
+        "visual_uplift",
+        "immersive_uplift",
+        "pedagogical_uplift",
+        "spatial_robustness",
+        "baseline_summary",
+        "enhanced_summary"
       ],
       "properties": {
-        "reference_id": { "$ref": "#/$defs/nonEmpty" },
-        "semantic_spec_hash": { "$ref": "#/$defs/sha256" },
-        "reference_hash": { "$ref": "#/$defs/sha256" },
-        "output_hash": { "$ref": "#/$defs/sha256" },
         "scene_id": { "$ref": "#/$defs/nonEmpty" },
-        "hold_id": { "$ref": "#/$defs/nonEmpty" },
-        "viewport_id": { "$ref": "#/$defs/nonEmpty" },
-        "semantic_fidelity": { "enum": ["passed", "failed", "limited"] },
-        "perceptual_fidelity": { "enum": ["passed", "failed", "limited"] },
-        "failure_origin": { "enum": ["none", "upstream_design", "implementation", "motion", "semantic_spec"] },
-        "evidence": { "$ref": "#/$defs/nonEmpty" }
-      },
-      "allOf": [
-        {
-          "if": {
-            "anyOf": [
-              { "properties": { "semantic_fidelity": { "enum": ["failed", "limited"] } }, "required": ["semantic_fidelity"] },
-              { "properties": { "perceptual_fidelity": { "enum": ["failed", "limited"] } }, "required": ["perceptual_fidelity"] }
-            ]
-          },
-          "then": { "properties": { "failure_origin": { "not": { "const": "none" } } } },
-          "else": { "properties": { "failure_origin": { "const": "none" } } }
-        }
-      ]
-    },
-    "artifact": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["path", "content_hash", "viewport", "kind"],
-      "properties": {
-        "path": { "$ref": "#/$defs/nonEmpty" },
-        "content_hash": { "$ref": "#/$defs/sha256" },
-        "viewport": { "$ref": "#/$defs/nonEmpty" },
-        "kind": { "enum": ["still", "video", "interactive_session", "build_log", "test_log", "other"] }
+        "comparison_evidence": { "$ref": "#/$defs/artifact" },
+        "essential_fidelity": { "enum": ["passed", "failed", "limited"] },
+        "visual_uplift": { "enum": ["material", "marginal", "none", "regressed"] },
+        "immersive_uplift": { "enum": ["material", "marginal", "none", "regressed"] },
+        "pedagogical_uplift": { "enum": ["improved", "preserved", "regressed"] },
+        "spatial_robustness": { "enum": ["passed", "failed", "limited"] },
+        "baseline_summary": { "$ref": "#/$defs/nonEmpty" },
+        "enhanced_summary": { "$ref": "#/$defs/nonEmpty" }
       }
     },
-    "beatCoverage": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["beat_id", "start", "max_change", "end", "layer_coexistence"],
-      "properties": {
-        "beat_id": { "$ref": "#/$defs/nonEmpty" },
-        "start": { "$ref": "#/$defs/nonEmpty" },
-        "max_change": { "$ref": "#/$defs/nonEmpty" },
-        "end": { "$ref": "#/$defs/nonEmpty" },
-        "layer_coexistence": { "$ref": "#/$defs/nonEmpty" }
-      }
-    },
-    "score": {
-      "type": ["number", "null"],
-      "minimum": 0,
-      "maximum": 10,
-      "description": "Null means not scored because an early blocker invalidated inspection; non-blocked verdicts require numbers."
-    },
+    "score": { "type": "number", "minimum": 0, "maximum": 10 },
     "scores": {
       "type": "object",
       "additionalProperties": false,
@@ -564,10 +297,20 @@
         "interaction_and_holds": { "$ref": "#/$defs/score" },
         "mobile_legibility": { "$ref": "#/$defs/score" },
         "technical_robustness": { "$ref": "#/$defs/score" },
-        "total": {
-          "$ref": "#/$defs/score",
-          "description": "Arithmetic mean of the eight dimensions, rounded to one decimal; checked by the repository validator."
-        }
+        "total": { "$ref": "#/$defs/score" }
+      }
+    },
+    "geometryGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "report_path", "report_hash", "states_checked", "material_violation_count", "sampling_verified"],
+      "properties": {
+        "status": { "enum": ["PASS", "FAIL"] },
+        "report_path": { "$ref": "#/$defs/nonEmpty" },
+        "report_hash": { "$ref": "#/$defs/sha256" },
+        "states_checked": { "type": "integer", "minimum": 1 },
+        "material_violation_count": { "type": "integer", "minimum": 0 },
+        "sampling_verified": { "type": "boolean" }
       }
     },
     "finding": {
@@ -575,15 +318,18 @@
       "additionalProperties": false,
       "required": [
         "finding_id",
+        "scene_id",
         "severity",
         "evidence",
         "consequence",
         "probable_cause",
         "verifiable_correction",
-        "owner"
+        "owner",
+        "failure_origin"
       ],
       "properties": {
         "finding_id": { "$ref": "#/$defs/nonEmpty" },
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
         "severity": { "enum": ["blocker", "major", "minor", "nit"] },
         "evidence": { "$ref": "#/$defs/nonEmpty" },
         "consequence": { "$ref": "#/$defs/nonEmpty" },
@@ -598,19 +344,8 @@
             "user"
           ]
         },
-        "reference_id": { "type": ["string", "null"] },
         "failure_origin": { "enum": ["upstream_design", "implementation", "motion", "semantic_spec", "not_applicable"] }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "failure_origin": { "const": "implementation" } }, "required": ["failure_origin"] },
-          "then": { "properties": { "owner": { "const": "frontend-producer-lienzo" } } }
-        },
-        {
-          "if": { "properties": { "failure_origin": { "const": "upstream_design" } }, "required": ["failure_origin"] },
-          "then": { "properties": { "owner": { "enum": ["visual-director-lienzo", "user"] } } }
-        }
-      ]
+      }
     }
   }
 }

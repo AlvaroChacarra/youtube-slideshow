@@ -1,0 +1,26 @@
+{
+  "name": "immersive-slide-engine-v3",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Reference-guided presenter-paced enhancement vertical slice for Bonds Slides 2 and 4.",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "validate:skills": "node scripts/validate-skills.mjs",
+    "validate:contracts": "node scripts/validate-contracts.mjs",
+    "test:runtime": "node scripts/test-runtime.mjs",
+    "geometry:baseline": "node scripts/geometry-gate.mjs --variant baseline_faithful --allow-fail",
+    "geometry:enhanced": "node scripts/geometry-gate.mjs --variant enhanced_immersive",
+    "evidence": "node scripts/capture-evidence.mjs",
+    "manifest": "node scripts/build-manifest.mjs",
+    "audit": "node scripts/build-audit.mjs",
+    "validate:artifacts": "node scripts/validate-artifacts.mjs",
+    "verify:v3": "node scripts/verify-v3.mjs",
+    "test": "npm run verify:v3"
+  },
+  "devDependencies": {
+    "@sparticuz/chromium": "149.0.0",
+    "ajv": "8.17.1",
+    "playwright-core": "1.62.1"
+  }
+}

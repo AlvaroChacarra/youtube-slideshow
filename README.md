@@ -1,45 +1,66 @@
-# Visual Pipeline Skills V2.1
+# Immersive Slide Engine V3
 
-Rama canónica independiente para gobernar la producción futura de lienzos didácticos HTML mediante cuatro handoffs persistidos y auditables. Esta rama contiene doctrina, contratos, schemas y validación; no contiene frontend ni una narrativa de producción.
+Pipeline de cuatro skills que toma una slide didáctica ya buena y produce dos runtimes comparables:
+
+- `baseline_faithful`: reconstrucción fiel para medir el punto de partida;
+- `enhanced_immersive`: mejora controlada de craft, atención, pedagogía y robustez.
+
+La referencia conserva autoridad semántica y funciona como baseline compositivo. En `reference_guided_enhancement` deja de ser una cárcel: cada cambio debe preservar la esencia y declarar qué mejora y por qué.
+
+## Vertical slice
+
+V3 se limita a:
+
+1. Bonds Slide 2 — anatomía del bono;
+2. Bonds Slide 4 — descuento y fórmula expandida.
+
+Para cada una se conservan original, runtime baseline, runtime enhanced y comparación auditada. No se generaliza al deck hasta obtener `GO_ENHANCED_V3` en ambas.
 
 ## Pipeline
 
-1. Una narrativa semántica versionada entra en `visual-director-lienzo`, sola o acompañada por un bundle perceptual aprobado.
-2. Sin referencia aprobada, Visual explora tres direcciones y espera aprobación humana; con referencia aprobada, la ingiere y formaliza sin rediseñarla.
-3. `motion-director-lienzo` especifica transformaciones sin alterar la composición aprobada.
-4. `frontend-producer-lienzo` reconstruye los holds y compara screenshot contra referencia antes de implementar motion.
-5. `audita-y-mejora-lienzo-didactico` ejecuta primero blind decode y después comprueba fidelidad semántica y perceptual.
-6. Cada finding vuelve de forma explícita a su propietario y exige una nueva auditoría.
+1. Visual fija esencia, deltas, sistema estético, atención por hold, layout desktop/móvil y constraints espaciales.
+2. Motion convierte los holds en dirección de atención presenter-paced, con continuidad, respiración y simultaneidad limitada.
+3. Production reconstruye baseline y enhanced, mide texto/geometría y genera evidencia.
+4. Audit compara original → baseline → enhanced en fidelidad esencial, uplift visual, inmersión, pedagogía y robustez.
 
-Los artefactos persistidos —no la memoria conversacional— son la única interfaz entre etapas. El contrato normativo está en [`contracts/pipeline-contract.md`](contracts/pipeline-contract.md).
+Los JSON versionados y sus hashes —no el chat— transfieren autoridad entre etapas. Véase [`pipeline-contract.md`](contracts/pipeline-contract.md).
 
-## Alcance
+## Ejecutar
 
-Incluido:
+```sh
+npm ci
+npm run serve
+```
 
-- exactamente cuatro skills canónicas;
-- contratos JSON versionados;
-- integración Image → Contract documentada en [`docs/image-to-code-integration.md`](docs/image-to-code-integration.md);
-- routing y procedencia doctrinal;
-- validación estática y CI sin dependencias externas.
+Abrir `http://127.0.0.1:4173`. La interfaz permite cambiar slide, variante y hold.
 
-Excluido:
+Validación completa:
 
-- código frontend o runtime;
-- escenas, ejemplos o narrativa sobre bonos;
-- copias de `DESIGN.md`, proyectos, specs o referencias upstream;
-- assets, renders, fixtures visuales o dependencias npm;
-- ejecución automática de skills externas.
+```sh
+npm test
+```
 
-## Uso
+`npm test` regenera en orden runtime tests, diagnóstico geométrico baseline, geometry gate enhanced, capturas, manifest, auditoría y validaciones finales. Si se ejecuta `npm run evidence` de forma aislada, hay que regenerar después `manifest` y `audit` porque cambian los hashes downstream.
 
-Leer en este orden:
+## Resultado del vertical slice
 
-1. [`AGENTS.md`](AGENTS.md)
-2. [`contracts/pipeline-contract.md`](contracts/pipeline-contract.md)
-3. [`docs/image-to-code-integration.md`](docs/image-to-code-integration.md) cuando exista una referencia aprobada;
-4. [`skills/README.md`](skills/README.md)
-5. el `SKILL.md` propietario de la etapa;
-6. el schema del output correspondiente.
+- Enhanced geometry: `PASS`, 114 muestras y 0 violaciones materiales.
+- Baseline geometry: `FAIL` diagnóstico; conserva la fragilidad compacta que V3 debía corregir.
+- Runtime: reverse, reset, interrupción y reduced motion en `PASS`.
+- Auditoría: `ready_for_user_review`, 8,9/10.
+- Decisión de ingeniería: `GO_ENHANCED_V3` para Slides 2 y 4; no implica todavía escalar al deck completo.
 
-La validación final se ejecuta con `node scripts/validate-skills.mjs`.
+Comparativas principales:
+
+- [`Slide 2 · original → baseline → enhanced`](evidence/comparisons/slide-02-original-baseline-enhanced.png)
+- [`Slide 4 · original → baseline → enhanced`](evidence/comparisons/slide-04-original-baseline-enhanced.png)
+
+El [`implementation-manifest.json`](implementation-manifest.json) contiene los 46 artefactos content-addressed. La conclusión, los scores y la limitación de independencia están en [`audit-report.json`](projects/bonds/audit/audit-report.json).
+
+## Documentos canónicos
+
+- Integración de referencias: [`docs/image-to-code-integration.md`](docs/image-to-code-integration.md)
+- Mini-doctrina premium: [`docs/premium-aesthetic-doctrine.md`](docs/premium-aesthetic-doctrine.md)
+- Geometry gate: [`docs/geometry-gate.md`](docs/geometry-gate.md)
+- Routing de skills: [`skills/README.md`](skills/README.md)
+- Provenance y precedentes fijados: [`docs/source-map.md`](docs/source-map.md)

@@ -4,52 +4,55 @@
 
 1. [`README.md`](README.md)
 2. [`contracts/pipeline-contract.md`](contracts/pipeline-contract.md)
-3. [`docs/image-to-code-integration.md`](docs/image-to-code-integration.md) si el input declara una referencia aprobada
-4. [`skills/README.md`](skills/README.md)
-5. el `SKILL.md` correspondiente a la tarea
-6. el schema correspondiente a su output
+3. [`docs/image-to-code-integration.md`](docs/image-to-code-integration.md) cuando exista referencia
+4. [`docs/premium-aesthetic-doctrine.md`](docs/premium-aesthetic-doctrine.md) para trabajo enhanced
+5. [`docs/geometry-gate.md`](docs/geometry-gate.md) para producción o QA
+6. [`skills/README.md`](skills/README.md)
+7. el `SKILL.md` propietario y el schema de su output
 
 ## Routing
 
 | Tarea | Skill propietaria | Output |
 |---|---|---|
-| Explorar o formalizar representación, composición y dirección visual | `visual-director-lienzo` | `visual-contract.json` |
-| Transformación, continuidad, timing y holds | `motion-director-lienzo` | `motion-contract.json` |
-| Código, interacción e implementación reproducible | `frontend-producer-lienzo` | `implementation-manifest.json` |
-| QA perceptual, pedagógica, móvil y técnica | `audita-y-mejora-lienzo-didactico` | `audit-report.json` |
+| Representación, composición, estética y deltas autorizados | `visual-director-lienzo` | `visual-contract.json` |
+| Atención, continuidad, timing y holds | `motion-director-lienzo` | `motion-contract.json` |
+| Runtime, responsive, geometría y evidencia | `frontend-producer-lienzo` | `implementation-manifest.json` |
+| Comparación perceptual, pedagogía y veredicto | `audita-y-mejora-lienzo-didactico` | `audit-report.json` |
 
-Si una tarea cruza una frontera, cerrar y persistir primero el handoff del propietario actual. Ninguna skill invoca automáticamente a otra.
+Cerrar y persistir cada handoff antes de transferir autoridad. Ninguna skill invoca automáticamente a otra.
 
-## Invariantes
+## Invariantes V3
 
-- Existen exactamente cuatro skills.
-- Image-to-Code es un upstream documentado, no una quinta etapa ni una dependencia runtime.
-- No se añade código frontend, runtime, narrativa de producción ni diseño concreto del futuro benchmark.
-- No existen dependencias externas runtime.
-- Los contratos versionados y sus hashes son la única fuente de verdad entre etapas.
-- La memoria conversacional no sustituye inputs requeridos.
-- Solo el Visual Director decide composición.
-- Solo el Motion Director decide timing y continuidad temporal.
-- Solo el Frontend Producer decide implementación técnica.
-- Solo el Auditor emite veredictos.
-- La spec semántica gobierna contenido; una referencia aprobada gobierna composición, jerarquía y apariencia.
-- Una contradicción material entre spec y referencia bloquea el bundle upstream.
-- El checkpoint humano es obligatorio en `concept-first`; en `approved-reference` solo puede heredarse con evidencia verificable.
-- Una referencia se reconstruye; mostrarla como imagen fullscreen no constituye implementación.
-- La auditoría juzga output real por encima de intención, rationale o corrección del código.
-- No hay autoaprobación ni circularidad silenciosa.
-- Un finding upstream vuelve a la skill propietaria y genera un artefacto nuevo.
+- Mantener exactamente las cuatro skills canónicas; no crear una quinta etapa.
+- Partir del commit fijado de `skill-branch`; no mergear, rebasar ni cherry-pickear precedentes.
+- Limitar el vertical slice V3 a Bonds Slide 2 y Slide 4.
+- Tratar Image-to-Code como upstream hasheado, nunca como dependencia runtime.
+- Mantener separadas verdad semántica, referencia original, baseline fiel y enhanced runtime.
+- En `reference_guided_enhancement`, preservar la esencia; permitir solo deltas trazados a claridad, atención, estética, inmersión o robustez espacial.
+- Solo Visual decide composición y estética; solo Motion decide tiempo y atención temporal; solo Production decide implementación; solo Audit emite veredicto.
+- Reconstruir texto, fórmulas, charts, conectores y objetos animables como code-native. No usar la referencia fullscreen.
+- Hacer presenter pacing manual, holds indefinidos, reverse, reset y reduced motion deterministas.
+- Exigir geometry gate `PASS` al enhanced en desktop y móvil. Un solape material, clipping, texto submínimo, duplicidad persistente o estado vacío bloquea aceptación.
+- Auditar output real antes que rationale y declarar cualquier pérdida de independencia.
+- No escalar al deck completo sin `GO_ENHANCED_V3` para ambas slides.
 
-## Firewall de contaminación
+## Estructura y verdad canónica
 
-No copiar ni adaptar indiscriminadamente archivos, código, contratos, nombres visuales o soluciones de ramas anteriores. Un precedente interno puede consultarse por SHA y sintetizarse en contratos genéricos, pero no se mergea, rebasa, cherry-pickea ni se convierte en dependencia. Las fuentes registradas en [`docs/source-map.md`](docs/source-map.md) son investigación doctrinal y no deben copiarse literalmente.
+- Doctrina y fronteras: `contracts/` y `docs/`.
+- Inputs fijados, contratos y auditoría del slice: `projects/bonds/`.
+- Runtime reproducible: `runtime/`.
+- Evidencia generada y comparativas: `evidence/`.
+- Validación: `scripts/` y workflows de `.github/`.
 
 ## Comprobación obligatoria
 
-Antes de cerrar cualquier cambio ejecutar:
+Ejecutar antes de cerrar:
 
 ```sh
-node scripts/validate-skills.mjs
+npm ci
+npm test
 ```
 
-No declarar una capacidad implementada sin evidencia persistida en el output canónico de su etapa.
+`npm test` es la cadena reproducible completa y debe ser el último comando generativo. No regenerar `evidence/` después sin reconstruir manifest y auditoría.
+
+No declarar una capacidad por intención: debe aparecer en el contrato propietario y en evidencia reproducible.

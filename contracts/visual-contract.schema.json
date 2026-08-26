@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/visual-contract.schema.json",
-  "x-schema-version": "2.1.0",
-  "title": "Visual Contract",
+  "x-schema-version": "3.0.0",
+  "title": "Visual Contract V3",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "contract_version",
+    "workflow_mode",
     "project_id",
     "narrative_hash",
     "status",
@@ -14,219 +15,144 @@
     "direction_options",
     "user_approval",
     "global_system",
-    "anti_defaults",
     "scenes",
-    "mobile",
     "prohibited_patterns",
     "known_limitations"
   ],
   "properties": {
-    "contract_version": { "$ref": "#/$defs/version" },
-    "workflow_mode": { "enum": ["concept_first", "approved_reference"] },
-    "project_id": { "$ref": "#/$defs/nonEmpty" },
-    "narrative_hash": {
-      "$ref": "#/$defs/sha256",
-      "description": "Hash del artefacto narrativo canónico consumido; los hashes de specs de unidad permanecen separados."
+    "contract_version": { "const": "3.0.0" },
+    "workflow_mode": {
+      "enum": ["concept_first", "approved_reference", "reference_guided_enhancement"]
     },
+    "project_id": { "$ref": "#/$defs/nonEmpty" },
+    "narrative_hash": { "$ref": "#/$defs/sha256" },
     "status": {
       "enum": ["draft", "pending_user_approval", "approved", "rejected", "superseded"]
     },
-    "direction_id": {
-      "$ref": "#/$defs/nonEmpty",
-      "description": "En approved_reference identifica establemente la dirección formalizada desde el bundle, no una alternativa generada."
-    },
+    "direction_id": { "$ref": "#/$defs/nonEmpty" },
     "direction_options": {
       "type": "array",
       "uniqueItems": true,
       "items": { "$ref": "#/$defs/directionOption" }
     },
+    "user_approval": { "$ref": "#/$defs/userApproval" },
     "reference_bundle": { "$ref": "#/$defs/referenceBundle" },
     "reference_bindings": {
       "type": "array",
-      "uniqueItems": true,
+      "minItems": 1,
       "items": { "$ref": "#/$defs/referenceBinding" }
     },
-    "user_approval": { "$ref": "#/$defs/userApproval" },
-    "global_system": { "$ref": "#/$defs/globalSystem" },
-    "anti_defaults": {
+    "enhancement_intent": { "$ref": "#/$defs/enhancementIntent" },
+    "transformative_delta": {
       "type": "array",
-      "minItems": 5,
-      "uniqueItems": true,
-      "items": { "$ref": "#/$defs/nonEmpty" }
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/transformativeDelta" }
     },
+    "aesthetic_system": { "$ref": "#/$defs/aestheticSystem" },
+    "attention_model": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/attentionStep" }
+    },
+    "geometry_constraints": { "$ref": "#/$defs/geometryConstraints" },
+    "comparison_plan": { "$ref": "#/$defs/comparisonPlan" },
+    "global_system": { "$ref": "#/$defs/globalSystem" },
     "scenes": {
       "type": "array",
       "minItems": 1,
       "items": { "$ref": "#/$defs/scene" }
     },
-    "mobile": { "$ref": "#/$defs/mobile" },
-    "prohibited_patterns": {
-      "type": "array",
-      "minItems": 1,
-      "uniqueItems": true,
-      "items": { "$ref": "#/$defs/nonEmpty" }
-    },
-    "known_limitations": {
-      "type": "array",
-      "items": { "$ref": "#/$defs/nonEmpty" }
-    }
-  },
-  "dependentSchemas": {
-    "reference_bundle": {
-      "required": ["workflow_mode", "reference_bindings"],
-      "properties": { "workflow_mode": { "const": "approved_reference" } }
-    }
+    "prohibited_patterns": { "$ref": "#/$defs/nonEmptyList" },
+    "known_limitations": { "$ref": "#/$defs/stringList" }
   },
   "allOf": [
     {
       "if": {
-        "properties": { "workflow_mode": { "const": "approved_reference" } },
+        "properties": { "workflow_mode": { "const": "concept_first" } },
         "required": ["workflow_mode"]
       },
       "then": {
-        "required": ["reference_bundle", "reference_bindings"],
-        "properties": {
-          "contract_version": { "const": "2.1.0" },
-          "direction_options": { "maxItems": 0 },
-          "reference_bindings": { "minItems": 1 }
-        }
+        "properties": { "direction_options": { "minItems": 3, "maxItems": 3 } }
       },
       "else": {
+        "required": ["reference_bundle", "reference_bindings"],
+        "properties": { "direction_options": { "maxItems": 0 } }
+      }
+    },
+    {
+      "if": {
+        "properties": { "workflow_mode": { "const": "reference_guided_enhancement" } },
+        "required": ["workflow_mode"]
+      },
+      "then": {
+        "required": [
+          "enhancement_intent",
+          "transformative_delta",
+          "aesthetic_system",
+          "attention_model",
+          "geometry_constraints",
+          "comparison_plan"
+        ],
         "properties": {
-          "direction_options": { "minItems": 3, "maxItems": 3 }
+          "reference_bundle": {
+            "properties": {
+              "authority_resolution": {
+                "properties": {
+                  "perceptual_authority": { "const": "reference_guided_enhancement" }
+                }
+              }
+            }
+          }
         }
       }
     },
     {
-      "if": { "properties": { "status": { "const": "approved" } }, "required": ["status"] },
+      "if": {
+        "properties": { "status": { "const": "approved" } },
+        "required": ["status"]
+      },
       "then": {
         "properties": {
           "user_approval": {
             "properties": {
               "status": { "const": "approved" },
-              "reviewer": { "$ref": "#/$defs/nonEmpty" },
-              "reviewed_at": { "type": "string", "format": "date-time" },
-              "approval_reference": { "$ref": "#/$defs/nonEmpty" },
               "changes_resolved": { "const": true }
             }
           }
-        }
-      }
-    },
-    {
-      "if": {
-        "allOf": [
-          { "properties": { "status": { "const": "approved" } }, "required": ["status"] },
-          {
-            "not": {
-              "properties": { "workflow_mode": { "const": "approved_reference" } },
-              "required": ["workflow_mode"]
-            }
-          }
-        ]
-      },
-      "then": {
-        "properties": {
-          "user_approval": {
-            "properties": {
-              "selected_direction_id": { "$ref": "#/$defs/nonEmpty" },
-              "rejected_direction_ids": {
-                "type": "array",
-                "minItems": 2,
-                "maxItems": 2,
-                "uniqueItems": true,
-                "items": { "$ref": "#/$defs/nonEmpty" }
-              },
-              "selection_reason": { "$ref": "#/$defs/nonEmpty" }
-            }
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "allOf": [
-          { "properties": { "workflow_mode": { "const": "approved_reference" } }, "required": ["workflow_mode"] },
-          { "properties": { "status": { "const": "approved" } }, "required": ["status"] }
-        ]
-      },
-      "then": {
-        "properties": {
-          "reference_bundle": {
-            "properties": {
-              "units": {
-                "items": {
-                  "properties": { "approval_reference": { "$ref": "#/$defs/nonEmpty" } }
-                }
-              }
-            }
-          },
-          "user_approval": {
-            "required": ["approval_source", "source_branch", "source_commit", "semantic_spec", "reference"],
-            "properties": {
-              "approval_source": { "const": "approved_reference" },
-              "source_branch": { "$ref": "#/$defs/nonEmpty" },
-              "source_commit": { "$ref": "#/$defs/gitSha" },
-              "semantic_spec": { "$ref": "#/$defs/artifactPointer" },
-              "reference": { "$ref": "#/$defs/artifactPointer" }
-            }
-          }
-        }
-      }
-    },
-    {
-      "if": { "properties": { "status": { "const": "pending_user_approval" } }, "required": ["status"] },
-      "then": {
-        "properties": {
-          "user_approval": { "properties": { "status": { "const": "pending" } } }
-        }
-      }
-    },
-    {
-      "if": { "properties": { "status": { "const": "rejected" } }, "required": ["status"] },
-      "then": {
-        "properties": {
-          "user_approval": { "properties": { "status": { "const": "rejected" } } }
         }
       }
     }
   ],
   "$defs": {
     "nonEmpty": { "type": "string", "minLength": 1 },
-    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
-    "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
     "stringList": {
       "type": "array",
       "items": { "$ref": "#/$defs/nonEmpty" }
     },
+    "nonEmptyList": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/nonEmpty" }
+    },
+    "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
+    "artifactPointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "content_hash"],
+      "properties": {
+        "path": { "$ref": "#/$defs/nonEmpty" },
+        "content_hash": { "$ref": "#/$defs/sha256" }
+      }
+    },
     "directionOption": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "direction_id",
-        "thesis",
-        "macro_composition",
-        "representation",
-        "spatial_relationship",
-        "protagonist_behavior",
-        "transformation_grammar",
-        "density",
-        "text_use",
-        "mobile_approach",
-        "primary_risk"
-      ],
+      "required": ["direction_id", "thesis", "macro_composition", "primary_risk"],
       "properties": {
         "direction_id": { "$ref": "#/$defs/nonEmpty" },
         "thesis": { "$ref": "#/$defs/nonEmpty" },
         "macro_composition": { "$ref": "#/$defs/nonEmpty" },
-        "representation": { "$ref": "#/$defs/nonEmpty" },
-        "spatial_relationship": { "$ref": "#/$defs/nonEmpty" },
-        "protagonist_behavior": { "$ref": "#/$defs/nonEmpty" },
-        "transformation_grammar": { "$ref": "#/$defs/nonEmpty" },
-        "density": { "$ref": "#/$defs/nonEmpty" },
-        "text_use": { "$ref": "#/$defs/nonEmpty" },
-        "mobile_approach": { "$ref": "#/$defs/nonEmpty" },
         "primary_risk": { "$ref": "#/$defs/nonEmpty" }
       }
     },
@@ -239,101 +165,18 @@
         "reviewer",
         "reviewed_at",
         "approval_reference",
-        "selected_direction_id",
-        "rejected_direction_ids",
-        "selection_reason",
-        "requested_changes",
+        "approval_scope",
         "changes_resolved"
       ],
       "properties": {
         "status": { "enum": ["pending", "approved", "rejected"] },
         "checkpoint_id": { "$ref": "#/$defs/nonEmpty" },
         "reviewer": { "type": ["string", "null"] },
-        "reviewed_at": { "type": ["string", "null"], "format": "date-time" },
+        "reviewed_at": { "type": ["string", "null"] },
         "approval_reference": { "type": ["string", "null"] },
-        "selected_direction_id": { "type": ["string", "null"] },
-        "rejected_direction_ids": { "$ref": "#/$defs/stringList" },
-        "selection_reason": { "type": ["string", "null"] },
-        "requested_changes": { "$ref": "#/$defs/stringList" },
-        "changes_resolved": { "type": "boolean" },
-        "approval_source": { "enum": ["human_checkpoint", "approved_reference", null] },
-        "source_branch": { "type": ["string", "null"] },
-        "source_commit": { "type": ["string", "null"], "pattern": "^[a-f0-9]{40,64}$" },
-        "semantic_spec": {
-          "type": ["object", "null"],
-          "additionalProperties": false,
-          "required": ["path", "content_hash"],
-          "properties": {
-            "path": { "$ref": "#/$defs/nonEmpty" },
-            "content_hash": { "$ref": "#/$defs/sha256" }
-          }
-        },
-        "reference": {
-          "type": ["object", "null"],
-          "additionalProperties": false,
-          "required": ["path", "content_hash"],
-          "properties": {
-            "path": { "$ref": "#/$defs/nonEmpty" },
-            "content_hash": { "$ref": "#/$defs/sha256" }
-          }
-        },
-        "supplemental_approvals": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/approvalRecord" }
-        }
+        "approval_scope": { "$ref": "#/$defs/nonEmpty" },
+        "changes_resolved": { "type": "boolean" }
       }
-    },
-    "approvalRecord": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["scope", "reviewer", "reviewed_at", "approval_reference"],
-      "properties": {
-        "scope": { "$ref": "#/$defs/nonEmpty" },
-        "reviewer": { "$ref": "#/$defs/nonEmpty" },
-        "reviewed_at": { "type": "string", "format": "date-time" },
-        "approval_reference": { "$ref": "#/$defs/nonEmpty" }
-      }
-    },
-    "artifactPointer": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["path", "content_hash"],
-      "properties": {
-        "path": { "$ref": "#/$defs/nonEmpty" },
-        "content_hash": { "$ref": "#/$defs/sha256" }
-      }
-    },
-    "perceptualReference": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["reference_id", "path", "content_hash", "media_type"],
-      "properties": {
-        "reference_id": {
-          "$ref": "#/$defs/nonEmpty",
-          "description": "Identificador perceptual estable que resuelven los reference_bindings."
-        },
-        "path": { "$ref": "#/$defs/nonEmpty" },
-        "content_hash": { "$ref": "#/$defs/sha256" },
-        "media_type": { "type": "string", "pattern": "^image/[a-z0-9.+-]+$" }
-      }
-    },
-    "elementClassification": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["element_id", "role", "render_mode", "rationale", "source_provenance"],
-      "properties": {
-        "element_id": { "$ref": "#/$defs/nonEmpty" },
-        "role": { "$ref": "#/$defs/nonEmpty" },
-        "render_mode": { "enum": ["code_native", "asset"] },
-        "rationale": { "$ref": "#/$defs/nonEmpty" },
-        "source_provenance": { "type": ["string", "null"] }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "render_mode": { "const": "asset" } }, "required": ["render_mode"] },
-          "then": { "properties": { "source_provenance": { "$ref": "#/$defs/nonEmpty" } } }
-        }
-      ]
     },
     "referenceUnit": {
       "type": "object",
@@ -341,31 +184,44 @@
       "required": [
         "unit_id",
         "semantic_spec",
-        "perceptual_reference",
+        "reference_id",
+        "reference",
         "approval_reference",
-        "reference_role",
         "element_classification"
       ],
       "properties": {
-        "unit_id": {
-          "$ref": "#/$defs/nonEmpty",
-          "description": "Identificador de la unidad semántica; puede conservarse al aportar más de una referencia perceptual."
-        },
+        "unit_id": { "$ref": "#/$defs/nonEmpty" },
         "semantic_spec": { "$ref": "#/$defs/artifactPointer" },
-        "perceptual_reference": { "$ref": "#/$defs/perceptualReference" },
-        "approval_reference": { "type": ["string", "null"] },
-        "reference_role": { "enum": ["key_hold", "initial_hold", "final_hold", "multi_hold"] },
+        "reference_id": { "$ref": "#/$defs/nonEmpty" },
+        "reference": { "$ref": "#/$defs/artifactPointer" },
+        "approval_reference": { "$ref": "#/$defs/nonEmpty" },
         "element_classification": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/elementClassification" }
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["element_id", "render_mode", "rationale"],
+            "properties": {
+              "element_id": { "$ref": "#/$defs/nonEmpty" },
+              "render_mode": { "enum": ["code_native", "asset"] },
+              "rationale": { "$ref": "#/$defs/nonEmpty" }
+            }
+          }
         }
       }
     },
     "referenceBundle": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["source_branch", "source_commit", "design", "project", "authority_resolution", "units"],
+      "required": [
+        "source_branch",
+        "source_commit",
+        "design",
+        "project",
+        "authority_resolution",
+        "units"
+      ],
       "properties": {
         "source_branch": { "$ref": "#/$defs/nonEmpty" },
         "source_commit": { "$ref": "#/$defs/gitSha" },
@@ -377,7 +233,9 @@
           "required": ["semantic_authority", "perceptual_authority", "conflict_policy"],
           "properties": {
             "semantic_authority": { "const": "semantic_spec" },
-            "perceptual_authority": { "const": "approved_reference" },
+            "perceptual_authority": {
+              "enum": ["approved_reference", "reference_guided_enhancement"]
+            },
             "conflict_policy": { "const": "block_upstream" }
           }
         },
@@ -394,59 +252,276 @@
       "required": [
         "reference_id",
         "scene_id",
-        "hold_ids",
-        "required_perceptual_properties",
+        "baseline_hold_id",
+        "enhanced_hold_ids",
+        "essential_invariants",
         "mutable_properties",
-        "conceptual_tolerances",
         "uncovered_parts"
       ],
       "properties": {
-        "reference_id": {
-          "$ref": "#/$defs/nonEmpty",
-          "description": "Resuelve perceptual_reference.reference_id dentro del bundle."
-        },
+        "reference_id": { "$ref": "#/$defs/nonEmpty" },
         "scene_id": { "$ref": "#/$defs/nonEmpty" },
-        "hold_ids": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": { "$ref": "#/$defs/nonEmpty" }
-        },
-        "required_perceptual_properties": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": { "$ref": "#/$defs/nonEmpty" }
-        },
+        "baseline_hold_id": { "$ref": "#/$defs/nonEmpty" },
+        "enhanced_hold_ids": { "$ref": "#/$defs/nonEmptyList" },
+        "essential_invariants": { "$ref": "#/$defs/nonEmptyList" },
         "mutable_properties": { "$ref": "#/$defs/stringList" },
-        "conceptual_tolerances": { "$ref": "#/$defs/stringList" },
         "uncovered_parts": { "$ref": "#/$defs/stringList" }
+      }
+    },
+    "enhancementIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "dimensions", "success_signals"],
+      "properties": {
+        "summary": { "$ref": "#/$defs/nonEmpty" },
+        "dimensions": {
+          "type": "array",
+          "minItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["visual", "pedagogical", "immersive", "spatial"]
+          }
+        },
+        "success_signals": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "transformativeDelta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "delta_id",
+        "scene_id",
+        "property",
+        "baseline",
+        "enhanced",
+        "reason",
+        "expected_evidence",
+        "essence_preserved"
+      ],
+      "properties": {
+        "delta_id": { "$ref": "#/$defs/nonEmpty" },
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "property": { "$ref": "#/$defs/nonEmpty" },
+        "baseline": { "$ref": "#/$defs/nonEmpty" },
+        "enhanced": { "$ref": "#/$defs/nonEmpty" },
+        "reason": {
+          "enum": ["clarity", "attention", "aesthetics", "immersion", "spatial_robustness"]
+        },
+        "expected_evidence": { "$ref": "#/$defs/nonEmpty" },
+        "essence_preserved": { "const": true }
+      }
+    },
+    "aestheticSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "palette",
+        "background",
+        "gradients",
+        "depth",
+        "connectors",
+        "components",
+        "typography",
+        "protagonist_state",
+        "charts_and_timelines",
+        "restraint_rules"
+      ],
+      "properties": {
+        "palette": { "$ref": "#/$defs/nonEmptyList" },
+        "background": { "$ref": "#/$defs/nonEmpty" },
+        "gradients": { "$ref": "#/$defs/nonEmpty" },
+        "depth": { "$ref": "#/$defs/nonEmpty" },
+        "connectors": { "$ref": "#/$defs/nonEmpty" },
+        "components": { "$ref": "#/$defs/nonEmpty" },
+        "typography": { "$ref": "#/$defs/nonEmpty" },
+        "protagonist_state": { "$ref": "#/$defs/nonEmpty" },
+        "charts_and_timelines": { "$ref": "#/$defs/nonEmpty" },
+        "restraint_rules": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "attentionStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scene_id",
+        "hold_id",
+        "primary",
+        "secondary",
+        "muted",
+        "gaze_path",
+        "question_answered"
+      ],
+      "properties": {
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "hold_id": { "$ref": "#/$defs/nonEmpty" },
+        "primary": { "$ref": "#/$defs/nonEmpty" },
+        "secondary": { "$ref": "#/$defs/stringList" },
+        "muted": { "$ref": "#/$defs/stringList" },
+        "gaze_path": { "$ref": "#/$defs/nonEmptyList" },
+        "question_answered": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "viewportConstraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "viewport_id",
+        "width_px",
+        "height_px",
+        "safe_inset_px",
+        "minimum_gap_px",
+        "minimum_text_px",
+        "max_primary_count",
+        "max_simultaneous_labels"
+      ],
+      "properties": {
+        "viewport_id": { "$ref": "#/$defs/nonEmpty" },
+        "width_px": { "type": "integer", "minimum": 1 },
+        "height_px": { "type": "integer", "minimum": 1 },
+        "safe_inset_px": { "type": "number", "minimum": 0 },
+        "minimum_gap_px": { "type": "number", "minimum": 0 },
+        "minimum_text_px": { "type": "number", "exclusiveMinimum": 0 },
+        "max_primary_count": { "const": 1 },
+        "max_simultaneous_labels": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "geometryConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["viewports", "connector_clearance_px", "allowed_overlaps", "blocking_checks"],
+      "properties": {
+        "viewports": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/viewportConstraint" }
+        },
+        "connector_clearance_px": { "type": "number", "minimum": 0 },
+        "allowed_overlaps": { "$ref": "#/$defs/stringList" },
+        "blocking_checks": {
+          "type": "array",
+          "minItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "text_text_overlap",
+              "text_object_overlap",
+              "clipping",
+              "overflow",
+              "minimum_text",
+              "connector_label_collision",
+              "persistent_duplicate",
+              "empty_state",
+              "protagonist_competition",
+              "motion_discontinuity"
+            ]
+          }
+        }
+      }
+    },
+    "comparisonUnit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scene_id", "original_reference_id", "baseline_hold_id", "enhanced_hold_id", "viewports"],
+      "properties": {
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "original_reference_id": { "$ref": "#/$defs/nonEmpty" },
+        "baseline_hold_id": { "$ref": "#/$defs/nonEmpty" },
+        "enhanced_hold_id": { "$ref": "#/$defs/nonEmpty" },
+        "viewports": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "comparisonPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["variants", "units", "judgement_dimensions"],
+      "properties": {
+        "variants": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "enum": ["original", "baseline_faithful", "enhanced_immersive"] }
+        },
+        "units": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/comparisonUnit" }
+        },
+        "judgement_dimensions": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "essential_fidelity",
+              "visual_uplift",
+              "immersive_uplift",
+              "pedagogical_uplift",
+              "spatial_robustness"
+            ]
+          }
+        }
       }
     },
     "globalSystem": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "concept_thesis",
-        "domain_signature",
-        "representation_principles",
-        "composition_grammar",
-        "hierarchy",
-        "density",
-        "text_role",
-        "color_roles",
-        "typography_roles"
-      ],
+      "required": ["concept_thesis", "composition_grammar", "hierarchy", "text_role"],
       "properties": {
         "concept_thesis": { "$ref": "#/$defs/nonEmpty" },
-        "domain_signature": { "$ref": "#/$defs/nonEmpty" },
-        "representation_principles": { "$ref": "#/$defs/stringList" },
         "composition_grammar": { "$ref": "#/$defs/nonEmpty" },
         "hierarchy": { "$ref": "#/$defs/nonEmpty" },
-        "density": { "$ref": "#/$defs/nonEmpty" },
-        "text_role": { "$ref": "#/$defs/nonEmpty" },
-        "color_roles": { "$ref": "#/$defs/stringList" },
-        "typography_roles": { "$ref": "#/$defs/stringList" }
+        "text_role": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "essence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["message", "conceptual_elements", "numeric_invariants"],
+      "properties": {
+        "message": { "$ref": "#/$defs/nonEmpty" },
+        "conceptual_elements": { "$ref": "#/$defs/nonEmptyList" },
+        "numeric_invariants": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "opportunities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visual", "pedagogical", "immersive", "spatial"],
+      "properties": {
+        "visual": { "$ref": "#/$defs/nonEmptyList" },
+        "pedagogical": { "$ref": "#/$defs/nonEmptyList" },
+        "immersive": { "$ref": "#/$defs/nonEmptyList" },
+        "spatial": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "hold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hold_id", "purpose", "primary", "visible_elements", "absent_elements", "success_criteria"],
+      "properties": {
+        "hold_id": { "$ref": "#/$defs/nonEmpty" },
+        "purpose": { "$ref": "#/$defs/nonEmpty" },
+        "primary": { "$ref": "#/$defs/nonEmpty" },
+        "visible_elements": { "$ref": "#/$defs/nonEmptyList" },
+        "absent_elements": { "$ref": "#/$defs/stringList" },
+        "success_criteria": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "layout", "holds", "desktop", "mobile"],
+      "properties": {
+        "summary": { "$ref": "#/$defs/nonEmpty" },
+        "layout": { "$ref": "#/$defs/nonEmpty" },
+        "holds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/hold" }
+        },
+        "desktop": { "$ref": "#/$defs/nonEmpty" },
+        "mobile": { "$ref": "#/$defs/nonEmpty" }
       }
     },
     "scene": {
@@ -456,113 +531,31 @@
         "scene_id",
         "goal",
         "takeaway",
-        "protagonist",
-        "invariants",
-        "representation",
-        "holds",
-        "reading_path",
+        "preserved_essence",
+        "improvement_opportunities",
+        "overload_risks",
+        "variants",
         "spatial_ownership",
-        "text_budget",
-        "mobile_behavior",
         "exclusions"
       ],
       "properties": {
         "scene_id": { "$ref": "#/$defs/nonEmpty" },
         "goal": { "$ref": "#/$defs/nonEmpty" },
         "takeaway": { "$ref": "#/$defs/nonEmpty" },
-        "protagonist": { "$ref": "#/$defs/protagonist" },
-        "invariants": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
-        "representation": { "$ref": "#/$defs/representation" },
-        "holds": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/hold" } },
-        "reading_path": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
-        "spatial_ownership": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/spatialOwner" } },
-        "text_budget": { "$ref": "#/$defs/textBudget" },
-        "mobile_behavior": { "$ref": "#/$defs/sceneMobile" },
+        "preserved_essence": { "$ref": "#/$defs/essence" },
+        "improvement_opportunities": { "$ref": "#/$defs/opportunities" },
+        "overload_risks": { "$ref": "#/$defs/nonEmptyList" },
+        "variants": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["baseline_faithful", "enhanced_immersive"],
+          "properties": {
+            "baseline_faithful": { "$ref": "#/$defs/variant" },
+            "enhanced_immersive": { "$ref": "#/$defs/variant" }
+          }
+        },
+        "spatial_ownership": { "$ref": "#/$defs/nonEmptyList" },
         "exclusions": { "$ref": "#/$defs/stringList" }
-      }
-    },
-    "protagonist": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["primary", "support", "context", "absent"],
-      "properties": {
-        "primary": { "$ref": "#/$defs/nonEmpty" },
-        "support": { "$ref": "#/$defs/stringList" },
-        "context": { "$ref": "#/$defs/stringList" },
-        "absent": { "$ref": "#/$defs/stringList" }
-      }
-    },
-    "representation": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["domain_object", "mechanism", "encodings", "why_visual"],
-      "properties": {
-        "domain_object": { "$ref": "#/$defs/nonEmpty" },
-        "mechanism": { "$ref": "#/$defs/nonEmpty" },
-        "encodings": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
-        "why_visual": { "$ref": "#/$defs/nonEmpty" }
-      }
-    },
-    "hold": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "hold_id",
-        "purpose",
-        "description",
-        "dominant_element",
-        "static_success_criteria",
-        "absent_elements"
-      ],
-      "properties": {
-        "hold_id": { "$ref": "#/$defs/nonEmpty" },
-        "purpose": { "$ref": "#/$defs/nonEmpty" },
-        "description": { "$ref": "#/$defs/nonEmpty" },
-        "dominant_element": { "$ref": "#/$defs/nonEmpty" },
-        "static_success_criteria": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
-        "absent_elements": { "$ref": "#/$defs/stringList" }
-      }
-    },
-    "spatialOwner": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["region", "owner", "boundary_rule"],
-      "properties": {
-        "region": { "$ref": "#/$defs/nonEmpty" },
-        "owner": { "$ref": "#/$defs/nonEmpty" },
-        "boundary_rule": { "$ref": "#/$defs/nonEmpty" }
-      }
-    },
-    "textBudget": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["max_visible_words", "max_simultaneous_labels", "essential_text"],
-      "properties": {
-        "max_visible_words": { "type": "integer", "minimum": 0 },
-        "max_simultaneous_labels": { "type": "integer", "minimum": 0 },
-        "essential_text": { "$ref": "#/$defs/stringList" }
-      }
-    },
-    "sceneMobile": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["preserved_takeaway", "composition_change", "reading_path", "label_policy"],
-      "properties": {
-        "preserved_takeaway": { "$ref": "#/$defs/nonEmpty" },
-        "composition_change": { "$ref": "#/$defs/nonEmpty" },
-        "reading_path": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
-        "label_policy": { "$ref": "#/$defs/nonEmpty" }
-      }
-    },
-    "mobile": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["target_widths_px", "downsample_width_px", "minimum_text_px", "sibling_composition_rule"],
-      "properties": {
-        "target_widths_px": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 240 } },
-        "downsample_width_px": { "type": "integer", "minimum": 240 },
-        "minimum_text_px": { "type": "number", "exclusiveMinimum": 0 },
-        "sibling_composition_rule": { "$ref": "#/$defs/nonEmpty" }
       }
     }
   }

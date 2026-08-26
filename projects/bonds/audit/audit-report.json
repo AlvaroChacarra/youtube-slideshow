@@ -1,0 +1,193 @@
+{
+  "audit_id": "bonds-enhanced-v3-comparative-audit",
+  "subject_commit": "8a6302a7708bbf141f3b510bff7ec40fb7df8700",
+  "implementation_manifest_hash": "sha256:a00765af84167d0015547abeefd1575dd06964a20751e38c1b12338b6518840c",
+  "consumed_versions": {
+    "visual_contract": "3.0.0",
+    "motion_contract": "3.0.0",
+    "implementation_manifest_schema": "3.0.0",
+    "audit_report_schema": "3.0.0"
+  },
+  "independence": {
+    "fully_independent": false,
+    "output_observed_before_rationale": false,
+    "auditor_created_subject": true,
+    "auditor_remediated_subject": true,
+    "known_sources_before_first_pass": true,
+    "limitations": [
+      "The same Work authored, rendered, remediated and audited the subject.",
+      "Objective gates and hashed evidence are reproducible, but final taste approval still requires the user or a separate auditor."
+    ]
+  },
+  "evidence": {
+    "artifacts": [
+      {
+        "path": "evidence/comparisons/slide-02-original-baseline-enhanced.png",
+        "content_hash": "sha256:c2c6aa8716147633dbd87dfa598ac5171471537126df5b8bee70c6d1b4891139",
+        "kind": "comparison",
+        "viewport_id": "desktop-1600x900"
+      },
+      {
+        "path": "evidence/comparisons/slide-04-original-baseline-enhanced.png",
+        "content_hash": "sha256:9c2f305110d1c17b46421c0b6733717b47dd58ffea49068e747f8d7574b6471b",
+        "kind": "comparison",
+        "viewport_id": "desktop-1600x900"
+      },
+      {
+        "path": "evidence/geometry/enhanced_immersive-report.json",
+        "content_hash": "sha256:c19bc3e1af62f145c25ec614952f723cd8a031776a619aa23830b565aab8f998",
+        "kind": "geometry_report",
+        "viewport_id": "multi-viewport"
+      },
+      {
+        "path": "evidence/runtime-tests.json",
+        "content_hash": "sha256:c5db21c696f47fa35d04dc8128bc32161e46dd6b52966981a9c9103c867d9685",
+        "kind": "test_log",
+        "viewport_id": "multi-viewport"
+      },
+      {
+        "path": "evidence/evidence-index.json",
+        "content_hash": "sha256:3b1413366770b838fc564a132d6d53e835a5f438c1ec38b353da7427ddce1e4d",
+        "kind": "other",
+        "viewport_id": "multi-viewport"
+      },
+      {
+        "path": "projects/bonds/audit/executive-comparison.md",
+        "content_hash": "sha256:53a243a4f3f0ad67354d9914039bedb8629f6046bd56208546384027c9d607a7",
+        "kind": "other",
+        "viewport_id": "multi-viewport"
+      },
+      {
+        "path": "evidence/captures/enhanced_immersive/mobile-presenter-390x844/slide-02-s2-e5.png",
+        "content_hash": "sha256:e29c06b424667688473bedf3091d595dba64483974b1ef8cfbe456f28149cff8",
+        "kind": "still",
+        "viewport_id": "mobile-presenter-390x844"
+      },
+      {
+        "path": "evidence/captures/enhanced_immersive/mobile-presenter-390x844/slide-04-s4-e6.png",
+        "content_hash": "sha256:5c190ee38b6b5e659191aa081efb8badd6094e61378ea6ac29fd034851121fdc",
+        "kind": "still",
+        "viewport_id": "mobile-presenter-390x844"
+      }
+    ],
+    "inspected_holds": [
+      "s2-e1",
+      "s2-e2",
+      "s2-e3",
+      "s2-e4",
+      "s2-e5",
+      "s4-e1",
+      "s4-e2",
+      "s4-e3",
+      "s4-e4",
+      "s4-e5",
+      "s4-e6"
+    ],
+    "inspected_beats": [
+      "S2-EN-01",
+      "S2-EN-02",
+      "S2-EN-03",
+      "S2-EN-04",
+      "S4-EN-01",
+      "S4-EN-02",
+      "S4-EN-03",
+      "S4-EN-04",
+      "S4-EN-05"
+    ],
+    "mobile": {
+      "status": "passed",
+      "evidence": "Portrait and @2x downsample captures plus 114-sample enhanced geometry PASS."
+    },
+    "reverse": {
+      "status": "passed",
+      "evidence": "evidence/runtime-tests.json: forward-and-reverse and interrupted reverse groups PASS; evidence/captures/behavior/slide-02-reverse.png."
+    },
+    "reset": {
+      "status": "passed",
+      "evidence": "evidence/runtime-tests.json: reset-idempotent PASS; evidence/captures/behavior/slide-02-reset.png."
+    },
+    "reduced_motion": {
+      "status": "passed",
+      "evidence": "Semantic equivalence completed under 180ms; evidence/captures/behavior/slide-04-reduced-motion.png."
+    },
+    "reproducibility": {
+      "status": "passed",
+      "evidence": "46 content-addressed captures in evidence/evidence-index.json; 114 deterministic geometry samples."
+    }
+  },
+  "comparative_assessment": [
+    {
+      "scene_id": "slide-02",
+      "comparison_evidence": {
+        "path": "evidence/comparisons/slide-02-original-baseline-enhanced.png",
+        "content_hash": "sha256:c2c6aa8716147633dbd87dfa598ac5171471537126df5b8bee70c6d1b4891139",
+        "kind": "comparison",
+        "viewport_id": "desktop-1600x900"
+      },
+      "essential_fidelity": "passed",
+      "visual_uplift": "material",
+      "immersive_uplift": "material",
+      "pedagogical_uplift": "improved",
+      "spatial_robustness": "passed",
+      "baseline_summary": "Faithful certificate, seven anatomical callouts and cash-flow timeline preserve the approved source, but simultaneous labels retain the original density and fixed-canvas fragility.",
+      "enhanced_summary": "A persistent editorial certificate becomes three economic chapters—entry, coupon engine and exit—before resolving into the complete investor timeline; hierarchy is clearer and mobile reflows without dropping concepts."
+    },
+    {
+      "scene_id": "slide-04",
+      "comparison_evidence": {
+        "path": "evidence/comparisons/slide-04-original-baseline-enhanced.png",
+        "content_hash": "sha256:9c2f305110d1c17b46421c0b6733717b47dd58ffea49068e747f8d7574b6471b",
+        "kind": "comparison",
+        "viewport_id": "desktop-1600x900"
+      },
+      "essential_fidelity": "passed",
+      "visual_uplift": "material",
+      "immersive_uplift": "material",
+      "pedagogical_uplift": "improved",
+      "spatial_robustness": "passed",
+      "baseline_summary": "The faithful timeline, maturity callout, general equation and five-term expansion preserve the source but expose all layers with limited attentional control.",
+      "enhanced_summary": "Cash flows retain identity while one discounted term, four coupons, maturity principal and the complete sum are revealed in causal order; the final formula remains exact and legible across all target viewports."
+    }
+  ],
+  "scores": {
+    "pedagogical_comprehension": 9,
+    "composition_and_hierarchy": 8.8,
+    "visual_craft_and_taste": 8.6,
+    "motion_and_continuity": 8.7,
+    "cognitive_load_and_pacing": 9,
+    "interaction_and_holds": 9.1,
+    "mobile_legibility": 8.7,
+    "technical_robustness": 9.4,
+    "total": 8.9
+  },
+  "geometry_gate": {
+    "status": "PASS",
+    "report_path": "evidence/geometry/enhanced_immersive-report.json",
+    "report_hash": "sha256:c19bc3e1af62f145c25ec614952f723cd8a031776a619aa23830b565aab8f998",
+    "states_checked": 114,
+    "material_violation_count": 0,
+    "sampling_verified": true
+  },
+  "findings": [
+    {
+      "finding_id": "AUD-INDEPENDENCE-001",
+      "scene_id": "cross-scene",
+      "severity": "nit",
+      "evidence": "independence.fully_independent=false and the author/auditor flags are true.",
+      "consequence": "The result can support an engineering GO but cannot be promoted to reference_candidate without a separate first-pass audit.",
+      "probable_cause": "The execution mandate was completed in one Work and multi-agent delegation was not authorized.",
+      "verifiable_correction": "Have a separate auditor inspect rendered output before reading the rationale, then regenerate only the audit report.",
+      "owner": "user",
+      "failure_origin": "not_applicable"
+    }
+  ],
+  "blockers": [],
+  "limitations": [
+    "The baseline is an intentional diagnostic expected-fail on compact viewports; only enhanced is acceptance-gated.",
+    "The conclusion applies to Bonds Slides 2 and 4 and does not yet prove deck-wide scalability.",
+    "User taste approval remains outstanding because this audit is not fully independent."
+  ],
+  "verdict": "ready_for_user_review",
+  "decision": "GO_ENHANCED_V3",
+  "required_next_owner": "user"
+}

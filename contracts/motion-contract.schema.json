@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/motion-contract.schema.json",
-  "x-schema-version": "2.1.0",
-  "title": "Motion Contract",
+  "x-schema-version": "3.0.0",
+  "title": "Motion Contract V3",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -11,115 +11,89 @@
     "status",
     "scenes",
     "beats",
+    "attention_rules",
+    "focus_moments",
+    "breathing_moments",
+    "continuity_invariants",
+    "simultaneity_limits",
     "reduced_motion",
     "global_timing_rules",
     "known_risks"
   ],
   "properties": {
-    "contract_version": { "$ref": "#/$defs/version" },
+    "contract_version": { "const": "3.0.0" },
     "visual_contract_hash": { "$ref": "#/$defs/sha256" },
+    "status": { "enum": ["draft", "ready", "blocked", "superseded"] },
     "reference_anchors": {
       "type": "array",
-      "uniqueItems": true,
-      "description": "Obligatorio por regla de pipeline cuando el visual contract contiene reference_bindings; opcional en schema para compatibilidad V2.",
       "items": { "$ref": "#/$defs/referenceAnchor" }
     },
-    "status": { "enum": ["draft", "ready", "blocked", "superseded"] },
-    "scenes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/scene" } },
-    "beats": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/beat" } },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/scene" }
+    },
+    "beats": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/beat" }
+    },
+    "attention_rules": { "$ref": "#/$defs/nonEmptyList" },
+    "focus_moments": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/focusMoment" }
+    },
+    "breathing_moments": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/breathingMoment" }
+    },
+    "continuity_invariants": { "$ref": "#/$defs/nonEmptyList" },
+    "simultaneity_limits": { "$ref": "#/$defs/simultaneityLimits" },
     "reduced_motion": { "$ref": "#/$defs/reducedMotion" },
     "global_timing_rules": { "$ref": "#/$defs/globalTiming" },
-    "known_risks": { "type": "array", "items": { "$ref": "#/$defs/risk" } }
-  },
-  "dependentSchemas": {
-    "reference_anchors": {
-      "properties": { "contract_version": { "const": "2.1.0" } }
+    "known_risks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/risk" }
     }
   },
   "$defs": {
     "nonEmpty": { "type": "string", "minLength": 1 },
-    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "stringList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmpty" }
+    },
+    "nonEmptyList": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/nonEmpty" }
+    },
     "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "stringList": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } },
     "referenceAnchor": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "reference_id",
-        "scene_id",
-        "hold_id",
-        "keyframe_role",
-        "perceptual_invariants",
-        "mutable_in_motion",
-        "material_composition_preserved"
-      ],
+      "required": ["reference_id", "scene_id", "hold_id", "role", "essential_invariants", "mutable_in_motion"],
       "properties": {
         "reference_id": { "$ref": "#/$defs/nonEmpty" },
         "scene_id": { "$ref": "#/$defs/nonEmpty" },
         "hold_id": { "$ref": "#/$defs/nonEmpty" },
-        "keyframe_role": { "enum": ["source_keyframe", "target_keyframe", "intermediate_keyframe"] },
-        "perceptual_invariants": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": { "$ref": "#/$defs/nonEmpty" }
-        },
-        "mutable_in_motion": { "$ref": "#/$defs/stringList" },
-        "material_composition_preserved": { "const": true }
+        "role": { "enum": ["baseline_keyframe", "enhanced_keyframe"] },
+        "essential_invariants": { "$ref": "#/$defs/nonEmptyList" },
+        "mutable_in_motion": { "$ref": "#/$defs/stringList" }
       }
     },
     "scene": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["scene_id", "beat_ids", "persistent_objects"],
+      "required": ["scene_id", "variant", "beat_ids", "persistent_objects", "initial_hold", "final_hold"],
       "properties": {
         "scene_id": { "$ref": "#/$defs/nonEmpty" },
-        "beat_ids": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
-        "persistent_objects": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
-      }
-    },
-    "beat": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "beat_id",
-        "scene_id",
-        "source_state",
-        "target_state",
-        "persistent_identity",
-        "semantic_change",
-        "preparation",
-        "action",
-        "resolution",
-        "hold",
-        "timing",
-        "easing",
-        "stagger",
-        "interruptibility",
-        "reverse",
-        "reset",
-        "overlap_risks",
-        "disappearing_elements"
-      ],
-      "properties": {
-        "beat_id": { "$ref": "#/$defs/nonEmpty" },
-        "scene_id": { "$ref": "#/$defs/nonEmpty" },
-        "source_state": { "$ref": "#/$defs/nonEmpty" },
-        "target_state": { "$ref": "#/$defs/nonEmpty" },
-        "persistent_identity": { "type": "array", "items": { "$ref": "#/$defs/identity" } },
-        "semantic_change": { "$ref": "#/$defs/nonEmpty" },
-        "preparation": { "$ref": "#/$defs/phase" },
-        "action": { "$ref": "#/$defs/phase" },
-        "resolution": { "$ref": "#/$defs/phase" },
-        "hold": { "$ref": "#/$defs/hold" },
-        "timing": { "$ref": "#/$defs/timing" },
-        "easing": { "$ref": "#/$defs/easing" },
-        "stagger": { "$ref": "#/$defs/stagger" },
-        "interruptibility": { "$ref": "#/$defs/interruptibility" },
-        "reverse": { "$ref": "#/$defs/reverse" },
-        "reset": { "$ref": "#/$defs/reset" },
-        "overlap_risks": { "$ref": "#/$defs/stringList" },
-        "disappearing_elements": { "type": "array", "items": { "$ref": "#/$defs/disappearing" } }
+        "variant": { "enum": ["baseline_faithful", "enhanced_immersive"] },
+        "beat_ids": { "$ref": "#/$defs/nonEmptyList" },
+        "persistent_objects": { "$ref": "#/$defs/stringList" },
+        "initial_hold": { "$ref": "#/$defs/nonEmpty" },
+        "final_hold": { "$ref": "#/$defs/nonEmpty" }
       }
     },
     "identity": {
@@ -133,6 +107,42 @@
         "continuity_rule": { "$ref": "#/$defs/nonEmpty" }
       }
     },
+    "attentionDirection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protagonist",
+        "secondary",
+        "enters",
+        "persists",
+        "dims",
+        "transforms",
+        "comprehension_rationale"
+      ],
+      "properties": {
+        "protagonist": { "$ref": "#/$defs/nonEmpty" },
+        "secondary": { "$ref": "#/$defs/stringList" },
+        "enters": { "$ref": "#/$defs/stringList" },
+        "persists": { "$ref": "#/$defs/stringList" },
+        "dims": { "$ref": "#/$defs/stringList" },
+        "transforms": { "$ref": "#/$defs/stringList" },
+        "comprehension_rationale": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "transitionCharacter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verb", "spatial_signal", "generic_fade_only", "micro_motion", "micro_motion_purpose"],
+      "properties": {
+        "verb": {
+          "enum": ["reveal", "connect", "decompose", "transfer", "accumulate", "compare", "transform", "focus"]
+        },
+        "spatial_signal": { "$ref": "#/$defs/nonEmpty" },
+        "generic_fade_only": { "const": false },
+        "micro_motion": { "type": "boolean" },
+        "micro_motion_purpose": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
     "phase": {
       "type": "object",
       "additionalProperties": false,
@@ -140,16 +150,6 @@
       "properties": {
         "purpose": { "$ref": "#/$defs/nonEmpty" },
         "changes": { "$ref": "#/$defs/stringList" }
-      }
-    },
-    "hold": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["hold_id", "stable_state", "release_condition"],
-      "properties": {
-        "hold_id": { "$ref": "#/$defs/nonEmpty" },
-        "stable_state": { "$ref": "#/$defs/nonEmpty" },
-        "release_condition": { "const": "presenter_advance" }
       }
     },
     "timing": {
@@ -188,8 +188,8 @@
       "additionalProperties": false,
       "required": ["interruptible", "safe_states", "settle_strategy"],
       "properties": {
-        "interruptible": { "type": "boolean" },
-        "safe_states": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
+        "interruptible": { "const": true },
+        "safe_states": { "$ref": "#/$defs/nonEmptyList" },
         "settle_strategy": { "$ref": "#/$defs/nonEmpty" }
       }
     },
@@ -206,31 +206,95 @@
     "reset": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["supported", "target_state", "idempotent"],
+      "required": ["supported", "target_hold", "idempotent"],
       "properties": {
         "supported": { "const": true },
-        "target_state": { "$ref": "#/$defs/nonEmpty" },
+        "target_hold": { "$ref": "#/$defs/nonEmpty" },
         "idempotent": { "const": true }
       }
     },
-    "disappearing": {
+    "beat": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["element_id", "removal_state", "non_interactive_after_exit"],
+      "required": [
+        "beat_id",
+        "scene_id",
+        "variant",
+        "source_hold",
+        "target_hold",
+        "persistent_identity",
+        "semantic_change",
+        "attention_direction",
+        "transition_character",
+        "preparation",
+        "action",
+        "resolution",
+        "timing",
+        "easing",
+        "stagger",
+        "interruptibility",
+        "reverse",
+        "reset",
+        "continuity_invariants",
+        "simultaneity_limit",
+        "overlap_risks"
+      ],
       "properties": {
-        "element_id": { "$ref": "#/$defs/nonEmpty" },
-        "removal_state": { "enum": ["removed", "hidden"] },
-        "non_interactive_after_exit": { "const": true }
+        "beat_id": { "$ref": "#/$defs/nonEmpty" },
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "variant": { "enum": ["baseline_faithful", "enhanced_immersive"] },
+        "source_hold": { "$ref": "#/$defs/nonEmpty" },
+        "target_hold": { "$ref": "#/$defs/nonEmpty" },
+        "persistent_identity": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/identity" }
+        },
+        "semantic_change": { "$ref": "#/$defs/nonEmpty" },
+        "attention_direction": { "$ref": "#/$defs/attentionDirection" },
+        "transition_character": { "$ref": "#/$defs/transitionCharacter" },
+        "preparation": { "$ref": "#/$defs/phase" },
+        "action": { "$ref": "#/$defs/phase" },
+        "resolution": { "$ref": "#/$defs/phase" },
+        "timing": { "$ref": "#/$defs/timing" },
+        "easing": { "$ref": "#/$defs/easing" },
+        "stagger": { "$ref": "#/$defs/stagger" },
+        "interruptibility": { "$ref": "#/$defs/interruptibility" },
+        "reverse": { "$ref": "#/$defs/reverse" },
+        "reset": { "$ref": "#/$defs/reset" },
+        "continuity_invariants": { "$ref": "#/$defs/nonEmptyList" },
+        "simultaneity_limit": { "type": "integer", "minimum": 1 },
+        "overlap_risks": { "$ref": "#/$defs/stringList" }
       }
     },
-    "reducedMotion": {
+    "focusMoment": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["policy", "preserve_semantic_change", "fallback_by_beat"],
+      "required": ["beat_id", "object_id", "treatment", "purpose"],
       "properties": {
-        "policy": { "$ref": "#/$defs/nonEmpty" },
-        "preserve_semantic_change": { "const": true },
-        "fallback_by_beat": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/reducedBeat" } }
+        "beat_id": { "$ref": "#/$defs/nonEmpty" },
+        "object_id": { "$ref": "#/$defs/nonEmpty" },
+        "treatment": { "$ref": "#/$defs/nonEmpty" },
+        "purpose": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "breathingMoment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hold_id", "stable_relationship", "release_condition"],
+      "properties": {
+        "hold_id": { "$ref": "#/$defs/nonEmpty" },
+        "stable_relationship": { "$ref": "#/$defs/nonEmpty" },
+        "release_condition": { "const": "presenter_advance" }
+      }
+    },
+    "simultaneityLimits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["global_max_material_changes", "global_max_primary", "rationale"],
+      "properties": {
+        "global_max_material_changes": { "type": "integer", "minimum": 1 },
+        "global_max_primary": { "const": 1 },
+        "rationale": { "$ref": "#/$defs/nonEmpty" }
       }
     },
     "reducedBeat": {
@@ -243,15 +307,29 @@
         "final_hold_unchanged": { "const": true }
       }
     },
+    "reducedMotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy", "preserve_semantic_change", "fallback_by_beat"],
+      "properties": {
+        "policy": { "$ref": "#/$defs/nonEmpty" },
+        "preserve_semantic_change": { "const": true },
+        "fallback_by_beat": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/reducedBeat" }
+        }
+      }
+    },
     "globalTiming": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["presenter_paced", "hold_policy", "max_simultaneous_material_changes", "default_interrupt_policy"],
+      "required": ["presenter_paced", "hold_policy", "default_interrupt_policy", "ambient_loops_allowed"],
       "properties": {
         "presenter_paced": { "const": true },
         "hold_policy": { "const": "indefinite_until_presenter_advance" },
-        "max_simultaneous_material_changes": { "type": "integer", "minimum": 1 },
-        "default_interrupt_policy": { "$ref": "#/$defs/nonEmpty" }
+        "default_interrupt_policy": { "$ref": "#/$defs/nonEmpty" },
+        "ambient_loops_allowed": { "const": false }
       }
     },
     "risk": {

@@ -1,0 +1,179 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-25T20:27:44.992Z",
+  "status": "PASS",
+  "assertions": 21,
+  "results": [
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 1600,
+        "height": 900
+      },
+      "variant": "baseline_faithful",
+      "slide": "slide-02",
+      "holds": 3
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 1600,
+        "height": 900
+      },
+      "variant": "baseline_faithful",
+      "slide": "slide-04",
+      "holds": 4
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 1600,
+        "height": 900
+      },
+      "variant": "enhanced_immersive",
+      "slide": "slide-02",
+      "holds": 5
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 1600,
+        "height": 900
+      },
+      "variant": "enhanced_immersive",
+      "slide": "slide-04",
+      "holds": 6
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "variant": "baseline_faithful",
+      "slide": "slide-02",
+      "holds": 3
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "variant": "baseline_faithful",
+      "slide": "slide-04",
+      "holds": 4
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "variant": "enhanced_immersive",
+      "slide": "slide-02",
+      "holds": 5
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "variant": "enhanced_immersive",
+      "slide": "slide-04",
+      "holds": 6
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 219
+      },
+      "variant": "baseline_faithful",
+      "slide": "slide-02",
+      "holds": 3
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 219
+      },
+      "variant": "baseline_faithful",
+      "slide": "slide-04",
+      "holds": 4
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 219
+      },
+      "variant": "enhanced_immersive",
+      "slide": "slide-02",
+      "holds": 5
+    },
+    {
+      "name": "stable-hold-state",
+      "status": "PASS",
+      "viewport": {
+        "width": 390,
+        "height": 219
+      },
+      "variant": "enhanced_immersive",
+      "slide": "slide-04",
+      "holds": 6
+    },
+    {
+      "name": "presenter-paced-no-autoplay",
+      "status": "PASS"
+    },
+    {
+      "name": "forward-and-reverse",
+      "status": "PASS"
+    },
+    {
+      "name": "reset-idempotent",
+      "status": "PASS"
+    },
+    {
+      "name": "interrupted-forward-settles-to-semantic-target",
+      "status": "PASS"
+    },
+    {
+      "name": "interrupted-reverse-settles-to-semantic-target",
+      "status": "PASS"
+    },
+    {
+      "name": "reduced-motion-semantic-equivalence",
+      "status": "PASS",
+      "elapsedMs": 15
+    },
+    {
+      "name": "deterministic-beat-sampling",
+      "status": "PASS",
+      "beats": 5,
+      "samples": 15
+    },
+    {
+      "name": "essential-content-preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "browser-console-clean",
+      "status": "PASS"
+    }
+  ]
+}

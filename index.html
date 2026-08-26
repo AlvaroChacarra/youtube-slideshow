@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <title>Lienzo V3 · Bonds</title>
+    <link rel="stylesheet" href="./runtime/styles.css">
+  </head>
+  <body>
+    <main id="app" class="app-shell">
+      <section id="stage" class="stage" aria-label="Lienzo didáctico presenter-paced">
+        <div id="scene" class="scene"></div>
+        <div id="motion-status" class="motion-status" aria-live="polite"></div>
+      </section>
+
+      <nav id="presenter-controls" class="presenter-controls" aria-label="Controles de presentación">
+        <div class="control-group control-group--context">
+          <label>
+            <span>Versión</span>
+            <select id="variant-control">
+              <option value="baseline_faithful">Baseline faithful</option>
+              <option value="enhanced_immersive">Enhanced immersive</option>
+            </select>
+          </label>
+          <label>
+            <span>Slide</span>
+            <select id="slide-control">
+              <option value="slide-02">02 · Anatomía</option>
+              <option value="slide-04">04 · Descuento</option>
+            </select>
+          </label>
+        </div>
+        <div class="control-group control-group--transport">
+          <button id="previous-control" type="button" aria-label="Hold anterior">←</button>
+          <button id="reset-control" type="button">Reset</button>
+          <span id="hold-readout" class="hold-readout"></span>
+          <button id="next-control" type="button" aria-label="Hold siguiente">→</button>
+        </div>
+      </nav>
+    </main>
+    <script type="module" src="./runtime/app.js"></script>
+  </body>
+</html>

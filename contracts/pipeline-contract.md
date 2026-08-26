@@ -1,187 +1,137 @@
-# Pipeline Contract V2.1
+# Pipeline Contract V3.0
 
-## 1. Propósito y autoridad
+## 1. Autoridad
 
-Este contrato define la única transferencia válida de autoridad entre cuatro etapas. Ante contradicción prevalecen, por orden:
+Aplicar, por orden:
 
-1. narrativa o spec semántica versionada para claims y contenido;
+1. spec semántica versionada para contenido, cifras y causalidad;
 2. este contrato para fronteras, gates e invalidación;
 3. schema del artefacto producido;
-4. `SKILL.md` de la etapa propietaria;
-5. artefactos aprobados y sus hashes;
+4. `SKILL.md` propietario;
+5. artefactos aprobados y hashes;
 6. documentación de procedencia.
 
-La conversación, el rationale y las fuentes externas no pueden corregir ni completar implícitamente un handoff.
+La conversación no completa un handoff. Toda excepción material queda persistida y hasheada.
 
-Cuando existe un bundle aprobado se separan dos autoridades:
+## 2. Modos visuales
 
-- semántica y contenido: la spec markdown prevalece sobre la imagen;
-- composición, jerarquía y apariencia: la referencia perceptual prevalece sobre descripciones textuales aproximadas.
+| Modo | Uso | Autoridad de la referencia | Gate |
+|---|---|---|---|
+| `concept_first` | No existe referencia aprobada | No aplica | tres direcciones + checkpoint humano |
+| `approved_reference` | Reconstrucción fiel | gobierna composición y apariencia | aprobación upstream verificable |
+| `reference_guided_enhancement` | Mejorar una slide buena | baseline conceptual y compositivo, no cárcel | mandato de mejora + deltas trazables + esencia preservada |
 
-Una contradicción material bloquea el bundle upstream. Production no puede elegir silenciosamente una fuente ni inferir semántica solo desde píxeles.
+En enhancement, todo `transformative_delta` debe usar exactamente una razón primaria: `clarity`, `attention`, `aesthetics`, `immersion` o `spatial_robustness`. Un cambio no trazado bloquea Production.
 
-## 2. Etapas y artefactos
+Las dos variantes contractuales se llaman `baseline_faithful` y `enhanced_immersive`.
 
-| Etapa | Propietario | Input normativo | Output normativo | Gate de salida |
+## 3. Etapas
+
+| Etapa | Propietario | Input | Output | Gate de salida |
 |---|---|---|---|---|
-| Dirección visual | `visual-director-lienzo` | narrativa/spec + constraints + bundle perceptual opcional | `visual-contract.json` | checkpoint explícito o aprobación upstream verificable |
-| Dirección de motion | `motion-director-lienzo` | narrativa + visual contract aprobado | `motion-contract.json` | contrato completo o blocker upstream |
-| Producción frontend | `frontend-producer-lienzo` | narrativa + visual + motion vigentes | `implementation-manifest.json` | build, evidencia y desviaciones registradas |
-| Auditoría | `audita-y-mejora-lienzo-didactico` | output real + manifest + contratos | `audit-report.json` | veredicto y siguiente propietario explícitos |
+| Visual | `visual-director-lienzo` | spec + referencia + mandato | `visual-contract.json` | esencia, baseline, enhanced y móvil cerrados |
+| Motion | `motion-director-lienzo` | visual aprobado | `motion-contract.json` | atención, continuidad y estados deterministas |
+| Production | `frontend-producer-lienzo` | narrativa + contratos vigentes | `implementation-manifest.json` | build, tests, evidencia y geometry PASS |
+| Audit | `audita-y-mejora-lienzo-didactico` | original + runtimes + manifest | `audit-report.json` | veredicto comparativo y decisión V3 |
 
-El nombre de archivo es convencional; su contenido y hash son normativos. Cada artefacto debe validar contra su schema antes de ser consumido.
+Persistir el output antes de abrir la siguiente autoridad. Un finding vuelve a su propietario y genera artefactos nuevos; no se edita un informe cerrado.
 
-El upstream Image-to-Code no añade una etapa ni una skill. Entrega, de forma selectiva, diseño global, proyecto, spec de unidad y referencia aprobada al Visual Director. Su contrato genérico se documenta en [`image-to-code-integration.md`](../docs/image-to-code-integration.md).
+## 4. Gates V3
 
-## 3. Flujo de estados
+### Visual gate
 
-### 3.1 Visual contract
+Exigir por slide:
 
-Modo `concept_first`: `draft` → `pending_user_approval` → `approved`.
+- esencia preservada y elementos conceptuales obligatorios;
+- oportunidades visuales, pedagógicas, inmersivas y espaciales;
+- riesgos de sobrecarga;
+- baseline fiel y enhanced diferenciados;
+- `enhancement_intent`, `transformative_delta`, `aesthetic_system` y `attention_model`;
+- reglas espaciales ejecutables y composición móvil hermana.
 
-Modo `approved_reference`: `draft` → `approved` solo si la aprobación upstream es verificable; si no, `draft` → `pending_user_approval`.
+### Motion gate
 
-Ramas terminales o de sustitución: `rejected`, `superseded`.
+Exigir por beat:
 
-Solo `approved`, con `user_approval.status = approved`, habilita Motion. Cambiar una dirección aprobada crea una nueva versión y deja la anterior `superseded`; no se edita en silencio.
+- protagonista y secundario;
+- entrada, persistencia, apagado y transformación;
+- razón de comprensión/atención;
+- preparación, acción, resolución y hold;
+- continuidad, respiración y máximo de cambios simultáneos;
+- reverse, reset, interrupción y reduced motion.
 
-### 3.2 Motion contract
+Un fade genérico sin cambio espacial, jerárquico o semántico no satisface el gate.
 
-`draft` → `ready`
+### Production gate
 
-Ramas: `blocked`, `superseded`. Solo `ready` habilita Production.
+Exigir:
 
-### 3.3 Implementation manifest
+- baseline y enhanced reproducibles;
+- medición real de texto mediante layout del navegador;
+- responsive desktop, móvil presenter y downsample 16:9;
+- geometry gate automatizado en todos los holds y muestras de transición;
+- evidencia original/baseline/enhanced;
+- cero desviaciones silenciosas.
 
-`draft` → `implemented`
+### Audit gate
 
-Ramas: `blocked`, `superseded`. `implemented` significa reproducible y evidenciado; no significa aprobado visualmente.
+Comparar por slide:
 
-### 3.4 Audit report
+1. fidelidad esencial;
+2. mejora visual;
+3. mejora inmersiva;
+4. mejora pedagógica;
+5. robustez espacial.
 
-Todo informe termina en exactamente uno de:
+`GO_ENHANCED_V3` exige ambas slides sin blocker/major, geometry `PASS`, mobile/reduced/reverse/reset correctos y uplift visual e inmersivo material. Si cualquiera falla: `NO_GO_ENHANCED_V3`.
 
-- `blocked`;
-- `revision_required`;
-- `ready_for_user_review`;
-- `reference_candidate`.
+## 5. Geometry gate
 
-Una remediación no cambia el veredicto anterior: produce nueva implementación, nueva evidencia y nuevo informe.
+Romper la aceptación enhanced ante:
 
-## 4. Gate de aprobación
+- solape no autorizado text/text o text/object;
+- clipping u overflow;
+- texto material bajo el mínimo contractual;
+- conector invadiendo un label ajeno;
+- duplicidad visible de objeto persistente;
+- estado vacío;
+- cero o más de un protagonista primario;
+- discontinuidad material en una muestra de motion.
 
-### 4.1 Concept-first
+Cada violación declara hold/beat, viewport, IDs, evidencia anotada y owner recomendado. Véase [`geometry-gate.md`](../docs/geometry-gate.md).
 
-El Visual Director debe persistir antes de aprobar:
+## 6. Estados
 
-- las tres direcciones globales materialmente distintas;
-- dirección elegida y direcciones rechazadas;
-- razón de selección;
-- cambios solicitados y su resolución;
-- identidad del revisor, fecha y referencia verificable de aprobación.
+- Visual: `draft`, `pending_user_approval`, `approved`, `rejected`, `superseded`.
+- Motion: `draft`, `ready`, `blocked`, `superseded`.
+- Implementation: `draft`, `implemented`, `blocked`, `superseded`.
+- Audit: `blocked`, `revision_required`, `ready_for_user_review`, `reference_candidate`.
 
-Sin respuesta explícita, el estado permanece `pending_user_approval`. Silencio, ejecución no interactiva, aceptación de un plan general o aprobación de la narrativa no equivalen a aprobación visual.
+`implemented` significa reproducible y con gates técnicos en verde; no equivale a aprobación perceptual final.
 
-### 4.2 Approved-reference
+## 7. Hashes e invalidación
 
-Visual no genera tres alternativas ni repite una elección ya cerrada. Puede heredar el gate solo si persiste:
+Usar SHA-256 con `sha256:<64 hex>`. Canonicalizar JSON conforme a RFC 8785 cuando se calcule el hash de un contrato.
 
-- `approval_source = approved_reference`;
-- branch y commit fijados;
-- spec semántica y referencia con path + hash;
-- `approval_reference` verificable;
-- bindings entre referencia, escena y hold.
+Cambios en narrativa, referencia, Visual, Motion, runtime, datos, viewport, umbral geométrico o schema invalidan todos los artefactos downstream afectados. No reetiquetar un artefacto viejo; regenerar y reauditar.
 
-La mera existencia de una imagen no prueba aprobación. Si falta evidencia, el estado es `pending_user_approval`.
+## 8. Fronteras
 
-## 5. Hashes y trazabilidad
+- Visual no escribe código ni timing.
+- Motion no cambia composición, contenido ni estética.
+- Production no mejora por su cuenta ni modifica contratos.
+- Audit no remedia antes de cerrar findings ni se autoaprueba.
+- Ninguna etapa usa la referencia fullscreen como implementación.
+- Ninguna etapa trata pixel diff como autoridad única.
+- Ninguna skill invoca automáticamente a otra.
 
-Todos los hashes de contenido usan SHA-256 y el formato `sha256:<64 hex minúsculas>`.
+## 9. Definition of Done
 
-- `narrative_hash`: bytes exactos de la narrativa versionada.
-- `visual_contract_hash`: JSON del visual contract canonicalizado conforme a RFC 8785, excluyendo únicamente un campo de hash propio si en el futuro existiera.
-- `motion_contract_hash`: misma regla para motion.
-- `implementation_manifest_hash` y hashes de evidencia: misma regla o bytes exactos del archivo, según el tipo registrado.
-- cada archivo del `reference_bundle`: bytes exactos del diseño, proyecto, spec o referencia citada;
-- `commit` y `subject_commit`: commit Git que permite reproducir el sujeto.
-
-El consumidor debe copiar los hashes del artefacto que realmente leyó. Una coincidencia de nombre de archivo no demuestra identidad. El gate cruzado verifica igualdad, no solo formato: spec y referencia del bundle deben coincidir con manifest e informe, y el `output_hash` auditado debe coincidir con el `screenshot_hash` del mismo `reference_id + scene_id + hold_id + viewport_id`.
-
-`visual_contract_hash` y `motion_contract_hash` son metadatos del handoff consumidos por la etapa siguiente; no se insertan en el artefacto que hashean. Se persisten en el primer artefacto downstream que los consume (`motion-contract.json` o `implementation-manifest.json`) y, antes de ese commit, el gate registra path + hash calculado junto a la aprobación. En `approved_reference`, `narrative_hash` sigue apuntando al artefacto narrativo canónico (por ejemplo PROJECT si contiene la narrativa), mientras cada spec conserva su propio hash dentro del bundle.
-
-## 6. Invalidación
-
-| Cambio material | Invalida |
-|---|---|
-| Narrativa | visual, motion, implementation y audit |
-| Diseño global upstream | visual, motion, implementation y audit para las unidades afectadas |
-| Proyecto upstream | visual y downstream si cambia narrativa o una convención consumida |
-| Spec de unidad | visual, motion, implementation y audit |
-| Referencia perceptual aprobada | visual, motion, implementation y audit |
-| Visual contract | motion, implementation y audit |
-| Motion contract | implementation y audit |
-| Implementación, assets, datos de demo o configuración de render | audit |
-| Solo audit | nada upstream; crea un informe nuevo |
-
-También invalida un artefacto cualquier cambio en un input declarado, viewport contractual, constraint de interacción, regla móvil, criterio de auditoría o schema major que pueda alterar el resultado.
-
-Un artefacto invalidado no se reetiqueta como válido. Debe regenerarse, obtener un hash nuevo y atravesar de nuevo sus gates. Un cambio editorial sin efecto semántico puede conservar validez solo si el propietario registra el análisis de no impacto.
-
-## 7. Devolución upstream
-
-Todo blocker o finding debe incluir:
-
-1. evidencia observable;
-2. consecuencia pedagógica, perceptual o técnica;
-3. causa probable, sin presentarla como hecho si no está demostrada;
-4. corrección verificable;
-5. skill propietaria;
-6. artefactos invalidados.
-
-Reglas de routing:
-
-- representación, protagonista, jerarquía o composición → Visual Director;
-- continuidad, transformación, timing, holds o capas coexistentes → Motion Director;
-- fidelidad, implementación, interacción, responsive, build o reproducción → Frontend Producer;
-- narrativa, claim o evidencia insuficiente → autor de narrativa/usuario;
-- ambigüedad de aprobación → usuario.
-
-El Auditor no remedia antes de emitir el informe. Si el mismo agente participa después en la remediación, la siguiente auditoría debe declarar esa limitación de independencia.
-
-## 8. Prohibición de circularidad
-
-Está prohibido:
-
-- que Visual escriba JSX, CSS, timings o decisiones de stack;
-- que Motion cambie composición, contenido o labels;
-- que Production altere contratos o añada comprensión mediante diseño no aprobado;
-- que Production satisfaga una referencia mostrándola como imagen fullscreen en lugar de reconstruirla;
-- que Visual infiera semántica solo desde una imagen o trate la existencia de un archivo como aprobación;
-- que Audit autoapruebe, oculte rationale antes de su primera lectura del output, o convierta un finding en una modificación silenciosa;
-- que una skill invoque automáticamente otra antes de persistir su output;
-- que un mismo artefacto sea a la vez borrador creativo y evidencia de auditoría;
-- que una fuente externa o memoria conversacional tenga mayor autoridad que un contrato local.
-
-## 9. Versionado
-
-`contract_version` usa SemVer:
-
-- patch: precisión editorial sin cambiar validación ni significado;
-- minor: campo opcional o capacidad compatible;
-- major: campo obligatorio, significado, estado, gate o regla de invalidación incompatible.
-
-Cada schema declara su propia versión SemVer en `x-schema-version`; Visual y Motion declaran además la versión de cada instancia en `contract_version`. Producer y Auditor deben persistir las versiones efectivamente leídas en `consumed_versions`; el nombre del archivo o un hash aislado no sustituye ese registro. Toda instancia que declare el schema 2.1 explicita `reference_context`, sea aplicable o no, y las comparaciones cubren bindings por `reference_id + scene_id + hold_id`. Si no soportan el major recibido, deben bloquear, no aproximar.
-
-## 10. Definition of Done del pipeline
-
-El pipeline puede cerrar una iteración cuando:
-
-- los cuatro artefactos validan y sus hashes forman una cadena trazable;
-- la aprobación humana del visual contract es verificable;
-- no existen desviaciones silenciosas;
-- todos los holds, transiciones de riesgo, reverse, reset, reduced motion y móvil tienen evidencia;
-- el informe contiene un veredicto válido y siguiente propietario;
-- `reference_candidate` satisface sus umbrales reforzados;
-- cualquier limitación de independencia o cobertura permanece explícita;
-- si existe `reference_bundle`, cada binding tiene reconstrucción, screenshot, comparación perceptual y auditoría de fidelidad aprobadas;
-- manifest e informe declaran la aplicabilidad e IDs de referencia; una pasada contaminada o una reconstrucción fullscreen permanece bloqueada de forma explícita.
+- Existen exactamente cuatro skills y cuatro schemas V3.
+- Los contratos y hashes forman una cadena válida.
+- Original, baseline y enhanced de Slides 2 y 4 son reproducibles.
+- Todos los holds y transiciones de riesgo tienen evidencia desktop/móvil.
+- Geometry gate enhanced está en `PASS` con cero violaciones materiales.
+- Reverse, reset, reduced motion y presenter pacing pasan.
+- El audit report contiene comparaciones por slide y una decisión válida.
+- README, AGENTS y documentación canónica describen la realidad verificada.

@@ -1,238 +1,248 @@
 ---
 name: visual-director-lienzo
-description: "Convierte una narrativa pedagógica en un visual contract mediante dos modos: explora tres direcciones y money frames cuando no hay referencia, o formaliza un bundle visual ya aprobado sin rediseñarlo. Usar para decidir o contractualizar representación, protagonista, composición, jerarquía, lectura y móvil antes de programar; no usar para timing, stack o implementación."
+description: "Convertir una narrativa o una slide aprobada en un visual contract ejecutable. Usar para explorar una composición, reconstruir una referencia o aplicar reference_guided_enhancement preservando esencia y justificando mejoras visuales, pedagógicas, inmersivas y espaciales; no usar para timing, código o auditoría."
 ---
 
 # Visual Director Lienzo
 
 ## Propósito
 
-Transformar una narrativa semántica en una representación visual que permita comprender el mecanismo antes de escribir código. Preguntar primero: **¿qué objeto, transformación o relación hace visible esta idea?**; no: **¿cómo repartimos información en pantalla?**
-
-## Cuándo utilizar esta skill
-
-Utilizar al iniciar una escena didáctica, replantear una composición, resolver un finding visual o definir los holds que gobernarán una implementación. No utilizar para elegir librerías, escribir frontend, fijar duraciones ni auditar el render final.
+Definir qué representación permite comprender el mecanismo y cómo elevar una slide sin destruir su identidad. Diseñar primero money frames excelentes; usar motion después para conectar estados, no para rescatar una composición débil.
 
 ## Inputs requeridos
 
-Detenerse si falta cualquiera de estos inputs:
+Exigir:
 
-- narrativa semántica versionada y su `narrative_hash`;
-- objetivo pedagógico;
-- takeaway que debe conservar el espectador;
-- escenas y beats semánticos;
-- invariantes: qué cambia y qué no cambia;
-- audiencia y conocimiento previo asumido;
-- formato y viewport de captura;
-- restricciones de interacción presenter-paced;
-- restricciones de legibilidad y downsample móvil;
-- material real, datos, fórmulas y evidencia disponibles;
-- claims, labels o cifras que no pueden inventarse;
-- patrones explícitamente prohibidos por el proyecto.
+- narrativa o semantic spec versionada y `narrative_hash`;
+- objetivo, takeaway, audiencia e invariantes;
+- datos, fórmulas, claims y labels que no pueden inventarse;
+- viewports desktop, mobile presenter y downsample;
+- restricciones presenter-paced y de legibilidad;
+- patrones prohibidos y Definition of Done.
 
-Si se declara `approved_reference`, exigir además:
+Para cualquier modo basado en referencia, exigir además:
 
-- branch y commit fijados del upstream;
-- diseño global y contrato de proyecto con path + hash;
-- spec semántica de cada unidad con path + hash;
-- referencia perceptual citada con path, hash y media type;
+- branch y commit upstream fijados;
+- diseño global, proyecto, specs y referencias con path + SHA-256;
 - evidencia verificable de aprobación;
-- unidades y referencias afectadas, sin cargar el resto del proyecto.
+- carga selectiva de las unidades afectadas.
 
-No completar inputs mediante memoria conversacional implícita. Pedir el artefacto o registrar un blocker.
+Para `reference_guided_enhancement`, exigir el mandato de mejora y sus límites. No inferirlo de que el usuario quiera “algo más bonito”.
 
 ## Fuentes de autoridad
 
-Aplicar este orden:
+Aplicar:
 
-1. narrativa o spec de unidad versionada para claims, causalidad y contenido;
-2. referencia aprobada para composición, jerarquía y apariencia del hold vinculado;
-3. [`pipeline-contract.md`](../../contracts/pipeline-contract.md) para gates y fronteras;
-4. [`visual-contract.schema.json`](../../contracts/visual-contract.schema.json) para la forma del output;
-5. constraints y decisiones explícitas del usuario;
-6. [`image-to-code-integration.md`](../../docs/image-to-code-integration.md) para el bundle upstream;
-7. [`source-map.md`](../../docs/source-map.md) como doctrina consultiva, nunca como dependencia.
+1. semantic spec para significado, cifras y causalidad;
+2. [`pipeline-contract.md`](../../contracts/pipeline-contract.md) para fronteras y gates;
+3. [`visual-contract.schema.json`](../../contracts/visual-contract.schema.json) para el output;
+4. referencia aprobada para el baseline perceptual;
+5. [`premium-aesthetic-doctrine.md`](../../docs/premium-aesthetic-doctrine.md) para craft;
+6. [`geometry-gate.md`](../../docs/geometry-gate.md) para constraints ejecutables;
+7. constraints explícitos del usuario.
 
-La spec prevalece en semántica y la referencia aprobada en percepción. Una contradicción material bloquea el bundle; no se resuelve eligiendo una de las dos.
+Bloquear una contradicción material entre spec e imagen. No resolverla eligiendo silenciosamente una fuente.
 
 ## Autoridad exclusiva
 
 Esta skill decide:
 
-- representación;
-- protagonista, apoyos, contexto y ausencias;
-- macrocomposición y ownership espacial;
-- jerarquía y ruta de lectura;
-- densidad y presupuesto de texto;
-- lenguaje visual y encodings;
-- money frames estáticos;
-- comportamiento compositivo móvil.
+- representación y protagonista;
+- composición, jerarquía, densidad y ownership espacial;
+- sistema estético, color, profundidad, tipografía y conectores;
+- baseline fiel y enhanced;
+- deltas transformativos autorizados;
+- money frames, ruta de lectura y comportamiento móvil;
+- mínimos espaciales que Production debe ejecutar.
 
-No decide tecnología final, timing, easing, implementación ni veredicto.
+No decidir timing, easing, stack, código, tests ni veredicto.
 
 ## Output canónico
 
-Emitir `visual-contract.json`, válido contra [`visual-contract.schema.json`](../../contracts/visual-contract.schema.json), declarando `concept_first` o `approved_reference` en contratos V2.1. Contratos V2 sin `workflow_mode` se interpretan como `concept_first`.
+Emitir `visual-contract.json` V3 válido, autosuficiente y hasheado externamente. Incluir siempre:
 
-Usar `approved` solo después del checkpoint humano o de heredar una aprobación upstream verificable. Ante evidencia insuficiente, persistir `draft` o `pending_user_approval`.
+- `workflow_mode`;
+- `enhancement_intent`;
+- `transformative_delta`;
+- `aesthetic_system`;
+- `attention_model`;
+- `geometry_constraints`;
+- `comparison_plan`;
+- escenas con esencia, oportunidades, riesgos, baseline, enhanced y layout desktop/móvil.
 
-El contrato debe ser ejecutable por otro agente sin acceso al chat: cada escena y hold debe identificar qué domina, qué apoya, qué está ausente, por dónde se lee y qué no puede aparecer.
-
-En `approved_reference`, `direction_id` identifica de forma estable la dirección formalizada desde el bundle; no representa una alternativa nueva. `narrative_hash` apunta al artefacto narrativo canónico consumido —por ejemplo PROJECT cuando contiene la narrativa— y no sustituye los hashes separados de cada spec.
+Usar `status = approved` solo con checkpoint o mandato verificable. La aprobación de una referencia no aprueba por sí sola deltas ilimitados.
 
 ## Workflow obligatorio
 
 ### 1. Bloquear la verdad semántica
 
-Extraer de la narrativa:
+Extraer por escena:
 
-- claim y takeaway por escena;
-- cambio semántico dominante por beat;
-- invariantes y cantidades exactas;
-- evidencia disponible y gaps;
-- elementos que deben seguir editables o vinculados a datos;
-- términos cuyo significado no puede alterarse visualmente.
+- claim y takeaway;
+- elementos conceptuales obligatorios;
+- cantidades y relaciones exactas;
+- invariantes y exclusiones;
+- contenido que debe seguir code-native;
+- gaps de evidencia.
 
-Si la evidencia no sostiene el claim, devolver a `narrative-owner`. No resolver un gap inventando métricas, objetos o causalidad.
+Persistirlo como `preserved_essence`. Devolver al owner semántico cualquier ambigüedad material.
 
-### 2. Seleccionar un único modo
+### 2. Seleccionar un modo
 
-Usar `concept_first` cuando no exista un bundle completo y aprobado. Usar `approved_reference` solo cuando coexistan diseño global, proyecto, spec de unidad, referencia y evidencia de aprobación fijados por hash y commit.
+- Usar `concept_first` sin referencia aprobada.
+- Usar `approved_reference` para reconstrucción fiel.
+- Usar `reference_guided_enhancement` cuando exista slide aprobada y mandato explícito de elevarla.
 
-No mezclar los modos. Una imagen huérfana, un path flotante o una aprobación solo conversacional no activan `approved_reference`.
+No mezclar modos. En enhancement, producir además un `baseline_faithful`; no saltar directamente al rediseño.
 
-### 3A. Ejecutar `concept_first`
+### 3. Diagnosticar antes de transformar
 
-Mantener el workflow V2 completo:
+Declarar por slide:
 
-1. explorar objetos, materiales, geometrías, escalas, relaciones, vocabulario y encodings legítimos del dominio;
-2. distinguir mecanismo de metáfora y preferir el mecanismo cuando reduce decodificación;
-3. registrar al menos cinco anti-defaults estructurales o visuales con su razón;
-4. proponer exactamente tres direcciones materialmente distintas en macrocomposición, representación, relación espacial, protagonista, transformación, densidad o texto;
-5. persistirlas completas en `direction_options`, compararlas contra el takeaway y recomendar una;
-6. diseñar money frames que funcionen sin motion, rationale ni narración redundante y sobrevivan al downsample móvil;
-7. presentar las tres direcciones, registrar elección, rechazos, razón, cambios, revisor, fecha y aprobación explícita.
+- oportunidades de mejora visual;
+- oportunidades de mejora pedagógica;
+- oportunidades de mejora inmersiva;
+- fragilidad y oportunidades espaciales;
+- riesgos de sobrecarga o pérdida de esencia.
 
-Si no hay respuesta, detenerse en `pending_user_approval`. No usar motion futuro para justificar un hold débil.
+Separar problemas intrínsecos de la referencia de drifts introducidos por una implementación anterior.
 
-### 3B. Ejecutar `approved_reference`
+### 4. Definir `enhancement_intent`
 
-Validar primero:
+Expresar qué debe mejorar de forma observable. Evitar objetivos vagos como “más premium”. Usar señales como:
 
-- branch y commit existen y están fijados;
-- hashes de diseño, proyecto, spec y referencia coinciden con los bytes leídos;
-- cada spec cita su referencia y cada referencia tiene evidencia de aprobación;
-- se han cargado solo las unidades afectadas;
-- spec e imagen no se contradicen materialmente.
+- protagonista más inequívoco;
+- menos elementos simultáneos;
+- relación causal visible;
+- lectura móvil preservada;
+- mayor materialidad sin decoración;
+- transición que conserva identidad.
 
-Después formalizar, sin explorar alternativas nuevas:
+### 5. Registrar `transformative_delta`
 
-- protagonista, apoyos, contexto y ausencias;
-- regiones, ownership, composición, jerarquía y ruta de lectura;
-- espacio negativo, proporciones, geometría y escala relativa;
-- roles de color y tipografía, labels, densidad y presupuesto de texto;
-- assets, procedencia y elementos que deben desaparecer;
-- implicaciones móvil/downsample;
-- contenido que debe seguir editable, variable o programático.
+Para cada cambio declarar:
 
-Clasificar cada elemento como `code_native` o `asset`. Texto, cifras, fórmulas, ejes, curvas, charts, timelines, conectores, labels, interacción y objetos con motion semántico son code-native por defecto. Fotografía, ilustración, textura o arte complejo pueden ser assets si conservan procedencia.
+- propiedad afectada;
+- baseline;
+- estado enhanced;
+- razón primaria: `clarity`, `attention`, `aesthetics`, `immersion` o `spatial_robustness`;
+- evidencia esperada;
+- confirmación de esencia preservada.
 
-No generar tres direcciones, no rediseñar, no sustituir la referencia por el gusto del agente y no pedir una elección ya cerrada. Los `anti_defaults` registran al menos cinco drifts de reconstrucción que el bundle prohíbe; no son propuestas estéticas nuevas.
+Permitir agrupar, reordenar, escalonar, separar teoría/ejemplo, reubicar callouts o reducir simultaneidad. Prohibir cambiar claims, mecanismo o cifras.
 
-Heredar aprobación solo con `approval_source = approved_reference`, branch, commit, spec, referencia y `approval_reference` verificables. Mapear `checkpoint_id` al identificador estable del registro upstream; tomar reviewer y fecha de esa evidencia; dejar `selected_direction_id = null`, `rejected_direction_ids = []` y `selection_reason = null`. Si reviewer, fecha o cualquier evidencia exigida no pueden verificarse, usar `pending_user_approval`.
+### 6. Diseñar el sistema estético
 
-### 4. Formalizar escenas, holds y bindings
+Definir:
 
-En ambos modos, para cada escena y hold declarar:
+- paleta principal y acentos semánticos;
+- fondos y degradados permitidos;
+- profundidad y sombras;
+- conectores;
+- cajas, ribbons, chips y callouts;
+- jerarquía tipográfica;
+- estado normal, atenuado y protagonista;
+- estilo de gráficos y timelines;
+- reglas de contención contra exceso.
 
-- un protagonista primario y apoyos subordinados;
-- contexto necesario y elementos ausentes;
-- ruta de lectura ordenada y ownership espacial;
-- límites contra competencia o solape;
-- presupuesto de palabras y labels;
-- criterios estáticos de takeaway, jerarquía, representación, ausencia, móvil y silencio.
+Justificar cada efecto por atención, jerarquía o calidad percibida.
 
-En `approved_reference`, vincular cada `reference_id` a escenas y holds existentes. Registrar propiedades perceptuales obligatorias, propiedades mutables, tolerancias conceptuales y partes no cubiertas. Una referencia puede anclar uno o varios holds; no se presume que describa toda la escena.
+### 7. Diseñar el modelo de atención
 
-`unit_id` identifica la unidad semántica y `perceptual_reference.reference_id` identifica la imagen que resuelven los bindings. Si una unidad tiene varias referencias, usar registros con la misma spec hasheada y `reference_id` distintos; no introducir aliases implícitos.
+Para cada hold declarar:
 
-La meta es fidelidad perceptual, no identidad de píxel. Los holds no cubiertos se derivan del visual contract. Una nueva composición material exige volver a esta skill.
+- protagonista primario;
+- secundarios necesarios;
+- elementos atenuados o ausentes;
+- ruta de mirada;
+- pregunta que el frame resuelve.
 
-Toda composición o hold material no mostrado por la referencia debe declararse en `uncovered_parts` y no hereda aprobación por defecto: requiere un checkpoint explícito persistido en `user_approval.supplemental_approvals` con scope, reviewer, fecha y referencia verificable. Esto incluye una composición móvil hermana cuando cambia materialmente composición o jerarquía. `approval_source` sigue identificando el origen del bundle; el registro suplementario cubre únicamente el alcance nuevo.
+Mantener un único protagonista. Autorizar más holds cuando reduzcan carga cognitiva.
 
-### 5. Emitir y validar el visual contract
+### 8. Diseñar baseline y enhanced
 
-Calcular el hash conforme a [`pipeline-contract.md`](../../contracts/pipeline-contract.md) y comprobar:
+En `baseline_faithful`:
 
-- ambos modos conservan `anti_defaults`, escenas, holds, móvil, exclusiones y limitaciones;
-- `concept_first` tiene exactamente tres `direction_options` y checkpoint humano;
-- `approved_reference` tiene cero `direction_options`, bundle completo, clasificación de elementos y bindings válidos;
-- todos los bindings apuntan a referencias, escenas y holds existentes;
-- `status = approved` coincide con aprobación verificable;
-- no hay timing, stack, JSX, CSS ni decisiones de implementación.
+- conservar macrocomposición, densidad y apariencia material de la referencia;
+- reconstruir sin fullscreen ni identidad pixel-perfect;
+- registrar diferencias inevitables.
 
-El `visual_contract_hash` se entrega como metadato externo calculado sobre el JSON canonicalizado; no se inserta dentro del propio contrato ni se obtiene de un campo autorreferencial.
+En `enhanced_immersive`:
 
-## Reglas duras
+- conservar `preserved_essence`;
+- ejecutar únicamente deltas declarados;
+- mejorar jerarquía, aire, grouping, framing y presencia;
+- mantener el frame final excelente sin narración.
 
-- Una vista tiene un protagonista dominante.
-- La representación precede al label.
-- Estructura, numeración y divisores codifican información real o desaparecen.
-- Un concepto no hereda automáticamente la macroestructura de otro.
-- El estado final estático debe ser excelente antes del motion.
-- El vacío cumple una función compositiva.
-- Más decoración no equivale a más craft.
-- El texto material sobrevive al consumo móvil.
-- Mobile es una composición hermana, no un desktop encogido.
-- La spec gobierna semántica; la referencia aprobada gobierna percepción.
-- Satisfacer Image-to-Code mostrando la referencia como imagen fullscreen no constituye implementación ni dirección válida.
-- No programar durante esta etapa.
+### 9. Formalizar geometría
+
+Definir por viewport:
+
+- safe areas y regiones propietarias;
+- gaps mínimos;
+- mínimo tipográfico;
+- número máximo de labels simultáneos;
+- rutas permitidas para conectores;
+- overlaps autorizados por ID;
+- reglas de callout y prioridad del protagonista.
+
+Expresar reglas medibles. “Que no se solape” no es un contrato ejecutable.
+
+### 10. Diseñar mobile como composición hermana
+
+Conservar el takeaway total mediante menos simultaneidad. Permitir reordenar, agrupar y repartir contenido entre holds. No resolver densidad encogiendo desktop ni aceptando microtexto.
+
+### 11. Validar el visual contract
+
+Comprobar:
+
+- esencia completa en ambas variantes;
+- todo delta trazado;
+- attention model cubre todos los holds;
+- desktop y móvil tienen ownership inequívoco;
+- constraints son medibles;
+- no aparecen timing, stack ni implementación;
+- el JSON valida contra el schema.
 
 ## Acciones prohibidas
 
-- Escribir JSX, HTML, CSS, SVG ejecutable o código de animación.
-- Elegir React, GSAP, D3, Canvas u otra tecnología.
-- Fijar milisegundos, easing o stagger.
-- Sustituir una representación por cards o texto porque sea más fácil de implementar.
-- Rediseñar una referencia aprobada o exigir coincidencia pixel-perfect.
-- Inferir claims, cifras o fórmulas únicamente desde píxeles.
-- Tratar la existencia de una imagen como evidencia de aprobación.
-- Autorizar que Production use la referencia como imagen fullscreen.
-- Inventar métricas, testimonios, labels, claims o evidencia.
-- Marcar aprobación por silencio o inferencia.
+- Escribir JSX, HTML, CSS, SVG ejecutable o código de motion.
+- Fijar milisegundos, easing o tecnología.
+- Alterar claims, cifras o causalidad.
+- Usar estética para ocultar densidad o una representación débil.
+- Introducir glows, gradientes, cards o badges sin función.
+- Tratar mobile como desktop encogido.
+- Exigir pixel-perfect o usar pixel diff como autoridad creativa.
+- Mostrar la referencia fullscreen como implementación.
+- Marcar aprobación por silencio.
 - Invocar automáticamente otra skill.
 
 ## Blockers y escalado upstream
 
 | Blocker | Propietario | Acción |
 |---|---|---|
-| Claim, cifra o causalidad ambiguos | `narrative-owner` | pedir corrección versionada y nuevo hash |
-| Evidencia insuficiente para representar el takeaway | `narrative-owner` o usuario | limitar el claim o aportar evidencia |
-| Tres direcciones no son materialmente distintas | esta skill | seguir explorando; no pedir aprobación |
-| Ningún hold funciona estáticamente | esta skill | replantear representación o composición |
-| La adaptación móvil cambia el claim | esta skill | crear composición hermana antes del gate |
-| Falta aprobación explícita | usuario | persistir `pending_user_approval` y detenerse |
-| Spec y referencia se contradicen materialmente | upstream de referencia o usuario | corregir ambos artefactos y hashes antes de continuar |
-| Bundle sin path, hash, commit o procedencia | upstream de referencia | completar el bundle; no inferir |
-| Binding apunta a escena/hold inexistente | esta skill | corregir el contrato antes del gate |
+| Claim o cifra ambiguos | `narrative-owner` | corregir spec y hash |
+| Spec e imagen se contradicen | owner upstream o usuario | corregir bundle |
+| Falta mandato para transformar | usuario | mantener baseline o pedir aprobación |
+| Delta no preserva esencia | esta skill | retirarlo o replantearlo |
+| Mobile exige cambiar el claim | esta skill | rediseñar composición hermana |
+| No existe layout sin competencia | esta skill | reducir simultaneidad o dividir holds |
+| Aprobación no verificable | usuario | persistir `pending_user_approval` |
 
 ## Definition of Done
 
-- Inputs completos y hashes verificados.
-- `workflow_mode` inequívoco y compatible con los inputs.
-- En `concept_first`: exploración, anti-default inventory, tres direcciones y checkpoint humano persistidos.
-- En `approved_reference`: bundle, hashes, aprobación heredada, clasificación y bindings persistidos sin rediseño.
-- Cada escena declara protagonista, invariantes, representación, ruta y ownership.
-- Todos los money frames pasan los tests estáticos y móvil.
-- El JSON valida contra el schema.
-- El contrato no contiene implementación ni timing.
-- Limitaciones conocidas y exclusiones permanecen explícitas.
-- Ninguna referencia se trató como fuente semántica única ni como implementación fullscreen.
+- Inputs y hashes verificados.
+- Modo inequívoco.
+- Esencia preservada explícita.
+- Baseline y enhanced definidos.
+- Oportunidades y riesgos declarados.
+- Intent, deltas, estética, atención y geometría completos.
+- Desktop y móvil ejecutables sin decisiones ocultas.
+- Contrato aprobado y válido.
+- Cero código, timing o veredicto.
 
 ## Relación con las otras skills
 
-- Entregar a `motion-director-lienzo` solo un contrato `approved` y hasheado.
-- Cuando existan bindings, entregarlos como anclas perceptuales; Motion no necesita leer el upstream completo.
-- Recibir del Motion Director blockers que exijan cambiar composición; emitir una nueva versión y repetir aprobación.
-- Recibir del Producer desviaciones visuales solo como blockers, nunca como cambios ya aceptados.
-- Recibir del Auditor findings de representación, jerarquía o composición; remediar y forzar nueva cadena downstream.
+- Entregar a Motion solo contrato `approved` y hasheado.
+- Recibir blockers de composición sin permitir que Motion o Production los resuelvan por cuenta propia.
+- Recibir findings visuales del Auditor, emitir nueva versión y reiniciar downstream.

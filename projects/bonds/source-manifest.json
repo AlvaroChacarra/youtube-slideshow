@@ -1,0 +1,56 @@
+{
+  "manifest_version": "3.0.0",
+  "base": {
+    "branch": "skill-branch",
+    "commit": "6c712e2b5d1f84d12f51f9420f334f1f9b5b3a86",
+    "policy": "The feature branch was created directly from this commit; no branch was merged, rebased or cherry-picked."
+  },
+  "approved_source": {
+    "branch": "image-to-code",
+    "commit": "a855e8465f609bf99bc6f8066fa60b7a89fd6346",
+    "import_method": "Selective git archive of the six listed files only."
+  },
+  "consulted_precedent": {
+    "branch": "benchmark/bonds-image-to-code-v1",
+    "commit": "a9c5e2848e69ef8eeecd52e9578fc1d75f83416b",
+    "use": "Read-only evidence of the faithful baseline, prior mobile failure and runtime constraints; no merge, rebase or cherry-pick."
+  },
+  "files": [
+    {
+      "role": "global_design",
+      "path": "design/DESIGN.md",
+      "content_hash": "sha256:72ec9a55b8c60ec55ad9b2391c64dd9926ec30074abf7bd8a23636ee17c28743"
+    },
+    {
+      "role": "project_contract",
+      "path": "projects/bonds/PROJECT.md",
+      "content_hash": "sha256:3afff721bf1739a36bfa3130f929f845931e32d8a92fd5cf3e932a0d41c3ceb2"
+    },
+    {
+      "role": "semantic_spec",
+      "unit_id": "slide-02",
+      "path": "projects/bonds/slides/02-bond-anatomy.md",
+      "content_hash": "sha256:30e7e4e85bbb5f029c4f1d866de3fdf07461b2b416a40357173be08ed91fafb4"
+    },
+    {
+      "role": "perceptual_reference",
+      "unit_id": "slide-02",
+      "reference_id": "reference-02",
+      "path": "projects/bonds/references/02-bond-anatomy.webp",
+      "content_hash": "sha256:1842c1e2ea5d005a177622f77f1efa57c24198344a3eabf60f1e46d21d52f50f"
+    },
+    {
+      "role": "semantic_spec",
+      "unit_id": "slide-04",
+      "path": "projects/bonds/slides/04-discounting-example.md",
+      "content_hash": "sha256:22e9e02c2d6c93cfa98a2842f5fecba4c7d705b346c27276299c89c598fc08f2"
+    },
+    {
+      "role": "perceptual_reference",
+      "unit_id": "slide-04",
+      "reference_id": "reference-04",
+      "path": "projects/bonds/references/04-discounting-example.webp",
+      "content_hash": "sha256:068743fe4cd0d6b646e74af5b59229a25c98553501f166cd366d15563cfa551e"
+    }
+  ]
+}

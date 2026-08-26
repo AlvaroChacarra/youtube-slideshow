@@ -1,9 +1,10 @@
-name: Validate skills
+name: Validate immersive slide engine V3
 
 on:
   push:
     branches:
       - skill-branch
+      - v3/immersive-slide-enhancement
   pull_request:
     branches:
       - skill-branch
@@ -15,6 +16,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,5 +24,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-      - name: Validate contracts and skill boundaries
-        run: node scripts/validate-skills.mjs
+          cache: npm
+      - name: Install reproducible dependencies
+        run: npm ci
+      - name: Regenerate and validate V3
+        run: npm test

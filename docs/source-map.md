@@ -28,11 +28,13 @@ Consulta fijada el 2026-08-24. Cada fila registra el commit exacto leído; ning�
 
 ## Internal design precedent
 
-Precedente consultado en modo solo lectura:
+Fuentes internas fijadas para este vertical slice:
 
-- branch: `image-to-code`;
-- commit fijado: `9f22a3ef48bafc2bd9e979688a96cf4787fb76bf`;
-- capas observadas: instrucciones globales, diseño transversal, contrato de proyecto, specs de unidades afectadas y referencias perceptuales citadas.
+- `image-to-code` en `a855e8465f609bf99bc6f8066fa60b7a89fd6346`: source bundle aprobado; se importaron selectivamente solo los seis archivos enumerados y hasheados en [`source-manifest.json`](../projects/bonds/source-manifest.json);
+- `benchmark/bonds-image-to-code-v1` en `a9c5e2848e69ef8eeecd52e9578fc1d75f83416b`: precedente runtime consultado en modo solo lectura para observar fidelidad baseline, densidad y fragilidad móvil;
+- `skill-branch` en `6c712e2b5d1f84d12f51f9420f334f1f9b5b3a86`: única base genealógica de `v3/immersive-slide-enhancement`.
+
+No hubo merge, rebase ni cherry-pick de las ramas consultadas.
 
 Principios sintetizados:
 
@@ -43,4 +45,4 @@ Principios sintetizados:
 - cargar solo diseño, proyecto, unidades afectadas y referencias citadas;
 - bloquear discrepancias materiales en el bundle upstream.
 
-Este precedente no es dependencia runtime ni fuente superior a los contratos locales. No se importaron archivos, contenido temático ni soluciones visuales concretas.
+El precedente benchmark no es dependencia runtime ni fuente superior a los contratos locales. El bundle aprobado sí aporta el contenido y las referencias perceptuales declaradas, pero ninguna solución visual concreta fue copiada desde el benchmark.

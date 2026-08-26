@@ -1,0 +1,762 @@
+{
+  "contract_version": "3.0.0",
+  "workflow_mode": "reference_guided_enhancement",
+  "project_id": "bonds-immersive-v3",
+  "narrative_hash": "sha256:3afff721bf1739a36bfa3130f929f845931e32d8a92fd5cf3e932a0d41c3ceb2",
+  "status": "approved",
+  "direction_id": "bonds-v3-guided-continuum",
+  "direction_options": [],
+  "user_approval": {
+    "status": "approved",
+    "checkpoint_id": "bonds-v3-enhancement-mandate",
+    "reviewer": "Alvaro Chacarra",
+    "reviewed_at": "2026-08-25T21:00:00+02:00",
+    "approval_reference": "projects/bonds/approvals/enhancement-mandate.md#user-mandate-2026-08-25-v3-immersive-slide-enhancement",
+    "approval_scope": "Implement and comparatively audit controlled enhancement of Bonds Slides 2 and 4; final enhanced remains subject to user perceptual review.",
+    "changes_resolved": true
+  },
+  "reference_bundle": {
+    "source_branch": "image-to-code",
+    "source_commit": "a855e8465f609bf99bc6f8066fa60b7a89fd6346",
+    "design": {
+      "path": "design/DESIGN.md",
+      "content_hash": "sha256:72ec9a55b8c60ec55ad9b2391c64dd9926ec30074abf7bd8a23636ee17c28743"
+    },
+    "project": {
+      "path": "projects/bonds/PROJECT.md",
+      "content_hash": "sha256:3afff721bf1739a36bfa3130f929f845931e32d8a92fd5cf3e932a0d41c3ceb2"
+    },
+    "authority_resolution": {
+      "semantic_authority": "semantic_spec",
+      "perceptual_authority": "reference_guided_enhancement",
+      "conflict_policy": "block_upstream"
+    },
+    "units": [
+      {
+        "unit_id": "slide-02",
+        "semantic_spec": {
+          "path": "projects/bonds/slides/02-bond-anatomy.md",
+          "content_hash": "sha256:30e7e4e85bbb5f029c4f1d866de3fdf07461b2b416a40357173be08ed91fafb4"
+        },
+        "reference_id": "reference-02",
+        "reference": {
+          "path": "projects/bonds/references/02-bond-anatomy.webp",
+          "content_hash": "sha256:1842c1e2ea5d005a177622f77f1efa57c24198344a3eabf60f1e46d21d52f50f"
+        },
+        "approval_reference": "projects/bonds/slides/02-bond-anatomy.md#status-referencia-aprobada",
+        "element_classification": [
+          {
+            "element_id": "bond-certificate",
+            "render_mode": "code_native",
+            "rationale": "El objeto, sus términos y sus estados de foco deben seguir siendo editables y participar en continuidad semántica."
+          },
+          {
+            "element_id": "bond-terms",
+            "render_mode": "code_native",
+            "rationale": "Labels, cifras y relaciones contractuales no pueden quedar rasterizadas."
+          },
+          {
+            "element_id": "cash-flow-timeline",
+            "render_mode": "code_native",
+            "rationale": "La timeline se revela y transforma por fases."
+          }
+        ]
+      },
+      {
+        "unit_id": "slide-04",
+        "semantic_spec": {
+          "path": "projects/bonds/slides/04-discounting-example.md",
+          "content_hash": "sha256:22e9e02c2d6c93cfa98a2842f5fecba4c7d705b346c27276299c89c598fc08f2"
+        },
+        "reference_id": "reference-04",
+        "reference": {
+          "path": "projects/bonds/references/04-discounting-example.webp",
+          "content_hash": "sha256:068743fe4cd0d6b646e74af5b59229a25c98553501f166cd366d15563cfa551e"
+        },
+        "approval_reference": "projects/bonds/slides/04-discounting-example.md#status-referencia-aprobada",
+        "element_classification": [
+          {
+            "element_id": "discount-timeline",
+            "render_mode": "code_native",
+            "rationale": "Cada flujo debe conservar identidad al conectarse con su término descontado."
+          },
+          {
+            "element_id": "general-formula",
+            "render_mode": "code_native",
+            "rationale": "La notación debe permanecer accesible, editable y medible."
+          },
+          {
+            "element_id": "expanded-formula",
+            "render_mode": "code_native",
+            "rationale": "Los cinco términos se construyen presenter-paced y requieren énfasis individual."
+          }
+        ]
+      }
+    ]
+  },
+  "reference_bindings": [
+    {
+      "reference_id": "reference-02",
+      "scene_id": "slide-02",
+      "baseline_hold_id": "s2-b3",
+      "enhanced_hold_ids": ["s2-e1", "s2-e2", "s2-e3", "s2-e4", "s2-e5"],
+      "essential_invariants": [
+        "El certificado concreto sigue siendo el objeto que organiza la explicación.",
+        "Emisor, cupón, precio, notional, valor nominal, vencimiento y frecuencia aparecen con significado correcto.",
+        "El flujo del inversor conserva -100, 4, 4, 4, 4 y 104 euros."
+      ],
+      "mutable_properties": [
+        "Número y posición de callouts simultáneos.",
+        "Jerarquía secundaria, grouping y espaciado.",
+        "Materialidad, color, profundidad y framing.",
+        "Orden de aparición y composición móvil."
+      ],
+      "uncovered_parts": [
+        "Estados intermedios enhanced.",
+        "Composición mobile presenter y downsample."
+      ]
+    },
+    {
+      "reference_id": "reference-04",
+      "scene_id": "slide-04",
+      "baseline_hold_id": "s4-b4",
+      "enhanced_hold_ids": ["s4-e1", "s4-e2", "s4-e3", "s4-e4", "s4-e5", "s4-e6"],
+      "essential_invariants": [
+        "Los cash flows son 4, 4, 4, 4 y 104 euros.",
+        "El face value aparece únicamente en maturity.",
+        "Cada CF_t se descuenta con su r_t y exponente t.",
+        "La fórmula expandida conserva los cinco términos exactos."
+      ],
+      "mutable_properties": [
+        "Distribución vertical entre timeline, regla y fórmula.",
+        "Número de términos simultáneamente protagonistas.",
+        "Framing, profundidad, color y correspondencia espacial.",
+        "Composición móvil y orden de construcción."
+      ],
+      "uncovered_parts": [
+        "Transformación visual de cada flujo en término descontado.",
+        "Composición mobile presenter y downsample."
+      ]
+    }
+  ],
+  "enhancement_intent": {
+    "summary": "Convertir dos buenas slides estáticas en explicaciones presenter-paced con protagonista único, craft premium, continuidad semántica y geometría robusta sin alterar su mensaje.",
+    "dimensions": ["visual", "pedagogical", "immersive", "spatial"],
+    "success_signals": [
+      "El enhanced se distingue del baseline por jerarquía y materialidad, no por decoración.",
+      "Cada hold resuelve una pregunta y limita la simultaneidad.",
+      "Los objetos contractuales o matemáticos conservan identidad entre fases.",
+      "Desktop, mobile presenter y downsample cumplen mínimos geométricos.",
+      "Original, baseline y enhanced permiten una comparación inequívoca."
+    ]
+  },
+  "transformative_delta": [
+    {
+      "delta_id": "S2-D01",
+      "scene_id": "slide-02",
+      "property": "Callout architecture",
+      "baseline": "Siete callouts rodean simultáneamente el certificado.",
+      "enhanced": "Tres capítulos semánticos —entrada, rendimiento y salida— sustituyen la corona de callouts y cada uno toma protagonismo en su hold.",
+      "reason": "clarity",
+      "expected_evidence": "Menos labels simultáneos y lectura inequívoca certificado → relación económica → timeline.",
+      "essence_preserved": true
+    },
+    {
+      "delta_id": "S2-D02",
+      "scene_id": "slide-02",
+      "property": "Pedagogical segmentation",
+      "baseline": "La anatomía completa y la timeline conviven en el frame final.",
+      "enhanced": "Cinco holds separan objeto, entrada, motor del cupón, maturity y traducción a cash flows.",
+      "reason": "attention",
+      "expected_evidence": "Un único protagonista por hold y máximo dos cambios materiales por beat.",
+      "essence_preserved": true
+    },
+    {
+      "delta_id": "S2-D03",
+      "scene_id": "slide-02",
+      "property": "Certificate craft",
+      "baseline": "Certificado claro y plano con borde uniforme.",
+      "enhanced": "Certificado editorial con textura CSS sutil, doble borde, profundidad contenida y spotlight finito.",
+      "reason": "aesthetics",
+      "expected_evidence": "El objeto se percibe más material y premium sin competir con los datos.",
+      "essence_preserved": true
+    },
+    {
+      "delta_id": "S2-D04",
+      "scene_id": "slide-02",
+      "property": "Responsive composition",
+      "baseline": "El 16:9 desktop se reduce completo en móvil.",
+      "enhanced": "Mobile usa certificado compacto, un capítulo activo y timeline simplificada; reparte el resto entre holds.",
+      "reason": "spatial_robustness",
+      "expected_evidence": "Cero clipping y texto material >= 9.5 px en 390x219 y >= 15 px en 390x844.",
+      "essence_preserved": true
+    },
+    {
+      "delta_id": "S4-D01",
+      "scene_id": "slide-04",
+      "property": "Formula reveal",
+      "baseline": "Timeline, regla general y fórmula expandida terminan simultáneamente visibles.",
+      "enhanced": "Seis holds construyen cash flows, distinguen maturity y conectan cada flujo con su término descontado.",
+      "reason": "clarity",
+      "expected_evidence": "El espectador puede atribuir cada numerador a un pago antes de ver la suma completa.",
+      "essence_preserved": true
+    },
+    {
+      "delta_id": "S4-D02",
+      "scene_id": "slide-04",
+      "property": "Timeline-to-formula correspondence",
+      "baseline": "Timeline y ecuación se presentan en bandas separadas.",
+      "enhanced": "Una columna de foco conecta el cash flow activo con el término homólogo mediante trayectoria y color persistente.",
+      "reason": "immersion",
+      "expected_evidence": "Continuidad visible entre objeto temporal y símbolo matemático sin duplicados persistentes.",
+      "essence_preserved": true
+    },
+    {
+      "delta_id": "S4-D03",
+      "scene_id": "slide-04",
+      "property": "Visual framing",
+      "baseline": "Paneles rectangulares uniformes y fondo plano.",
+      "enhanced": "Discount field con grid de tinta baja, superficies jerárquicas y glow localizado solo en el flujo protagonista.",
+      "reason": "aesthetics",
+      "expected_evidence": "Mayor profundidad y calidad percibida sin introducir elementos semánticamente vacíos.",
+      "essence_preserved": true
+    },
+    {
+      "delta_id": "S4-D04",
+      "scene_id": "slide-04",
+      "property": "Mobile formula layout",
+      "baseline": "La ecuación de cinco términos se encoge en una sola banda.",
+      "enhanced": "Mobile muestra el término activo en grande y divide la fórmula final en dos filas controladas.",
+      "reason": "spatial_robustness",
+      "expected_evidence": "Cero overflow, colisión o texto por debajo del mínimo en la fórmula final móvil.",
+      "essence_preserved": true
+    }
+  ],
+  "aesthetic_system": {
+    "palette": [
+      "#020B17 midnight canvas",
+      "#061A2B raised surface",
+      "#EAF7F7 primary ink",
+      "#9FB7C4 secondary ink",
+      "#43D5D0 structural cyan",
+      "#9FE870 semantic lime",
+      "#F2EBDD certificate paper"
+    ],
+    "background": "Midnight navy with one restrained radial cyan atmosphere behind the active protagonist and a low-contrast technical grid only on Slide 4.",
+    "gradients": "Use at most one two-stop surface gradient and one localized radial field; never place a rainbow or full-frame glow.",
+    "depth": "Use two elevation levels: supporting surface and protagonist; 1px translucent border plus soft 18–32px shadow.",
+    "connectors": "Use 1.5px cyan paths with a terminal dot, short orthogonal routes and at least contractual clearance from foreign labels.",
+    "components": "Use semantic chapters, formula terms and timeline nodes; avoid generic dashboard cards and decorative badges.",
+    "typography": "Use system sans for teaching text and a restrained editorial serif only inside the bond certificate; hierarchy comes from size, weight and spacing.",
+    "protagonist_state": "Primary object is fully opaque, sharp and optionally ring-lit; context falls to 38–58% opacity without blur that harms legibility.",
+    "charts_and_timelines": "Use low-ink rails, direct labels, cyan recurring flows and lime only for principal/maturity; active correspondence receives a finite pulse.",
+    "restraint_rules": [
+      "No continuous ambient loops.",
+      "No more than one glow treatment per hold.",
+      "No container without semantic grouping.",
+      "No decoration that survives after its attention function ends."
+    ]
+  },
+  "attention_model": [
+    {
+      "scene_id": "slide-02",
+      "hold_id": "s2-e1",
+      "primary": "bond-certificate",
+      "secondary": ["scene-title"],
+      "muted": ["semantic-chapters", "cash-flow-timeline"],
+      "gaze_path": ["title", "certificate name", "terms preview"],
+      "question_answered": "¿Qué objeto concreto vamos a diseccionar?"
+    },
+    {
+      "scene_id": "slide-02",
+      "hold_id": "s2-e2",
+      "primary": "entry-chapter",
+      "secondary": ["issuer-term", "price-term", "bond-certificate"],
+      "muted": ["income-chapter", "exit-chapter", "cash-flow-timeline"],
+      "gaze_path": ["price 100 €", "issuer obligation", "contract"],
+      "question_answered": "¿Quién promete y qué paga hoy el inversor?"
+    },
+    {
+      "scene_id": "slide-02",
+      "hold_id": "s2-e3",
+      "primary": "coupon-equation",
+      "secondary": ["coupon-term", "notional-term", "frequency-term"],
+      "muted": ["entry-chapter", "exit-chapter"],
+      "gaze_path": ["4%", "100 € notional", "4 € anual"],
+      "question_answered": "¿Cómo se convierte el cupón porcentual en dinero?"
+    },
+    {
+      "scene_id": "slide-02",
+      "hold_id": "s2-e4",
+      "primary": "exit-chapter",
+      "secondary": ["face-value-term", "maturity-term"],
+      "muted": ["entry-chapter", "income-chapter"],
+      "gaze_path": ["5 años", "100 € principal", "104 € final"],
+      "question_answered": "¿Qué cambia en vencimiento?"
+    },
+    {
+      "scene_id": "slide-02",
+      "hold_id": "s2-e5",
+      "primary": "cash-flow-timeline",
+      "secondary": ["bond-certificate", "coupon-equation"],
+      "muted": ["semantic-chapters"],
+      "gaze_path": ["-100 € hoy", "4 € recurrentes", "104 € final"],
+      "question_answered": "¿Cómo se traduce el contrato completo a cash flows?"
+    },
+    {
+      "scene_id": "slide-04",
+      "hold_id": "s4-e1",
+      "primary": "discount-timeline",
+      "secondary": ["example-ribbon"],
+      "muted": ["discount-rule", "expanded-formula"],
+      "gaze_path": ["bono hoy", "cuatro pagos de 4 €", "pago de 104 €"],
+      "question_answered": "¿Qué pagos futuros debemos valorar?"
+    },
+    {
+      "scene_id": "slide-04",
+      "hold_id": "s4-e2",
+      "primary": "maturity-breakdown",
+      "secondary": ["cash-flow-5", "coupon-group"],
+      "muted": ["discount-rule", "expanded-formula"],
+      "gaze_path": ["4 € cupón", "+100 € principal", "104 €"],
+      "question_answered": "¿Por qué el último numerador es 104 y no 4?"
+    },
+    {
+      "scene_id": "slide-04",
+      "hold_id": "s4-e3",
+      "primary": "discount-term-1",
+      "secondary": ["cash-flow-1", "discount-rule"],
+      "muted": ["cash-flow-2", "cash-flow-3", "cash-flow-4", "cash-flow-5"],
+      "gaze_path": ["4 € en t=1", "trayectoria", "4/(1+r1)^1"],
+      "question_answered": "¿Cómo se descuenta un cash flow individual?"
+    },
+    {
+      "scene_id": "slide-04",
+      "hold_id": "s4-e4",
+      "primary": "coupon-term-group",
+      "secondary": ["cash-flow-1", "cash-flow-2", "cash-flow-3", "cash-flow-4"],
+      "muted": ["cash-flow-5", "discount-term-5"],
+      "gaze_path": ["cupones t1–t4", "cuatro denominadores", "suma parcial"],
+      "question_answered": "¿Por qué cada cupón tiene su propio periodo y tasa?"
+    },
+    {
+      "scene_id": "slide-04",
+      "hold_id": "s4-e5",
+      "primary": "discount-term-5",
+      "secondary": ["cash-flow-5", "maturity-breakdown"],
+      "muted": ["coupon-term-group"],
+      "gaze_path": ["104 €", "t=5", "104/(1+r5)^5"],
+      "question_answered": "¿Dónde entra el principal en la fórmula?"
+    },
+    {
+      "scene_id": "slide-04",
+      "hold_id": "s4-e6",
+      "primary": "expanded-formula",
+      "secondary": ["discount-timeline", "discount-rule"],
+      "muted": ["maturity-breakdown"],
+      "gaze_path": ["timeline", "regla general", "cinco términos exactos"],
+      "question_answered": "¿Cómo queda la valoración completa del bono?"
+    }
+  ],
+  "geometry_constraints": {
+    "viewports": [
+      {
+        "viewport_id": "desktop-1600x900",
+        "width_px": 1600,
+        "height_px": 900,
+        "safe_inset_px": 32,
+        "minimum_gap_px": 12,
+        "minimum_text_px": 18,
+        "max_primary_count": 1,
+        "max_simultaneous_labels": 18
+      },
+      {
+        "viewport_id": "mobile-presenter-390x844",
+        "width_px": 390,
+        "height_px": 844,
+        "safe_inset_px": 16,
+        "minimum_gap_px": 8,
+        "minimum_text_px": 15,
+        "max_primary_count": 1,
+        "max_simultaneous_labels": 12
+      },
+      {
+        "viewport_id": "mobile-downsample-390x219@2x",
+        "width_px": 390,
+        "height_px": 219,
+        "safe_inset_px": 8,
+        "minimum_gap_px": 4,
+        "minimum_text_px": 9.5,
+        "max_primary_count": 1,
+        "max_simultaneous_labels": 12
+      }
+    ],
+    "connector_clearance_px": 6,
+    "allowed_overlaps": [
+      "Text may overlap its own semantic container as an ancestor/descendant relation.",
+      "A finite spotlight ring may overlap its protagonist.",
+      "A fraction bar may intersect the mathematical bounding stack it owns."
+    ],
+    "blocking_checks": [
+      "text_text_overlap",
+      "text_object_overlap",
+      "clipping",
+      "overflow",
+      "minimum_text",
+      "connector_label_collision",
+      "persistent_duplicate",
+      "empty_state",
+      "protagonist_competition",
+      "motion_discontinuity"
+    ]
+  },
+  "comparison_plan": {
+    "variants": ["original", "baseline_faithful", "enhanced_immersive"],
+    "units": [
+      {
+        "scene_id": "slide-02",
+        "original_reference_id": "reference-02",
+        "baseline_hold_id": "s2-b3",
+        "enhanced_hold_id": "s2-e5",
+        "viewports": ["desktop-1600x900", "mobile-downsample-390x219@2x"]
+      },
+      {
+        "scene_id": "slide-04",
+        "original_reference_id": "reference-04",
+        "baseline_hold_id": "s4-b4",
+        "enhanced_hold_id": "s4-e6",
+        "viewports": ["desktop-1600x900", "mobile-downsample-390x219@2x"]
+      }
+    ],
+    "judgement_dimensions": [
+      "essential_fidelity",
+      "visual_uplift",
+      "immersive_uplift",
+      "pedagogical_uplift",
+      "spatial_robustness"
+    ]
+  },
+  "global_system": {
+    "concept_thesis": "El instrumento y sus cash flows permanecen físicamente continuos mientras la atención los convierte en relaciones económicas y luego en matemáticas.",
+    "composition_grammar": "Un protagonista grande, contexto de tinta baja y un segundo nivel que aparece solo cuando responde la pregunta del hold.",
+    "hierarchy": "Primary by area and contrast; secondary by proximity; context by opacity; lime reserved for principal or final result.",
+    "text_role": "Labels directos y breves; la narración explica matiz, mientras la slide demuestra la relación."
+  },
+  "scenes": [
+    {
+      "scene_id": "slide-02",
+      "goal": "Explicar la anatomía contractual de un bono concreto y traducirla a cash flows del inversor.",
+      "takeaway": "El bono es un contrato cuyos términos determinan cuánto paga el inversor hoy, qué cobra cada año y qué recupera al vencimiento.",
+      "preserved_essence": {
+        "message": "Un único bono a 5 años organiza emisor, cupón, precio, notional, valor nominal, vencimiento y frecuencia antes de desplegar sus cash flows.",
+        "conceptual_elements": [
+          "Emisor como obligado al pago.",
+          "Cupón 4% como tasa y no como pago monetario.",
+          "Precio hoy 100 €.",
+          "Notional 100 € como base del cupón.",
+          "Valor nominal 100 € como principal devuelto.",
+          "Vencimiento 5 años y frecuencia anual.",
+          "Timeline desde perspectiva del inversor."
+        ],
+        "numeric_invariants": [
+          "4% × 100 € = 4 €.",
+          "Hoy = -100 €.",
+          "Años 1–4 = +4 €.",
+          "Año 5 = +104 € = 4 € + 100 €."
+        ]
+      },
+      "improvement_opportunities": {
+        "visual": [
+          "Elevar materialidad del certificado y limpiar callouts.",
+          "Usar acentos semánticos más consistentes."
+        ],
+        "pedagogical": [
+          "Separar entrada, motor del cupón y salida.",
+          "Hacer explícita la ecuación cupón × notional."
+        ],
+        "immersive": [
+          "Transformar atributos en cash flows conservando el certificado.",
+          "Usar spotlight finito sobre el término activo."
+        ],
+        "spatial": [
+          "Eliminar la corona de siete cajas simultáneas.",
+          "Crear una composición móvil con menor simultaneidad."
+        ]
+      },
+      "overload_risks": [
+        "Tratar los siete términos como siete protagonistas.",
+        "Duplicar los mismos datos en certificado, callout y timeline.",
+        "Mantener certificado, tres capítulos y timeline con contraste máximo simultáneo."
+      ],
+      "variants": {
+        "baseline_faithful": {
+          "summary": "Certificado central, siete callouts y timeline inferior como la referencia aprobada.",
+          "layout": "Título superior; tres callouts a la izquierda, cuatro a la derecha, certificado central y timeline horizontal inferior.",
+          "holds": [
+            {
+              "hold_id": "s2-b1",
+              "purpose": "Presentar el certificado.",
+              "primary": "bond-certificate",
+              "visible_elements": ["scene-title", "bond-certificate"],
+              "absent_elements": ["baseline-callouts", "cash-flow-timeline"],
+              "success_criteria": ["El objeto se reconoce antes de leer definiciones."]
+            },
+            {
+              "hold_id": "s2-b2",
+              "purpose": "Identificar la anatomía completa.",
+              "primary": "bond-certificate",
+              "visible_elements": ["scene-title", "bond-certificate", "baseline-callouts"],
+              "absent_elements": ["cash-flow-timeline"],
+              "success_criteria": ["Los siete callouts apuntan a un término inequívoco."]
+            },
+            {
+              "hold_id": "s2-b3",
+              "purpose": "Cerrar la reconstrucción fiel con cash flows.",
+              "primary": "bond-certificate",
+              "visible_elements": ["scene-title", "bond-certificate", "baseline-callouts", "cash-flow-timeline"],
+              "absent_elements": [],
+              "success_criteria": ["El frame conserva macrocomposición y contenido de la referencia."]
+            }
+          ],
+          "desktop": "Recrear la composición 16:9 aprobada con SVG code-native y geometría fija reproducible.",
+          "mobile": "Reducir fielmente el desktop para documentar, no ocultar, el baseline de fragilidad móvil."
+        },
+        "enhanced_immersive": {
+          "summary": "Certificado editorial persistente, tres capítulos semánticos y timeline que se despliega desde el contrato.",
+          "layout": "Título compacto; workbench central con certificado a la izquierda y capítulo activo a la derecha; ecuación o timeline ocupa el tercio inferior.",
+          "holds": [
+            {
+              "hold_id": "s2-e1",
+              "purpose": "Fijar el instrumento concreto.",
+              "primary": "bond-certificate",
+              "visible_elements": ["scene-title", "bond-certificate"],
+              "absent_elements": ["semantic-chapters", "coupon-equation", "cash-flow-timeline"],
+              "success_criteria": ["El certificado domina sin competir con cajas periféricas."]
+            },
+            {
+              "hold_id": "s2-e2",
+              "purpose": "Explicar entrada y obligación.",
+              "primary": "entry-chapter",
+              "visible_elements": ["scene-title", "bond-certificate", "entry-chapter"],
+              "absent_elements": ["income-chapter", "exit-chapter", "cash-flow-timeline"],
+              "success_criteria": ["Precio hoy y emisor se leen como relación económica, no lista."
+              ]
+            },
+            {
+              "hold_id": "s2-e3",
+              "purpose": "Convertir el cupón en pago monetario.",
+              "primary": "coupon-equation",
+              "visible_elements": ["scene-title", "bond-certificate", "income-chapter", "coupon-equation"],
+              "absent_elements": ["entry-chapter", "exit-chapter", "cash-flow-timeline"],
+              "success_criteria": ["4% × 100 € = 4 € anual resulta inequívoco."]
+            },
+            {
+              "hold_id": "s2-e4",
+              "purpose": "Separar maturity y principal.",
+              "primary": "exit-chapter",
+              "visible_elements": ["scene-title", "bond-certificate", "exit-chapter", "coupon-equation"],
+              "absent_elements": ["entry-chapter", "income-chapter", "cash-flow-timeline"],
+              "success_criteria": ["El espectador distingue 100 € de principal y 104 € de pago final."]
+            },
+            {
+              "hold_id": "s2-e5",
+              "purpose": "Traducir contrato completo a cash flows.",
+              "primary": "cash-flow-timeline",
+              "visible_elements": ["scene-title", "bond-certificate", "coupon-equation", "cash-flow-timeline"],
+              "absent_elements": ["semantic-chapters"],
+              "success_criteria": ["La secuencia -100, 4, 4, 4, 4, 104 se lee de izquierda a derecha sin solapes."]
+            }
+          ],
+          "desktop": "Workbench 58/42 con certificado persistente y capítulo activo; timeline ocupa una banda inferior con aire contractual.",
+          "mobile": "Usar certificado compacto + capítulo único; en final, resumen contractual arriba y timeline simplificada abajo sin los siete labels simultáneos."
+        }
+      },
+      "spatial_ownership": [
+        "Header owns the top 14% safe area.",
+        "Certificate owns the left 55% of the desktop workbench.",
+        "Active semantic chapter owns the right 36% and no other chapter may be primary.",
+        "Coupon equation or timeline owns the lower band, never both at full visual weight."
+      ],
+      "exclusions": [
+        "No photography.",
+        "No seven-card dashboard in enhanced.",
+        "No use of notional and face value as universal synonyms."
+      ]
+    },
+    {
+      "scene_id": "slide-04",
+      "goal": "Aplicar la fórmula general al bono canónico mostrando de dónde sale cada numerador.",
+      "takeaway": "El precio hoy es la suma de cinco cash flows descontados; el último vale 104 porque incorpora el principal.",
+      "preserved_essence": {
+        "message": "Timeline, distinción cupón/principal y fórmula expandida explican la mecánica numérica completa.",
+        "conceptual_elements": [
+          "Timeline de cinco pagos.",
+          "Cuatro cupones de 4 € antes de maturity.",
+          "Pago de 104 € en maturity como 4 € + 100 €.",
+          "Fórmula general con CF_t, r_t y t.",
+          "Fórmula expandida de cinco términos."
+        ],
+        "numeric_invariants": [
+          "CF1 = CF2 = CF3 = CF4 = 4 €.",
+          "CF5 = 104 €.",
+          "Precio hoy = 4/(1+r1)^1 + 4/(1+r2)^2 + 4/(1+r3)^3 + 4/(1+r4)^4 + 104/(1+r5)^5."
+        ]
+      },
+      "improvement_opportunities": {
+        "visual": [
+          "Crear profundidad y correspondencia sin añadir decoración.",
+          "Reservar lima para maturity y principal."
+        ],
+        "pedagogical": [
+          "Construir la suma término a término.",
+          "Separar por completo cupón rate, coupon payment y principal."
+        ],
+        "immersive": [
+          "Hacer que cada flujo viaje conceptualmente a su slot de descuento.",
+          "Mantener una columna de foco temporal-fórmula."
+        ],
+        "spatial": [
+          "Evitar tres bandas densas a máxima prioridad.",
+          "Recomponer la fórmula móvil en dos filas."
+        ]
+      },
+      "overload_risks": [
+        "Mostrar cinco términos, definiciones y callout de maturity simultáneamente.",
+        "Usar glow en los cinco cash flows y destruir el protagonista.",
+        "Hacer que la fórmula general compita con la expandida."
+      ],
+      "variants": {
+        "baseline_faithful": {
+          "summary": "Timeline superior, callout lateral, fórmula general y fórmula expandida en bandas como la referencia.",
+          "layout": "Título, ribbon de ejemplo, timeline, callout de maturity, regla general y caja de fórmula expandida.",
+          "holds": [
+            {
+              "hold_id": "s4-b1",
+              "purpose": "Presentar cash flows.",
+              "primary": "discount-timeline",
+              "visible_elements": ["scene-title", "example-ribbon", "discount-timeline"],
+              "absent_elements": ["maturity-breakdown", "general-formula", "expanded-formula"],
+              "success_criteria": ["Los cinco pagos concretos se leen en orden."
+              ]
+            },
+            {
+              "hold_id": "s4-b2",
+              "purpose": "Separar cupón y principal.",
+              "primary": "maturity-breakdown",
+              "visible_elements": ["scene-title", "example-ribbon", "discount-timeline", "maturity-breakdown"],
+              "absent_elements": ["general-formula", "expanded-formula"],
+              "success_criteria": ["104 € se descompone como 4 € + 100 €."
+              ]
+            },
+            {
+              "hold_id": "s4-b3",
+              "purpose": "Introducir la fórmula general.",
+              "primary": "general-formula",
+              "visible_elements": ["scene-title", "discount-timeline", "maturity-breakdown", "general-formula"],
+              "absent_elements": ["expanded-formula"],
+              "success_criteria": ["CF_t y r_t quedan definidos."
+              ]
+            },
+            {
+              "hold_id": "s4-b4",
+              "purpose": "Cerrar la reconstrucción fiel.",
+              "primary": "expanded-formula",
+              "visible_elements": ["scene-title", "example-ribbon", "discount-timeline", "maturity-breakdown", "general-formula", "expanded-formula"],
+              "absent_elements": [],
+              "success_criteria": ["La fórmula de cinco términos y la composición original permanecen reconocibles."
+              ]
+            }
+          ],
+          "desktop": "Recrear la composición fija 16:9 con SVG code-native.",
+          "mobile": "Reducir fielmente el desktop para conservar un baseline honesto de densidad."
+        },
+        "enhanced_immersive": {
+          "summary": "Discount field donde cada cash flow mantiene identidad y activa su término matemático hasta formar la suma completa.",
+          "layout": "Título compacto; timeline protagonista arriba; regla general como rail central; formula builder inferior con un slot activo y contexto atenuado.",
+          "holds": [
+            {
+              "hold_id": "s4-e1",
+              "purpose": "Fijar los cinco pagos.",
+              "primary": "discount-timeline",
+              "visible_elements": ["scene-title", "example-ribbon", "discount-timeline"],
+              "absent_elements": ["maturity-breakdown", "discount-rule", "expanded-formula"],
+              "success_criteria": ["4, 4, 4, 4 y 104 se leen sin fórmula concurrente."
+              ]
+            },
+            {
+              "hold_id": "s4-e2",
+              "purpose": "Descomponer maturity.",
+              "primary": "maturity-breakdown",
+              "visible_elements": ["scene-title", "discount-timeline", "maturity-breakdown"],
+              "absent_elements": ["discount-rule", "expanded-formula"],
+              "success_criteria": ["Solo t=5 contiene principal."
+              ]
+            },
+            {
+              "hold_id": "s4-e3",
+              "purpose": "Explicar un término descontado.",
+              "primary": "discount-term-1",
+              "visible_elements": ["scene-title", "discount-timeline", "discount-rule", "discount-term-1"],
+              "absent_elements": ["maturity-breakdown", "discount-term-2", "discount-term-3", "discount-term-4", "discount-term-5"],
+              "success_criteria": ["Se conecta 4 € en t=1 con 4/(1+r1)^1."
+              ]
+            },
+            {
+              "hold_id": "s4-e4",
+              "purpose": "Acumular los cuatro cupones.",
+              "primary": "coupon-term-group",
+              "visible_elements": ["scene-title", "discount-timeline", "discount-rule", "discount-term-1", "discount-term-2", "discount-term-3", "discount-term-4"],
+              "absent_elements": ["maturity-breakdown", "discount-term-5"],
+              "success_criteria": ["Cada término conserva su t y r_t sin colisiones."
+              ]
+            },
+            {
+              "hold_id": "s4-e5",
+              "purpose": "Añadir el principal en maturity.",
+              "primary": "discount-term-5",
+              "visible_elements": ["scene-title", "discount-timeline", "discount-rule", "maturity-breakdown", "discount-term-1", "discount-term-2", "discount-term-3", "discount-term-4", "discount-term-5"],
+              "absent_elements": [],
+              "success_criteria": ["104/(1+r5)^5 domina y el resto actúa como contexto."
+              ]
+            },
+            {
+              "hold_id": "s4-e6",
+              "purpose": "Cerrar la valoración completa.",
+              "primary": "expanded-formula",
+              "visible_elements": ["scene-title", "discount-timeline", "discount-rule", "expanded-formula"],
+              "absent_elements": ["maturity-breakdown"],
+              "success_criteria": ["Los cinco términos exactos caben, se leen y corresponden a la timeline."
+              ]
+            }
+          ],
+          "desktop": "Tres estratos con prioridad variable: timeline, regla de descuento y builder; solo el estrato activo usa contraste pleno.",
+          "mobile": "Mantener timeline compacta y un término activo grande; en el final usar dos filas de fracciones con jerarquía común."
+        }
+      },
+      "spatial_ownership": [
+        "Header owns the top 13% safe area.",
+        "Timeline owns the upper teaching band and keeps five equal time columns.",
+        "Discount rule owns a narrow central rail.",
+        "Formula builder owns the lower band; maturity callout may never overlap it."
+      ],
+      "exclusions": [
+        "No YTM.",
+        "No market price result or invented discount rates.",
+        "No face value in t1–t4.",
+        "No 3D or decorative particles."
+      ]
+    }
+  ],
+  "prohibited_patterns": [
+    "Fullscreen or hidden approved-reference raster in runtime.",
+    "Pixel-perfect as the sole fidelity criterion.",
+    "Autoplay or ambient loops.",
+    "Generic dashboard grids.",
+    "Microtext used to preserve desktop density on mobile.",
+    "Untraced material difference between baseline and enhanced."
+  ],
+  "known_limitations": [
+    "The user approved the enhancement mandate, not the final enhanced money frames as golden references.",
+    "The vertical slice deliberately proves only Slides 2 and 4."
+  ]
+}

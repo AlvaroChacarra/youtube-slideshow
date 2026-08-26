@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/AlvaroChacarra/youtube-slideshow/contracts/implementation-manifest.schema.json",
-  "x-schema-version": "2.1.0",
-  "title": "Implementation Manifest",
+  "x-schema-version": "3.0.0",
+  "title": "Implementation Manifest V3",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,14 +12,18 @@
     "visual_contract_hash",
     "motion_contract_hash",
     "consumed_versions",
-    "commit",
+    "subject_commit",
     "stack",
     "commands",
+    "variants",
     "outputs",
     "scenes",
     "tests",
     "visual_evidence",
+    "reference_context",
+    "comparisons",
     "viewports",
+    "geometry_gate",
     "deviations",
     "limitations"
   ],
@@ -29,64 +33,70 @@
     "narrative_hash": { "$ref": "#/$defs/sha256" },
     "visual_contract_hash": { "$ref": "#/$defs/sha256" },
     "motion_contract_hash": { "$ref": "#/$defs/sha256" },
-    "consumed_versions": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["visual_contract", "motion_contract", "implementation_manifest_schema"],
-      "properties": {
-        "visual_contract": { "$ref": "#/$defs/version" },
-        "motion_contract": { "$ref": "#/$defs/version" },
-        "implementation_manifest_schema": { "$ref": "#/$defs/version" }
-      }
-    },
-    "commit": { "$ref": "#/$defs/gitSha" },
-    "stack": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmpty" } },
-    "commands": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/command" } },
-    "outputs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/output" } },
-    "scenes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/scene" } },
-    "tests": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/test" } },
-    "visual_evidence": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/evidence" } },
-    "reference_context": { "$ref": "#/$defs/referenceContext" },
-    "reference_comparisons": {
+    "consumed_versions": { "$ref": "#/$defs/consumedVersions" },
+    "subject_commit": { "$ref": "#/$defs/gitSha" },
+    "stack": { "$ref": "#/$defs/nonEmptyList" },
+    "commands": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/$defs/referenceComparison" }
+      "items": { "$ref": "#/$defs/command" }
     },
-    "viewports": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/viewport" } },
-    "deviations": { "type": "array", "items": { "$ref": "#/$defs/deviation" } },
-    "limitations": { "type": "array", "items": { "$ref": "#/$defs/nonEmpty" } }
-  },
-  "dependentSchemas": {
-    "reference_comparisons": { "required": ["reference_context"] }
+    "variants": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": { "enum": ["baseline_faithful", "enhanced_immersive"] }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/artifact" }
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/scene" }
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/test" }
+    },
+    "visual_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/evidence" }
+    },
+    "reference_context": { "$ref": "#/$defs/referenceContext" },
+    "comparisons": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/comparison" }
+    },
+    "viewports": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "$ref": "#/$defs/viewport" }
+    },
+    "geometry_gate": { "$ref": "#/$defs/geometryGate" },
+    "deviations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/deviation" }
+    },
+    "limitations": { "$ref": "#/$defs/stringList" }
   },
   "allOf": [
     {
       "if": {
-        "properties": {
-          "consumed_versions": {
-            "properties": { "implementation_manifest_schema": { "const": "2.1.0" } },
-            "required": ["implementation_manifest_schema"]
-          }
-        },
-        "required": ["consumed_versions"]
+        "properties": { "status": { "const": "implemented" } },
+        "required": ["status"]
       },
-      "then": {
-        "required": ["reference_context"],
-        "properties": {
-          "reference_comparisons": {
-            "items": { "required": ["scene_id"] }
-          }
-        }
-      }
-    },
-    {
-      "if": { "properties": { "status": { "const": "implemented" } }, "required": ["status"] },
       "then": {
         "properties": {
           "tests": {
             "not": {
               "contains": {
-                "type": "object",
                 "properties": { "status": { "enum": ["failed", "not_run"] } },
                 "required": ["status"]
               }
@@ -95,100 +105,47 @@
           "deviations": {
             "not": {
               "contains": {
-                "type": "object",
                 "properties": { "approved": { "const": false } },
                 "required": ["approved"]
               }
             }
           },
-          "reference_comparisons": {
-            "allOf": [
-              {
-                "not": {
-                  "contains": {
-                    "type": "object",
-                    "properties": { "status": { "enum": ["failed", "not_tested"] } },
-                    "required": ["status"]
-                  }
-                }
-              },
-              {
-                "not": {
-                  "contains": {
-                    "type": "object",
-                    "properties": { "pixel_diff_only": { "const": true } },
-                    "required": ["pixel_diff_only"]
-                  }
-                }
-              },
-              {
-                "not": {
-                  "contains": {
-                    "type": "object",
-                    "properties": { "fullscreen_reference_used": { "const": true } },
-                    "required": ["fullscreen_reference_used"]
-                  }
+          "geometry_gate": {
+            "properties": {
+              "enhanced": {
+                "properties": {
+                  "status": { "const": "PASS" },
+                  "material_violation_count": { "const": 0 }
                 }
               }
-            ]
+            }
           }
         }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "reference_context": {
-            "properties": { "applicable": { "const": true } },
-            "required": ["applicable"]
-          }
-        },
-        "required": ["reference_context"]
-      },
-      "then": {
-        "required": ["reference_comparisons"],
-        "properties": { "reference_comparisons": { "minItems": 1 } }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "reference_context": {
-            "properties": { "applicable": { "const": false } },
-            "required": ["applicable"]
-          }
-        },
-        "required": ["reference_context"]
-      },
-      "then": {
-        "properties": { "reference_comparisons": { "maxItems": 0 } }
       }
     }
   ],
   "$defs": {
     "nonEmpty": { "type": "string", "minLength": 1 },
-    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "stringList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmpty" }
+    },
+    "nonEmptyList": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/nonEmpty" }
+    },
     "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
     "gitSha": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
-    "referenceContext": {
+    "consumedVersions": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["applicable", "reference_ids"],
+      "required": ["visual_contract", "motion_contract", "implementation_manifest_schema"],
       "properties": {
-        "applicable": { "type": "boolean" },
-        "reference_ids": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": { "$ref": "#/$defs/nonEmpty" }
-        }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "applicable": { "const": true } }, "required": ["applicable"] },
-          "then": { "properties": { "reference_ids": { "minItems": 1 } } },
-          "else": { "properties": { "reference_ids": { "maxItems": 0 } } }
-        }
-      ]
+        "visual_contract": { "const": "3.0.0" },
+        "motion_contract": { "const": "3.0.0" },
+        "implementation_manifest_schema": { "const": "3.0.0" }
+      }
     },
     "command": {
       "type": "object",
@@ -200,7 +157,7 @@
         "purpose": { "$ref": "#/$defs/nonEmpty" }
       }
     },
-    "output": {
+    "artifact": {
       "type": "object",
       "additionalProperties": false,
       "required": ["path", "kind", "content_hash"],
@@ -213,11 +170,12 @@
     "scene": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["scene_id", "implemented_beats", "holds_verified"],
+      "required": ["scene_id", "variant", "implemented_beats", "holds_verified"],
       "properties": {
         "scene_id": { "$ref": "#/$defs/nonEmpty" },
-        "implemented_beats": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } },
-        "holds_verified": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmpty" } }
+        "variant": { "enum": ["baseline_faithful", "enhanced_immersive"] },
+        "implemented_beats": { "$ref": "#/$defs/nonEmptyList" },
+        "holds_verified": { "$ref": "#/$defs/nonEmptyList" }
       }
     },
     "test": {
@@ -227,183 +185,174 @@
       "properties": {
         "name": { "$ref": "#/$defs/nonEmpty" },
         "command": { "$ref": "#/$defs/nonEmpty" },
-        "status": { "enum": ["passed", "failed", "not_run"] },
+        "status": { "enum": ["passed", "failed", "not_run", "expected_fail"] },
         "evidence": { "$ref": "#/$defs/nonEmpty" }
       }
     },
     "evidence": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["evidence_id", "scene_id", "beat_id", "state", "viewport_id", "path", "content_hash"],
+      "required": [
+        "evidence_id",
+        "scene_id",
+        "variant",
+        "hold_id",
+        "beat_id",
+        "state",
+        "viewport_id",
+        "path",
+        "content_hash"
+      ],
       "properties": {
         "evidence_id": { "$ref": "#/$defs/nonEmpty" },
         "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "variant": { "enum": ["original", "baseline_faithful", "enhanced_immersive"] },
+        "hold_id": { "type": ["string", "null"] },
         "beat_id": { "type": ["string", "null"] },
-        "state": { "enum": ["hold", "beat_start", "max_change", "beat_end", "reverse", "reset", "reduced_motion", "mobile_downsample"] },
+        "state": {
+          "enum": [
+            "original",
+            "hold",
+            "beat_start",
+            "max_change",
+            "beat_end",
+            "reverse",
+            "reset",
+            "reduced_motion",
+            "mobile_presenter",
+            "mobile_downsample",
+            "comparison",
+            "geometry_annotation"
+          ]
+        },
         "viewport_id": { "$ref": "#/$defs/nonEmpty" },
         "path": { "$ref": "#/$defs/nonEmpty" },
         "content_hash": { "$ref": "#/$defs/sha256" }
       }
     },
-    "referenceDifference": {
+    "referenceContext": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "difference_id",
-        "property",
-        "description",
-        "material",
-        "deliberate",
-        "approval_reference"
-      ],
+      "required": ["applicable", "reference_ids", "fullscreen_reference_used", "runtime_reference_requests"],
       "properties": {
-        "difference_id": { "$ref": "#/$defs/nonEmpty" },
-        "property": { "$ref": "#/$defs/nonEmpty" },
-        "description": { "$ref": "#/$defs/nonEmpty" },
-        "material": { "type": "boolean" },
-        "deliberate": { "type": "boolean" },
-        "approval_reference": { "type": ["string", "null"] }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "material": { "const": true } }, "required": ["material"] },
-          "then": {
-            "properties": {
-              "deliberate": { "const": true },
-              "approval_reference": { "$ref": "#/$defs/nonEmpty" }
-            }
-          }
-        }
-      ]
+        "applicable": { "const": true },
+        "reference_ids": { "$ref": "#/$defs/nonEmptyList" },
+        "fullscreen_reference_used": { "const": false },
+        "runtime_reference_requests": { "const": 0 }
+      }
     },
-    "referenceComparison": {
+    "evidencePointer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "content_hash", "viewport_id"],
+      "properties": {
+        "path": { "$ref": "#/$defs/nonEmpty" },
+        "content_hash": { "$ref": "#/$defs/sha256" },
+        "viewport_id": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "comparison": {
       "type": "object",
       "additionalProperties": false,
       "required": [
+        "scene_id",
         "reference_id",
-        "reference_hash",
-        "screenshot_hash",
-        "viewport_id",
-        "hold_id",
-        "status",
-        "comparison_methods",
-        "pixel_diff_only",
-        "fullscreen_reference_used",
-        "reconstruction_evidence",
-        "material_differences"
+        "original",
+        "baseline",
+        "enhanced",
+        "comparison_surface",
+        "baseline_fidelity",
+        "enhancement_delta_traced"
       ],
       "properties": {
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
         "reference_id": { "$ref": "#/$defs/nonEmpty" },
-        "reference_hash": { "$ref": "#/$defs/sha256" },
-        "screenshot_hash": { "$ref": "#/$defs/sha256" },
-        "scene_id": {
-          "$ref": "#/$defs/nonEmpty",
-          "description": "Scene from the visual reference binding; required for 2.1 manifests."
-        },
-        "viewport_id": { "$ref": "#/$defs/nonEmpty" },
-        "hold_id": { "$ref": "#/$defs/nonEmpty" },
-        "status": { "enum": ["passed", "failed", "limited", "not_tested"] },
-        "comparison_methods": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": {
-            "enum": [
-              "screenshot_diff",
-              "bounding_boxes",
-              "dom_geometry",
-              "perceptual_comparison",
-              "computer_vision",
-              "human_or_agent_inspection"
-            ]
-          }
-        },
-        "pixel_diff_only": { "type": "boolean" },
-        "fullscreen_reference_used": { "type": "boolean" },
-        "reconstruction_evidence": {
-          "type": "array",
-          "minItems": 1,
-          "description": "Evidencia positiva o negativa de la reconstrucción observada; en failed debe documentar la causa visible.",
-          "items": { "$ref": "#/$defs/nonEmpty" }
-        },
-        "material_differences": {
-          "type": "array",
-          "items": { "$ref": "#/$defs/referenceDifference" }
-        }
-      },
-      "allOf": [
-        {
-          "if": {
-            "properties": { "fullscreen_reference_used": { "const": true } },
-            "required": ["fullscreen_reference_used"]
-          },
-          "then": { "properties": { "status": { "const": "failed" } } }
-        },
-        {
-          "if": {
-            "properties": { "pixel_diff_only": { "const": true } },
-            "required": ["pixel_diff_only"]
-          },
-          "then": {
-            "properties": {
-              "status": { "enum": ["failed", "limited"] },
-              "comparison_methods": {
-                "minItems": 1,
-                "maxItems": 1,
-                "contains": { "const": "screenshot_diff" }
-              }
-            }
-          },
-          "else": {
-            "properties": {
-              "comparison_methods": {
-                "contains": {
-                  "enum": [
-                    "bounding_boxes",
-                    "dom_geometry",
-                    "perceptual_comparison",
-                    "computer_vision",
-                    "human_or_agent_inspection"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      ]
+        "original": { "$ref": "#/$defs/evidencePointer" },
+        "baseline": { "$ref": "#/$defs/evidencePointer" },
+        "enhanced": { "$ref": "#/$defs/evidencePointer" },
+        "comparison_surface": { "$ref": "#/$defs/evidencePointer" },
+        "baseline_fidelity": { "enum": ["passed", "limited", "failed"] },
+        "enhancement_delta_traced": { "const": true }
+      }
     },
     "viewport": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["viewport_id", "browser", "width_px", "height_px", "device_pixel_ratio", "purpose"],
+      "required": ["viewport_id", "browser", "width_px", "height_px", "device_pixel_ratio", "purpose", "minimum_text_px"],
       "properties": {
         "viewport_id": { "$ref": "#/$defs/nonEmpty" },
         "browser": { "$ref": "#/$defs/nonEmpty" },
         "width_px": { "type": "integer", "minimum": 1 },
         "height_px": { "type": "integer", "minimum": 1 },
         "device_pixel_ratio": { "type": "number", "exclusiveMinimum": 0 },
-        "purpose": { "$ref": "#/$defs/nonEmpty" }
+        "purpose": { "$ref": "#/$defs/nonEmpty" },
+        "minimum_text_px": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "geometryViolation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "scene_id", "hold_or_beat_id", "viewport_id", "ids", "measurement", "threshold", "owner", "annotated_screenshot"],
+      "properties": {
+        "code": { "$ref": "#/$defs/nonEmpty" },
+        "scene_id": { "$ref": "#/$defs/nonEmpty" },
+        "hold_or_beat_id": { "$ref": "#/$defs/nonEmpty" },
+        "viewport_id": { "$ref": "#/$defs/nonEmpty" },
+        "ids": { "$ref": "#/$defs/nonEmptyList" },
+        "measurement": { "$ref": "#/$defs/nonEmpty" },
+        "threshold": { "$ref": "#/$defs/nonEmpty" },
+        "owner": { "enum": ["visual-director-lienzo", "motion-director-lienzo", "frontend-producer-lienzo"] },
+        "annotated_screenshot": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "geometryResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "report",
+        "content_hash",
+        "viewports_covered",
+        "states_checked",
+        "material_violation_count",
+        "violations",
+        "annotated_screenshots"
+      ],
+      "properties": {
+        "status": { "enum": ["PASS", "FAIL"] },
+        "report": { "$ref": "#/$defs/nonEmpty" },
+        "content_hash": { "$ref": "#/$defs/sha256" },
+        "viewports_covered": { "$ref": "#/$defs/nonEmptyList" },
+        "states_checked": { "type": "integer", "minimum": 1 },
+        "material_violation_count": { "type": "integer", "minimum": 0 },
+        "violations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/geometryViolation" }
+        },
+        "annotated_screenshots": { "$ref": "#/$defs/nonEmptyList" }
+      }
+    },
+    "geometryGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline", "enhanced"],
+      "properties": {
+        "baseline": { "$ref": "#/$defs/geometryResult" },
+        "enhanced": { "$ref": "#/$defs/geometryResult" }
       }
     },
     "deviation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["deviation_id", "contract", "description", "reason", "impact", "approved", "approval_reference"],
+      "required": ["deviation_id", "contract", "description", "impact", "approved", "approval_reference"],
       "properties": {
         "deviation_id": { "$ref": "#/$defs/nonEmpty" },
         "contract": { "enum": ["visual", "motion", "narrative", "audit_criteria"] },
         "description": { "$ref": "#/$defs/nonEmpty" },
-        "reason": { "$ref": "#/$defs/nonEmpty" },
         "impact": { "$ref": "#/$defs/nonEmpty" },
         "approved": { "type": "boolean" },
         "approval_reference": { "type": ["string", "null"] }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "approved": { "const": true } }, "required": ["approved"] },
-          "then": { "properties": { "approval_reference": { "$ref": "#/$defs/nonEmpty" } } }
-        }
-      ]
+      }
     }
   }
 }
