@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-25T20:28:40.887Z",
+  "generated_at": "2026-08-26T08:43:48.018Z",
   "runtime": "Lienzo V3 Bonds vertical slice",
   "records": [
     {
@@ -12,7 +12,7 @@
       "state": "original",
       "viewport_id": "desktop-1600x900",
       "path": "evidence/captures/original/slide-02-desktop.png",
-      "content_hash": "sha256:f33115d6a42971ed4defbca2ef6aa01637b3f503e27a5055c7c42739dbb041f4"
+      "content_hash": "sha256:bd37aeeca71761dd4e1fcb22ea8577c0e8869a29025c485c3e9722eb7fa3e3a5"
     },
     {
       "evidence_id": "ev-002-slide-04-original",
@@ -23,7 +23,7 @@
       "state": "original",
       "viewport_id": "desktop-1600x900",
       "path": "evidence/captures/original/slide-04-desktop.png",
-      "content_hash": "sha256:c1535be18385b5c770c88a52cd3a9fb3125bb094c32703c56448fd8dfde52e15"
+      "content_hash": "sha256:377b9aca556565fba6140d260a64becad0e51c82987fa3763f264990834efc40"
     },
     {
       "evidence_id": "ev-003-slide-02-hold",

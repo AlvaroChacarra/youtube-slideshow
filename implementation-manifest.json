@@ -9,7 +9,7 @@
     "motion_contract": "3.0.0",
     "implementation_manifest_schema": "3.0.0"
   },
-  "subject_commit": "8a6302a7708bbf141f3b510bff7ec40fb7df8700",
+  "subject_commit": "1ad878247132befc862b030cf16a7d10811cad24",
   "stack": [
     "HTML5",
     "CSS custom layout",
@@ -53,7 +53,7 @@
     {
       "path": "index.html",
       "kind": "application",
-      "content_hash": "sha256:6341a112aeec596ec4b8b5cd765667033f7acdbf1d9b447a70bb1b405fdae0ea"
+      "content_hash": "sha256:34808720c0669748e328cf9a44b8b3e7b973b28ec16d86eea6891c8b858f946b"
     },
     {
       "path": "runtime/app.js",
@@ -73,22 +73,22 @@
     {
       "path": "evidence/evidence-index.json",
       "kind": "data",
-      "content_hash": "sha256:3b1413366770b838fc564a132d6d53e835a5f438c1ec38b353da7427ddce1e4d"
+      "content_hash": "sha256:cbbdb9521cf66a3192d7dfa782539d47ec77ac8cfc7fff28a684de66bc2d3fcd"
     },
     {
       "path": "evidence/runtime-tests.json",
       "kind": "report",
-      "content_hash": "sha256:c5db21c696f47fa35d04dc8128bc32161e46dd6b52966981a9c9103c867d9685"
+      "content_hash": "sha256:8568efdc0822d5b8bfa40433afc777f3c5050ccdfd3e78742d565ff0b6c70371"
     },
     {
       "path": "evidence/geometry/baseline_faithful-report.json",
       "kind": "report",
-      "content_hash": "sha256:de58d25e40ef6bc57d3c8197c2242b3b580720a145e7d12298aedbb20869e5e8"
+      "content_hash": "sha256:e57bec7a253fd6fcc5b6419a83a043c980ac33f8601981d13da7dca30b8c8d46"
     },
     {
       "path": "evidence/geometry/enhanced_immersive-report.json",
       "kind": "report",
-      "content_hash": "sha256:c19bc3e1af62f145c25ec614952f723cd8a031776a619aa23830b565aab8f998"
+      "content_hash": "sha256:e436bd8c853382348d2aa96528f52ca03ea1a04e9a324a4844c16539d55a0497"
     },
     {
       "path": "projects/bonds/audit/executive-comparison.md",
@@ -220,7 +220,7 @@
       "state": "original",
       "viewport_id": "desktop-1600x900",
       "path": "evidence/captures/original/slide-02-desktop.png",
-      "content_hash": "sha256:f33115d6a42971ed4defbca2ef6aa01637b3f503e27a5055c7c42739dbb041f4"
+      "content_hash": "sha256:bd37aeeca71761dd4e1fcb22ea8577c0e8869a29025c485c3e9722eb7fa3e3a5"
     },
     {
       "evidence_id": "ev-002-slide-04-original",
@@ -231,7 +231,7 @@
       "state": "original",
       "viewport_id": "desktop-1600x900",
       "path": "evidence/captures/original/slide-04-desktop.png",
-      "content_hash": "sha256:c1535be18385b5c770c88a52cd3a9fb3125bb094c32703c56448fd8dfde52e15"
+      "content_hash": "sha256:377b9aca556565fba6140d260a64becad0e51c82987fa3763f264990834efc40"
     },
     {
       "evidence_id": "ev-003-slide-02-hold",
@@ -733,7 +733,7 @@
       "reference_id": "bonds-slide-02-reference",
       "original": {
         "path": "evidence/captures/original/slide-02-desktop.png",
-        "content_hash": "sha256:f33115d6a42971ed4defbca2ef6aa01637b3f503e27a5055c7c42739dbb041f4",
+        "content_hash": "sha256:bd37aeeca71761dd4e1fcb22ea8577c0e8869a29025c485c3e9722eb7fa3e3a5",
         "viewport_id": "desktop-1600x900"
       },
       "baseline": {
@@ -759,7 +759,7 @@
       "reference_id": "bonds-slide-04-reference",
       "original": {
         "path": "evidence/captures/original/slide-04-desktop.png",
-        "content_hash": "sha256:c1535be18385b5c770c88a52cd3a9fb3125bb094c32703c56448fd8dfde52e15",
+        "content_hash": "sha256:377b9aca556565fba6140d260a64becad0e51c82987fa3763f264990834efc40",
         "viewport_id": "desktop-1600x900"
       },
       "baseline": {
@@ -814,7 +814,7 @@
     "baseline": {
       "status": "FAIL",
       "report": "evidence/geometry/baseline_faithful-report.json",
-      "content_hash": "sha256:de58d25e40ef6bc57d3c8197c2242b3b580720a145e7d12298aedbb20869e5e8",
+      "content_hash": "sha256:e57bec7a253fd6fcc5b6419a83a043c980ac33f8601981d13da7dca30b8c8d46",
       "viewports_covered": [
         "desktop-1600x900",
         "mobile-presenter-390x844",
@@ -963,7 +963,7 @@
     "enhanced": {
       "status": "PASS",
       "report": "evidence/geometry/enhanced_immersive-report.json",
-      "content_hash": "sha256:c19bc3e1af62f145c25ec614952f723cd8a031776a619aa23830b565aab8f998",
+      "content_hash": "sha256:e436bd8c853382348d2aa96528f52ca03ea1a04e9a324a4844c16539d55a0497",
       "viewports_covered": [
         "desktop-1600x900",
         "mobile-presenter-390x844",

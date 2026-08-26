@@ -83,9 +83,10 @@ const skillDirectories = (await runFile("find", ["skills", "-mindepth", "1", "-m
 const expectedSkills = ["audita-y-mejora-lienzo-didactico", "frontend-producer-lienzo", "motion-director-lienzo", "visual-director-lienzo"].sort();
 if (skillDirectories.join("|") !== expectedSkills.join("|")) issue("SKILLS", "skills/", `received ${skillDirectories.join(", ")}`);
 
-const branch = (await runFile("git", ["branch", "--show-current"], { cwd: REPO_ROOT })).stdout.trim();
-const mergeBase = (await runFile("git", ["merge-base", "skill-branch", "HEAD"], { cwd: REPO_ROOT })).stdout.trim();
-if (branch !== "v3/immersive-slide-enhancement") issue("BRANCH", branch, "wrong feature branch");
+const localBranch = (await runFile("git", ["branch", "--show-current"], { cwd: REPO_ROOT })).stdout.trim();
+const branch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME || localBranch;
+const mergeBase = (await runFile("git", ["merge-base", source.base.commit, "HEAD"], { cwd: REPO_ROOT })).stdout.trim();
+if (!["v3/immersive-slide-enhancement", "skill-branch"].includes(branch)) issue("BRANCH", branch, "wrong feature or release branch");
 if (mergeBase !== source.base.commit) issue("BASE", mergeBase, `expected ${source.base.commit}`);
 try {
   await runFile("git", ["cat-file", "-e", `${manifest.subject_commit}^{commit}`], { cwd: REPO_ROOT });

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2026-08-25T20:27:44.992Z",
+  "generated_at": "2026-08-26T08:42:43.024Z",
   "status": "PASS",
   "assertions": 21,
   "results": [
@@ -159,7 +159,7 @@
     {
       "name": "reduced-motion-semantic-equivalence",
       "status": "PASS",
-      "elapsedMs": 15
+      "elapsedMs": 11
     },
     {
       "name": "deterministic-beat-sampling",

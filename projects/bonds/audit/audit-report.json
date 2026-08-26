@@ -1,7 +1,7 @@
 {
   "audit_id": "bonds-enhanced-v3-comparative-audit",
-  "subject_commit": "8a6302a7708bbf141f3b510bff7ec40fb7df8700",
-  "implementation_manifest_hash": "sha256:a00765af84167d0015547abeefd1575dd06964a20751e38c1b12338b6518840c",
+  "subject_commit": "1ad878247132befc862b030cf16a7d10811cad24",
+  "implementation_manifest_hash": "sha256:4b6b191ccc9e6772c9a10b3380ad5e8fd97ce2642ffd9edfa4853fb143a03d09",
   "consumed_versions": {
     "visual_contract": "3.0.0",
     "motion_contract": "3.0.0",
@@ -35,19 +35,19 @@
       },
       {
         "path": "evidence/geometry/enhanced_immersive-report.json",
-        "content_hash": "sha256:c19bc3e1af62f145c25ec614952f723cd8a031776a619aa23830b565aab8f998",
+        "content_hash": "sha256:e436bd8c853382348d2aa96528f52ca03ea1a04e9a324a4844c16539d55a0497",
         "kind": "geometry_report",
         "viewport_id": "multi-viewport"
       },
       {
         "path": "evidence/runtime-tests.json",
-        "content_hash": "sha256:c5db21c696f47fa35d04dc8128bc32161e46dd6b52966981a9c9103c867d9685",
+        "content_hash": "sha256:8568efdc0822d5b8bfa40433afc777f3c5050ccdfd3e78742d565ff0b6c70371",
         "kind": "test_log",
         "viewport_id": "multi-viewport"
       },
       {
         "path": "evidence/evidence-index.json",
-        "content_hash": "sha256:3b1413366770b838fc564a132d6d53e835a5f438c1ec38b353da7427ddce1e4d",
+        "content_hash": "sha256:cbbdb9521cf66a3192d7dfa782539d47ec77ac8cfc7fff28a684de66bc2d3fcd",
         "kind": "other",
         "viewport_id": "multi-viewport"
       },
@@ -163,7 +163,7 @@
   "geometry_gate": {
     "status": "PASS",
     "report_path": "evidence/geometry/enhanced_immersive-report.json",
-    "report_hash": "sha256:c19bc3e1af62f145c25ec614952f723cd8a031776a619aa23830b565aab8f998",
+    "report_hash": "sha256:e436bd8c853382348d2aa96528f52ca03ea1a04e9a324a4844c16539d55a0497",
     "states_checked": 114,
     "material_violation_count": 0,
     "sampling_verified": true
