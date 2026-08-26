@@ -27,5 +27,7 @@ jobs:
           cache: npm
       - name: Install reproducible dependencies
         run: npm ci
+      - name: Install image tooling
+        run: sudo apt-get update && sudo apt-get install --yes imagemagick
       - name: Regenerate and validate V3
         run: npm test
