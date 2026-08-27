@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Construir una explicación visual progresiva de bonos que parta de la intuición económica, pase por la anatomía del instrumento y llegue a valoración, yield, funcionamiento de mercado, curva de tipos y sensibilidad a tipos.
+Construir una explicación visual progresiva de bonos que parta de la intuición económica, pase por la anatomía del instrumento y llegue a valoración, yield, funcionamiento de mercado y curva de tipos.
 
 El espectador debe poder seguir cada idea sin conocimientos avanzados y sin leer una slide saturada. La narración oral y la imagen se complementan; la imagen no debe intentar contener todo el discurso.
 
@@ -26,19 +26,36 @@ Consecuencias del ejemplo:
 
 En este ejemplo notional y face value coinciden en 100 €. Se mantienen ambos nombres porque cumplen funciones conceptuales distintas: el notional sirve como base del cupón y el face value es el principal que se devuelve al vencimiento.
 
-## Secuencia aprobada
+## Arquitectura pedagógica aprobada
 
-1. `01-what-is-a-bond.md` — **¿Qué es un bono?**
-2. `02-bond-anatomy.md` — **Anatomía de un bono a través de un ejemplo**
-3. `03-discounting-theory.md` — **Descuento de flujos — teoría**
-4. `04-discounting-example.md` — **Descuento de flujos — ejemplo**
-5. `05-ytm-vs-cagr.md` — **YTM vs CAGR**
-6. `06-same-ytm-different-cagr.md` — **Mismo YTM, distinto CAGR**
-7. `07-why-many-bonds-same-tenor.md` — **¿Por qué hay varios bonos en un mismo tenor?**
-8. `08-coupon-price-ytm.md` — **Del cupón al precio, y del precio al YTM**
-9. `09-yield-curve.md` — **La curva de tipos**
+El bloque se organiza en cuatro microbloques:
 
-**Estado:** slides 01–09 están fijadas. Cada una tiene especificación en `slides/` y referencia visual aprobada en `references/`.
+1. **Qué es un bono** — slides 1–2.
+2. **Cómo se valora un bono** — slides 3–4.
+3. **YTM vs CAGR** — slides 5–6.
+4. **Del bono a la curva de tipos** — slides 7–9.
+
+La estructura completa es:
+
+1. `00-block-cover.md` — **Bloque 1 — Fundamentos de los bonos**.
+2. `00-1-table-of-contents.md` — **Recorrido del bloque**.
+3. `00-2-miniblock-1-cover.md` — **Minibloque 1 · Qué es un bono**.
+4. `01-what-is-a-bond.md` — **¿Qué es un bono?**.
+5. `02-bond-anatomy.md` — **Anatomía de un bono a través de un ejemplo**.
+6. `02-1-miniblock-2-cover.md` — **Minibloque 2 · Cómo se valora un bono**.
+7. `03-discounting-theory.md` — **Descuento de flujos — teoría**.
+8. `04-discounting-example.md` — **Descuento de flujos — ejemplo**.
+9. `04-1-miniblock-3-cover.md` — **Minibloque 3 · YTM vs CAGR**.
+10. `05-ytm-vs-cagr.md` — **YTM vs CAGR**.
+11. `06-same-ytm-different-cagr.md` — **Mismo YTM, distinto CAGR**.
+12. `06-1-miniblock-4-cover.md` — **Minibloque 4 · Del bono a la curva de tipos**.
+13. `07-why-many-bonds-same-tenor.md` — **¿Por qué hay varios bonos en un mismo tenor?**.
+14. `08-coupon-price-ytm.md` — **Del cupón al precio, y del precio al YTM**.
+15. `09-yield-curve.md` — **La curva de tipos**.
+16. `10-recap-miniblocks-1-2.md` — **Repaso final · Minibloques 1 y 2**.
+17. `11-recap-miniblocks-3-4.md` — **Repaso final · Minibloques 3 y 4**.
+
+**Estado canónico:** 17/17 artefactos visuales aprobados. Cada artefacto tiene especificación en `slides/` y referencia perceptual en `references/`.
 
 ## Slide 05 — YTM vs CAGR
 
@@ -108,4 +125,4 @@ Mensaje central: **la curva de tipos resume cuánto rendimiento exige el mercado
 
 ## Regla narrativa
 
-Cada slide debe añadir una sola pieza conceptual nueva y conservar lo ya aprendido. Cuando un concepto merezca intuición y cálculo, preferir dos slides consecutivas antes que comprimir ambas en una sola.
+Cada slide de contenido debe añadir una sola pieza conceptual nueva y conservar lo ya aprendido. Las portadas de minibloque son interstitials visuales y no añaden teoría nueva. Los dos repasos aparecen únicamente al final del bloque, no después de cada microbloque.
