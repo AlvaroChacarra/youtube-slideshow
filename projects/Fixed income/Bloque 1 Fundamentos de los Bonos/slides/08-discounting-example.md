@@ -2,7 +2,7 @@
 
 Status: **referencia aprobada**.
 
-Referencia: `../references/04-discounting-example.webp`
+Referencia: `../references/08-discounting-example.webp`
 
 ## Propósito didáctico
 

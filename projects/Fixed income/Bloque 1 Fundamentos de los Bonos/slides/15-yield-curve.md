@@ -48,4 +48,4 @@ Los benchmarks funcionan como anclajes líquidos, mientras que la curva fair res
 
 ## Referencia
 
-`../references/09-yield-curve.webp`
+`../references/15-yield-curve.webp`

@@ -14,7 +14,7 @@ Introducir el cuarto microbloque antes de las slides 7–9 y marcar explícitame
 Mitad derecha de la composición 1 aprobada para las portadas de minibloques 3–4: título editorial a la izquierda y gran curva de tipos dentro de un frame a la derecha.
 
 ## Reference
-`../references/06-1-miniblock-4-cover.webp`
+`../references/12-miniblock-4-cover.webp`
 
 ## Why approved
 - Señala el paso del bono individual al mercado.

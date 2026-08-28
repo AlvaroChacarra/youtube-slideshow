@@ -85,7 +85,7 @@ Cuanto mayor es el cupón, mayor es la exposición a qué rendimiento pueda obte
 
 ## Referencia visual
 
-`../references/06-same-ytm-different-cagr.webp`
+`../references/11-same-ytm-different-cagr.webp`
 
 ## Qué evitar
 

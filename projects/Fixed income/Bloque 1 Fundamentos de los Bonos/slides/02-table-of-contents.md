@@ -13,7 +13,7 @@ Mostrar antes del contenido el recorrido completo del bloque y dividirlo en cuat
 Composición aprobada como opción 6: recorrido horizontal con cuatro estaciones circulares conectadas, un icono por microbloque y una línea de progreso inferior con rangos `1–2`, `3–4`, `5–6`, `7–9`.
 
 ## Reference
-`../references/00-1-table-of-contents.webp`
+`../references/02-table-of-contents.webp`
 
 ## Why approved
 - Hace visible la progresión `bono → valoración → rendimiento → curva`.

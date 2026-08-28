@@ -14,7 +14,7 @@ Introducir el segundo microbloque antes de las slides 3–4 y marcar explícitam
 Mitad derecha de la composición 3 aprobada para las portadas de minibloques 1–2: título editorial, fórmula de valoración dentro de un frame y rail inferior que resalta el microbloque 02.
 
 ## Reference
-`../references/02-1-miniblock-2-cover.webp`
+`../references/06-miniblock-2-cover.webp`
 
 ## Why approved
 - Cambia de estructura contractual a valoración sin perder continuidad visual.

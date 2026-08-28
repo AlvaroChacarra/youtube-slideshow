@@ -35,25 +35,27 @@ El bloque se organiza en cuatro microbloques:
 3. **YTM vs CAGR** — slides 5–6.
 4. **Del bono a la curva de tipos** — slides 7–9.
 
-La estructura completa es:
+La estructura completa, en orden físico del deck, es:
 
-1. `00-block-cover.md` — **Bloque 1 — Fundamentos de los bonos**.
-2. `00-1-table-of-contents.md` — **Recorrido del bloque**.
-3. `00-2-miniblock-1-cover.md` — **Minibloque 1 · Qué es un bono**.
-4. `01-what-is-a-bond.md` — **¿Qué es un bono?**.
-5. `02-bond-anatomy.md` — **Anatomía de un bono a través de un ejemplo**.
-6. `02-1-miniblock-2-cover.md` — **Minibloque 2 · Cómo se valora un bono**.
-7. `03-discounting-theory.md` — **Descuento de flujos — teoría**.
-8. `04-discounting-example.md` — **Descuento de flujos — ejemplo**.
-9. `04-1-miniblock-3-cover.md` — **Minibloque 3 · YTM vs CAGR**.
-10. `05-ytm-vs-cagr.md` — **YTM vs CAGR**.
-11. `06-same-ytm-different-cagr.md` — **Mismo YTM, distinto CAGR**.
-12. `06-1-miniblock-4-cover.md` — **Minibloque 4 · Del bono a la curva de tipos**.
-13. `07-why-many-bonds-same-tenor.md` — **¿Por qué hay varios bonos en un mismo tenor?**.
-14. `08-coupon-price-ytm.md` — **Del cupón al precio, y del precio al YTM**.
-15. `09-yield-curve.md` — **La curva de tipos**.
-16. `10-recap-miniblocks-1-2.md` — **Repaso final · Minibloques 1 y 2**.
-17. `11-recap-miniblocks-3-4.md` — **Repaso final · Minibloques 3 y 4**.
+1. `01-block-cover.md` — **Bloque 1 — Fundamentos de los bonos**.
+2. `02-table-of-contents.md` — **Recorrido del bloque**.
+3. `03-miniblock-1-cover.md` — **Minibloque 1 · Qué es un bono**.
+4. `04-what-is-a-bond.md` — **¿Qué es un bono?**.
+5. `05-bond-anatomy.md` — **Anatomía de un bono a través de un ejemplo**.
+6. `06-miniblock-2-cover.md` — **Minibloque 2 · Cómo se valora un bono**.
+7. `07-discounting-theory.md` — **Descuento de flujos — teoría**.
+8. `08-discounting-example.md` — **Descuento de flujos — ejemplo**.
+9. `09-miniblock-3-cover.md` — **Minibloque 3 · YTM vs CAGR**.
+10. `10-ytm-vs-cagr.md` — **YTM vs CAGR**.
+11. `11-same-ytm-different-cagr.md` — **Mismo YTM, distinto CAGR**.
+12. `12-miniblock-4-cover.md` — **Minibloque 4 · Del bono a la curva de tipos**.
+13. `13-why-many-bonds-same-tenor.md` — **¿Por qué hay varios bonos en un mismo tenor?**.
+14. `14-coupon-price-ytm.md` — **Del cupón al precio, y del precio al YTM**.
+15. `15-yield-curve.md` — **La curva de tipos**.
+16. `16-recap-miniblocks-1-2.md` — **Repaso final · Minibloques 1 y 2**.
+17. `17-recap-miniblocks-3-4.md` — **Repaso final · Minibloques 3 y 4**.
+
+**Convención:** los prefijos `01`–`17` reflejan el orden físico de los artefactos del deck. Las menciones a slides 1–9 dentro de la narrativa pedagógica siguen identificando las nueve slides de contenido, excluyendo portadas, índice, interstitials y repasos.
 
 **Estado canónico:** 17/17 artefactos visuales aprobados. Cada artefacto tiene especificación en `slides/` y referencia perceptual en `references/`.
 

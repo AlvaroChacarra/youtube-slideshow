@@ -2,7 +2,7 @@
 
 Status: **referencia aprobada**.
 
-Referencia: `../references/01-what-is-a-bond.webp`
+Referencia: `../references/04-what-is-a-bond.webp`
 
 ## Propósito didáctico
 

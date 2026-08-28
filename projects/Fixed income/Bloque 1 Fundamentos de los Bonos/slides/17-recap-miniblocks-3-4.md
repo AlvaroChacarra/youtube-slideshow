@@ -25,7 +25,7 @@ Mensaje final: `El YTM permite comparar bonos; la curva organiza esos rendimient
 Composición horizontal aprobada como opción 7 del conjunto total de recap: dos bandas apiladas; YTM vs CAGR arriba y del bono a la curva abajo, con curva grande integrada en el segundo bloque.
 
 ## Reference
-`../references/11-recap-miniblocks-3-4.webp`
+`../references/17-recap-miniblocks-3-4.webp`
 
 ## Why approved
 - Cierra el recorrido desde rendimiento individual hasta mapa de mercado.

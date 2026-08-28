@@ -2,7 +2,7 @@
 
 Status: **referencia aprobada**.
 
-Referencia: `../references/02-bond-anatomy.webp`
+Referencia: `../references/05-bond-anatomy.webp`
 
 ## Propósito didáctico
 

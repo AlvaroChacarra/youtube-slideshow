@@ -39,7 +39,7 @@ No presentar este CAGR como IRR del bono. Es una medida deliberada de riqueza te
 
 ## Composición aprobada
 
-Referencia: `../references/05-ytm-vs-cagr.webp`.
+Referencia: `../references/10-ytm-vs-cagr.webp`.
 
 Composición de dos columnas simétricas:
 

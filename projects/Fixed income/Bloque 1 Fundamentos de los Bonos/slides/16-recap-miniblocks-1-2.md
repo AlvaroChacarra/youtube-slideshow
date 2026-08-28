@@ -22,7 +22,7 @@ Mensaje final: `Un bono es un contrato de flujos; su precio es el valor presente
 Composición horizontal aprobada como opción 3 del primer conjunto de recap: dos bandas apiladas, una por microbloque, con ejemplo de cash flows arriba y fórmula/definiciones abajo.
 
 ## Reference
-`../references/10-recap-miniblocks-1-2.webp`
+`../references/16-recap-miniblocks-1-2.webp`
 
 ## Why approved
 - Resume sin repetir literalmente las slides originales.

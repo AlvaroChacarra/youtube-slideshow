@@ -14,7 +14,7 @@ Introducir el primer microbloque antes de las slides 1–2 y marcar explícitame
 Mitad izquierda de la composición 3 aprobada para las portadas de minibloques 1–2: título editorial, frame de bono y rail inferior que sitúa el microbloque dentro del recorrido 01–04.
 
 ## Reference
-`../references/00-2-miniblock-1-cover.webp`
+`../references/03-miniblock-1-cover.webp`
 
 ## Why approved
 - Convierte el cambio de tema en una pausa visual clara.

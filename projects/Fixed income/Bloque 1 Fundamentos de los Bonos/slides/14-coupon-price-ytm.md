@@ -36,4 +36,4 @@ No desarrollar todavía la curva en profundidad; la slide 09 la convierte en pro
 
 ## Referencia
 
-`../references/08-coupon-price-ytm.webp`
+`../references/14-coupon-price-ytm.webp`

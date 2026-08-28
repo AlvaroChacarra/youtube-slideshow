@@ -2,7 +2,7 @@
 
 Status: **referencia aprobada**.
 
-Referencia: `../references/03-discounting-theory.webp`
+Referencia: `../references/07-discounting-theory.webp`
 
 ## Propósito didáctico
 

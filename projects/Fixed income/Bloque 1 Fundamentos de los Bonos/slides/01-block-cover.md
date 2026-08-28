@@ -13,7 +13,7 @@ Abrir el Bloque 1 y fijar su identidad visual antes del índice y de las slides 
 Composición aprobada como opción 2: gran título editorial a la izquierda; a la derecha, certificado de bono, timeline de cash flows y curva de tipos sobre skyline oscuro. Navy dominante y cyan como acento funcional.
 
 ## Reference
-`../references/00-block-cover.webp`
+`../references/01-block-cover.webp`
 
 ## Why approved
 - Resume visualmente todo el recorrido del bloque sin convertirse en un índice.

@@ -38,4 +38,4 @@ Ejemplo conceptual: una referencia emitida originalmente a 10 años pasa a tener
 
 ## Referencia
 
-`../references/07-why-many-bonds-same-tenor.webp`
+`../references/13-why-many-bonds-same-tenor.webp`

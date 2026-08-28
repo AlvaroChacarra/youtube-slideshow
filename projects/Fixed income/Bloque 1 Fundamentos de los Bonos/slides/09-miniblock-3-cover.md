@@ -14,7 +14,7 @@ Introducir el tercer microbloque antes de las slides 5–6 y marcar explícitame
 Mitad izquierda de la composición 1 aprobada para las portadas de minibloques 3–4: título a la izquierda y frame explicativo a la derecha que contrapone YTM con reinversión y CAGR sin reinversión.
 
 ## Reference
-`../references/04-1-miniblock-3-cover.webp`
+`../references/09-miniblock-3-cover.webp`
 
 ## Why approved
 - Anticipa la diferencia conceptual central sin resolverla todavía.
