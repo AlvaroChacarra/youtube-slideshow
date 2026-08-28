@@ -8,7 +8,7 @@
 | H3 runtime | Complete | Astro shell, isolated React lesson runtime, reducer, profiles, keyboard, deep links, persistence, teacher drawer, capture canvas and mobile fallback |
 | H4 lesson 1 | Implemented; browser gate pending | Contract object, financing map, anatomy, cash-flow timeline, four-parameter Bond Builder and diagnostic check |
 | H5 lesson 2 + invariants | Implemented; browser gate pending | Discount Lens, formula construction, par-price DCF and rate lab; six invariants extracted after L1/L2 |
-| H6 lesson 3 | Pending | — |
+| H6 lesson 3 | Implemented; browser gate pending | Robust YTM root, terminal wealth, reinvestment lab, coupon comparison, zero-coupon bridge and calculation/realization diagnostic |
 | H7 lesson 4 | Pending | — |
 | H8 checkpoint | Pending | — |
 | H9 hardening | Pending | — |
