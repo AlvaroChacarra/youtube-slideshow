@@ -1,5 +1,5 @@
-import { AnimatePresence, LazyMotion, domAnimation, m } from "motion/react";
-import { useEffect, useMemo, useReducer, useRef } from "react";
+import { AnimatePresence, LazyMotion, domAnimation, m, useReducedMotion } from "motion/react";
+import { lazy, Suspense, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import type { BaseMode, Lesson, Scene } from "../../contracts/course";
 import { cashFlows } from "../domain/cashflows";
 import { priceFromYield } from "../domain/discounting";
@@ -14,7 +14,8 @@ import { CashflowTimeline } from "../visual/CashflowTimeline";
 import { DiscountLens } from "../visual/DiscountLens";
 import { FormulaBuilder } from "../visual/FormulaBuilder";
 import { ReinvestmentField } from "../visual/ReinvestmentField";
-import { YieldCurve } from "../visual/YieldCurve";
+
+const YieldCurve = lazy(() => import("../visual/YieldCurve").then((module) => ({ default: module.YieldCurve })));
 
 type Props = { lesson: Lesson; baseUrl: string };
 
@@ -74,17 +75,46 @@ function CouponComparison({ stage }: { stage: number }) {
   return <div className="coupon-comparison" data-essential>{items.map((item, index) => <article key={item.coupon} className={stage === index || stage >= 2 ? "active" : ""}><span>Cupón</span><strong>{item.coupon}</strong><dl><div><dt>Precio</dt><dd>{item.price} €</dd></div><div><dt>Riqueza 0%</dt><dd>{item.wealth} €</dd></div><div><dt>CAGR</dt><dd>{item.cagr}</dd></div></dl><small>YTM común 4,00%</small></article>)}</div>;
 }
 
+function FinancingMap({ stage }: { stage: number }) {
+  return <div className="financing-map" data-essential>
+    <article><span>INVERSORES</span><strong>Capital hoy</strong><small>Entregan 100 €</small></article>
+    <div className="financing-arrows" aria-label="Intercambio contractual"><b>100 € →</b><b className={stage > 0 ? "active" : ""}>← cupones + principal</b></div>
+    <article><span>EMISOR</span><strong>Estado o empresa</strong><small>Asume la obligación</small></article>
+  </div>;
+}
+
+const diagnosticAnswers: Record<string, { question: string; options: string[]; correct: number; explanation: string }> = {
+  "l1-contract-check": { question: "¿Qué contiene el flujo de 104 € en T?", options: ["104 € de cupón", "4 € de cupón + 100 € de principal", "100 € de principal + 4%"], correct: 1, explanation: "El 4% es una tasa. Sobre N = 100 €, C = 4 €; el principal de 100 € aparece solo al final." },
+  "l3-exit": { question: "¿Qué afirmación es correcta?", options: ["Calcular YTM exige reinvertir", "YTM garantiza el CAGR realizado", "Realizar YTM exige reinvertir cupones a esa tasa"], correct: 2, explanation: "La reinversión no entra en el cálculo de la TIR; entra en su realización como retorno compuesto." },
+  "l4-exit": { question: "¿Qué representa la línea de la curva?", options: ["Un bono observado", "Un ajuste de observaciones por plazo", "El único benchmark de cada tenor"], correct: 1, explanation: "Los puntos son bonos observados. La línea es una representación fair ajustada; los benchmarks son referencias líquidas." }
+};
+
+function DiagnosticCheck({ scene }: { scene: Scene }) {
+  const [answer, setAnswer] = useState<number | null>(null);
+  const item = diagnosticAnswers[scene.id];
+  if (!item) return <EditorialStatement scene={scene} stage={0} />;
+  return <div className="diagnostic-check" data-essential>
+    <span className="eyebrow">Comprobación diagnóstica</span><h3>{item.question}</h3>
+    <div>{item.options.map((option, index) => <button key={option} aria-pressed={answer === index} onClick={() => setAnswer(index)}><span>{String.fromCharCode(65 + index)}</span>{option}</button>)}</div>
+    {answer !== null && <p role="status" className={answer === item.correct ? "correct" : "incorrect"}><strong>{answer === item.correct ? "Correcto." : "Revísalo."}</strong> {item.explanation}</p>}
+  </div>;
+}
+
 function SceneVisual({ scene, stage, scenario, onScenario }: { scene: Scene; stage: number; scenario: Scenario; onScenario: (patch: Partial<Scenario>) => void }) {
   const component = scene.stages[Math.min(stage, scene.stages.length - 1)]?.component ?? "ConceptNote";
-  if (["BondObject", "BondAnatomy", "BondBuilder"].includes(component)) return <BondObject stage={stage} scenario={scenario} onScenario={component === "BondBuilder" ? onScenario : undefined} />;
+  if (scene.type === "diagnostic-quiz") return <DiagnosticCheck scene={scene} />;
+  if (component === "FinancingMap") return <FinancingMap stage={stage} />;
+  if (["BondChallenge", "BondObject", "BondAnatomy", "BondBuilder"].includes(component)) return <BondObject stage={stage} scenario={scenario} onScenario={component === "BondBuilder" ? onScenario : undefined} />;
   if (["CashflowTimeline"].includes(component)) return <CashflowTimeline stage={stage} scenario={scenario} />;
   if (["DiscountLens", "RateLab", "SinglePvLab", "TimeValueChallenge"].includes(component)) return <DiscountLens stage={stage} scenario={scenario} onScenario={component.includes("Lab") ? onScenario : undefined} />;
-  if (["FormulaBuilder", "DiscountedCashflows", "PriceAssembly", "DcfLab", "YtmSolver", "TerminalWealth"].includes(component)) return <FormulaBuilder stage={stage} scenario={scenario} />;
+  if (["FormulaBuilder", "DiscountedCashflows", "PriceAssembly", "DcfLab"].includes(component)) return <FormulaBuilder stage={stage} scenario={scenario} />;
+  if (component === "YtmSolver") return <FormulaBuilder stage={stage} scenario={scenario} variant="ytm" />;
+  if (component === "TerminalWealth") return <ReinvestmentField stage={stage} scenario={scenario} />;
   if (["ReinvestmentField", "ReinvestmentLab"].includes(component)) return <ReinvestmentField stage={stage} scenario={scenario} onScenario={component === "ReinvestmentLab" ? onScenario : undefined} />;
   if (["CouponComparison", "CouponStructureLab"].includes(component)) return <CouponComparison stage={stage} />;
   if (["BondGenerations", "ResidualLife", "BondCloud"].includes(component)) return <BondCloud stage={stage} scenario={scenario} />;
   if (["Repricing", "PricingLab"].includes(component)) return <RepricingVisual stage={stage} scenario={scenario} onScenario={onScenario} />;
-  if (["YieldCurve", "CurveExplorer", "CurveQuiz"].includes(component)) return <YieldCurve stage={stage} scenario={scenario} />;
+  if (["YieldCurve", "CurveExplorer", "CurveQuiz"].includes(component)) return <Suspense fallback={<div className="visual-loading" role="status">Preparando curva…</div>}><YieldCurve stage={stage} scenario={scenario} /></Suspense>;
   return <EditorialStatement scene={scene} stage={stage} />;
 }
 
@@ -100,6 +130,7 @@ function SceneFrame({ scene, stage, scenario, onScenario, study = false, reviewe
 }
 
 export default function LessonRuntime({ lesson, baseUrl }: Props) {
+  const reducedMotion = useReducedMotion();
   const initial = useMemo(() => {
     const delivery = resolveDelivery({ search: window.location.search, viewportWidth: window.innerWidth });
     const scenes = scopedScenes(lesson, delivery.mode, false);
@@ -184,7 +215,7 @@ export default function LessonRuntime({ lesson, baseUrl }: Props) {
           })}
           <section className="study-bridge"><span>Bridge</span><strong>{lesson.bridge.known}</strong><i>→</i><strong>{lesson.bridge.gap}</strong><i>→</i><strong>{lesson.bridge.next}</strong></section>
         </div> : <AnimatePresence mode="wait">
-          <m.div key={`${current.id}:${stage}`} className="active-scene" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: .42, ease: [.22, 1, .36, 1] }}>
+          <m.div key={`${current.id}:${stage}`} className="active-scene" initial={reducedMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }} transition={{ duration: reducedMotion ? 0 : .42, ease: [.22, 1, .36, 1] }}>
             <SceneFrame scene={current} stage={stage} scenario={state.scenario} onScenario={updateScenario} />
           </m.div>
         </AnimatePresence>}

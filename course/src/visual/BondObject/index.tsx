@@ -25,6 +25,8 @@ export function BondObject({ scenario, stage, onScenario, compact = false }: Vis
       {onScenario && <div className="inline-controls" aria-label="Parámetros del bono">
         <label>Cupón <output>{(scenario.couponRate * 100).toFixed(1)}%</output><input aria-label="Coupon rate" type="range" min="0" max="0.1" step="0.005" value={scenario.couponRate} onChange={(event) => onScenario({ couponRate: Number(event.currentTarget.value) })} /></label>
         <label>Notional <output>{scenario.notional} €</output><input aria-label="Notional" type="range" min="50" max="200" step="10" value={scenario.notional} onChange={(event) => onScenario({ notional: Number(event.currentTarget.value) })} /></label>
+        <label>Face value <output>{scenario.faceValue} €</output><input aria-label="Face value" type="range" min="50" max="200" step="10" value={scenario.faceValue} onChange={(event) => onScenario({ faceValue: Number(event.currentTarget.value) })} /></label>
+        <label>Vencimiento <output>{scenario.maturityYears}Y</output><input aria-label="Vencimiento" type="range" min="1" max="10" step="1" value={scenario.maturityYears} onChange={(event) => onScenario({ maturityYears: Number(event.currentTarget.value) })} /></label>
       </div>}
     </div>
   );

@@ -19,7 +19,7 @@
 }
 
 * { box-sizing: border-box; }
-html { min-height: 100%; background: var(--navy-950); scroll-behavior: smooth; }
+html { min-height: 100%; background: var(--navy-950); }
 body { min-height: 100%; margin: 0; background: var(--navy-950); color: var(--text); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 body.runtime-locked { height: 100dvh; overflow: hidden; }
 button, input, select { font: inherit; }
@@ -110,7 +110,6 @@ button { color: inherit; }
 .runtime-meta { display: flex; justify-self: end; align-items: center; gap: 14px; color: var(--muted); font-size: .72rem; }
 .runtime-meta > span { color: var(--lime); }
 .recordable-canvas { position: relative; isolation: isolate; height: calc(100dvh - 124px); min-height: 0; overflow: hidden; background: var(--navy-950); }
-.recordable-canvas::before { content: ""; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(var(--hairline) 1px, transparent 1px), linear-gradient(90deg, var(--hairline) 1px, transparent 1px); background-size: 72px 72px; opacity: .055; }
 .active-scene { height: 100%; }
 .scene-frame { height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); padding: clamp(18px, 3.4vh, 42px) clamp(30px, 4.5vw, 82px) clamp(16px, 2.6vh, 34px); }
 .scene-heading { display: flex; justify-content: space-between; gap: 30px; align-items: flex-start; min-height: 78px; }
@@ -150,6 +149,26 @@ button { color: inherit; }
 .study-note span { margin-left: auto; color: var(--amber); font-size: .78rem; }
 .study-review { min-height: 44px; flex: 0 0 auto; border: 1px solid var(--hairline); border-radius: 999px; padding: 0 18px; background: transparent; color: var(--cyan); cursor: pointer; }
 .study-review[aria-pressed="true"] { border-color: var(--lime); color: var(--lime); }
+.financing-map { display: grid; grid-template-columns: 1fr minmax(220px, .7fr) 1fr; align-items: center; gap: 28px; width: min(100%, 1040px); margin: auto; }
+.financing-map article { min-height: 210px; display: grid; align-content: center; gap: 12px; border: 1px solid var(--hairline); padding: 32px; }
+.financing-map article:last-child { background: var(--paper); color: var(--paper-ink); }
+.financing-map span { color: var(--cyan); font-size: .7rem; letter-spacing: .18em; }
+.financing-map strong { font-size: clamp(1.7rem, 3vw, 3.2rem); font-weight: 520; line-height: 1; }
+.financing-map small { color: var(--muted); }
+.financing-map article:last-child small { color: #50636d; }
+.financing-arrows { display: grid; gap: 18px; text-align: center; color: var(--cyan); }
+.financing-arrows b:last-child { color: var(--lime); opacity: .3; }
+.financing-arrows b.active { opacity: 1; }
+.diagnostic-check { width: min(100%, 900px); margin: auto; }
+.diagnostic-check h3 { max-width: 720px; margin: 14px 0 30px; font-size: clamp(2rem, 4vw, 4.4rem); font-weight: 490; line-height: 1.02; }
+.diagnostic-check > div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.diagnostic-check button { min-height: 112px; display: grid; grid-template-columns: 32px 1fr; align-items: center; gap: 8px; border: 1px solid var(--hairline); padding: 20px; background: var(--navy-900); color: var(--text); text-align: left; cursor: pointer; }
+.diagnostic-check button span { color: var(--cyan); }
+.diagnostic-check button[aria-pressed="true"] { border-color: var(--cyan); box-shadow: inset 0 -3px var(--cyan); }
+.diagnostic-check > p { margin: 24px 0 0; border-left: 3px solid var(--amber); padding: 14px 18px; color: var(--muted); }
+.diagnostic-check > p.correct { border-color: var(--lime); }
+.diagnostic-check > p strong { color: var(--text); }
+.visual-loading { display: grid; min-height: 260px; place-items: center; color: var(--muted); }
 .study-bridge { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 20px; align-items: center; margin-top: 80px; border: 1px solid var(--hairline); padding: 32px; }
 .study-bridge > span { position: absolute; transform: translateY(-42px); color: var(--cyan); font-size: .68rem; text-transform: uppercase; }
 .study-bridge i { color: var(--cyan); }
@@ -240,8 +259,10 @@ button { color: inherit; }
   .landing-hero { grid-template-columns: 1fr; padding: 70px 0; }.landing-object { min-height: 500px; }.course-map ol { grid-template-columns: repeat(2, 1fr); row-gap: 70px; }.course-map ol::before { display: none; }.checkpoint-runtime { grid-template-columns: 1fr; }.runtime-brand b { display: none; }.scene-rail button b { display: none; }.scene-rail button { justify-content: center; }
 }
 
+.question-grid fieldset button { min-height: 44px; }
+
 @media (max-width: 900px) {
-  .landing-nav { height: auto; min-height: 72px; }.landing-nav .pill:nth-child(-n+2) { display: none; }.landing-hero { min-height: 0; grid-template-columns: 1fr; gap: 20px; }.landing-object { min-height: 430px; }.hero-bond { width: 84%; margin-left: 2%; }.landing-object > p { font-size: .55rem; }.map-heading { display: grid; }.course-map ol { grid-template-columns: 1fr; }.course-map li a { min-height: 270px; }.landing-checkpoint { align-items: flex-start; flex-direction: column; }.runtime-bar { grid-template-columns: auto 1fr; padding: 0 14px; }.runtime-bar nav { justify-self: end; }.runtime-bar nav button { padding: 0 10px; }.runtime-meta { grid-column: 1 / -1; position: absolute; right: 14px; top: 64px; z-index: 4; }.mode-estudio .runtime-meta { display: none; }.study-flow { width: min(100% - 28px, 720px); padding-top: 56px; }.study-intro { min-height: 440px; }.study-scene { min-height: 0; padding: 64px 0; }.study-scene .scene-heading { min-height: 100px; }.study-scene .scene-stage { min-height: 0; padding: 30px 0; }.study-note, .study-note p { display: block; }.study-note span { display: block; margin: 8px 0 0; }.study-review { width: 100%; margin-top: 16px; }.study-bridge { grid-template-columns: 1fr; }.study-bridge i { transform: rotate(90deg); text-align: center; }.study-toolbar { position: static; width: min(100% - 28px, 720px); margin: 0 auto 24px; justify-content: space-between; }.bond-composition { grid-template-columns: 1fr; }.observed-price { order: -1; }.inline-controls { grid-template-columns: 1fr; }.bond-certificate dl { grid-template-columns: 1fr; }.cashflow-visual { grid-template-columns: 1fr; }.cashflow-origin { width: 100%; }.cashflow-line { display: none; }.cashflow-visual ol { grid-template-columns: 1fr; gap: 10px; padding: 20px 0 0; }.cashflow-visual li, .cashflow-visual li.terminal { width: 100%; min-width: 0; min-height: 70px; aspect-ratio: auto; grid-template-columns: 40px 1fr 1fr; align-items: center; border-radius: 8px; text-align: left; }.cashflow-visual li strong { font-size: 1.15rem; }.discount-lens { grid-template-columns: 1fr; }.lens { width: 110px; height: 110px; margin: auto; }.amount { min-height: 130px; }.formula { min-height: 90px; font-size: 1rem; overflow-x: auto; }.formula-legend { display: grid; gap: 7px; }.price-result { align-items: flex-start; flex-direction: column; }.coupon-stream { grid-template-columns: 1fr; }.coupon-particle { grid-template-columns: 40px 58px 1fr; align-items: center; text-align: left; }.coupon-particle strong { margin: 0; }.wealth-result { align-items: flex-start; flex-direction: column; }.bond-generation-grid, .repricing-bonds, .coupon-comparison { grid-template-columns: 1fr; }.bond-generation-grid article:nth-child(n) { transform: none; }.curve-composition { grid-template-columns: 1fr; }.curve-definitions { grid-template-columns: repeat(3, 1fr); order: 2; }.curve-composition svg { height: auto; }.illustrative-note { grid-column: 1; order: 3; }.scene-heading h2 { font-size: 2.2rem; }.checkpoint-title { grid-template-columns: 1fr; gap: 20px; }.question-grid { grid-template-columns: 1fr; }.case-ticket { flex-wrap: wrap; }
+  .landing-nav { height: auto; min-height: 72px; }.landing-nav .pill:nth-child(-n+2) { display: none; }.landing-hero { min-height: 0; grid-template-columns: 1fr; gap: 20px; }.landing-object { min-height: 430px; }.hero-bond { width: 84%; margin-left: 2%; }.landing-object > p { font-size: .55rem; }.map-heading { display: grid; }.course-map ol { grid-template-columns: 1fr; }.course-map li a { min-height: 270px; }.landing-checkpoint { align-items: flex-start; flex-direction: column; }.runtime-bar { grid-template-columns: auto 1fr; padding: 0 14px; }.runtime-bar nav { justify-self: end; }.runtime-bar nav button { padding: 0 10px; }.runtime-meta { grid-column: 1 / -1; position: absolute; right: 14px; top: 64px; z-index: 4; }.mode-estudio .runtime-meta { display: none; }.study-flow { width: min(100% - 28px, 720px); padding-top: 56px; }.study-intro { min-height: 440px; }.study-scene { min-height: 0; padding: 64px 0; }.study-scene .scene-heading { min-height: 100px; }.study-scene .scene-stage { min-height: 0; padding: 30px 0; }.study-note, .study-note p { display: block; }.study-note span { display: block; margin: 8px 0 0; }.study-review { width: 100%; margin-top: 16px; }.study-bridge { grid-template-columns: 1fr; }.study-bridge i { transform: rotate(90deg); text-align: center; }.study-toolbar { position: static; width: min(100% - 28px, 720px); margin: 0 auto 24px; justify-content: space-between; }.bond-composition, .financing-map { grid-template-columns: 1fr; }.financing-arrows { min-height: 90px; }.observed-price { order: -1; }.inline-controls { grid-template-columns: 1fr; }.bond-certificate dl { grid-template-columns: 1fr; }.cashflow-visual { grid-template-columns: 1fr; }.cashflow-origin { width: 100%; }.cashflow-line { display: none; }.cashflow-visual ol { grid-template-columns: 1fr; gap: 10px; padding: 20px 0 0; }.cashflow-visual li, .cashflow-visual li.terminal { width: 100%; min-width: 0; min-height: 70px; aspect-ratio: auto; grid-template-columns: 40px 1fr 1fr; align-items: center; border-radius: 8px; text-align: left; }.cashflow-visual li strong { font-size: 1.15rem; }.discount-lens { grid-template-columns: 1fr; }.lens { width: 110px; height: 110px; margin: auto; }.amount { min-height: 130px; }.formula { min-height: 90px; font-size: 1rem; overflow-x: auto; }.formula-legend { display: grid; gap: 7px; }.price-result { align-items: flex-start; flex-direction: column; }.coupon-stream { grid-template-columns: 1fr; }.coupon-particle { grid-template-columns: 40px 58px 1fr; align-items: center; text-align: left; }.coupon-particle strong { margin: 0; }.wealth-result { align-items: flex-start; flex-direction: column; }.bond-generation-grid, .repricing-bonds, .coupon-comparison, .diagnostic-check > div { grid-template-columns: 1fr; }.bond-generation-grid article:nth-child(n) { transform: none; }.curve-composition { grid-template-columns: 1fr; }.curve-definitions { grid-template-columns: repeat(3, 1fr); order: 2; }.curve-composition svg { height: auto; }.illustrative-note { grid-column: 1; order: 3; }.scene-heading h2 { font-size: 2.2rem; }.checkpoint-title { grid-template-columns: 1fr; gap: 20px; }.question-grid { grid-template-columns: 1fr; }.case-ticket { flex-wrap: wrap; }
 }
 
 @media (max-height: 760px) and (min-width: 901px) {

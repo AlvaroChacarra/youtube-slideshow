@@ -6,7 +6,7 @@
 | H1 contracts and stack | Complete | Zod/Schema, 14 checks, finance fixtures, Node 24 lockfile and isolated TS6 spike |
 | H2 visual direction | Complete | Three directions scored; Editorial Market Lab selected at 9.20/10 with Contract Spine and motion contract locked |
 | H3 runtime | Complete | Astro shell, isolated React lesson runtime, reducer, profiles, keyboard, deep links, persistence, teacher drawer, capture canvas and mobile fallback |
-| H4 lesson 1 | Pending | — |
+| H4 lesson 1 | Implemented; browser gate pending | Contract object, financing map, anatomy, cash-flow timeline, four-parameter Bond Builder and diagnostic check |
 | H5 lesson 2 + invariants | Pending | — |
 | H6 lesson 3 | Pending | — |
 | H7 lesson 4 | Pending | — |
