@@ -11,7 +11,7 @@
 | H6 lesson 3 | Implemented; browser gate pending | Robust YTM root, terminal wealth, reinvestment lab, coupon comparison, zero-coupon bridge and calculation/realization diagnostic |
 | H7 lesson 4 | Implemented; browser gate pending | Deterministic bond cloud, residual life, repricing, 30 observed points, exact 2Y boundary, illustrative fitted YTM curve and benchmark diagnostic |
 | H8 checkpoint | Implemented; browser gate pending | Seven-step integrated case, exact 12-question retrieval check, map closure and bridge to Block 2 |
-| H9 hardening | Pending | — |
+| H9 hardening | In progress with local browser blocker | 114 Playwright cases authored across three engines; local CDN returned a zero-byte browser archive, so visual/axe/LCP/CLS remain unexecuted pending CI |
 
 Teaching validation remains `PENDING_DRY_RUN` until a human timed rehearsal is
 recorded with the real teaching and capture setup.

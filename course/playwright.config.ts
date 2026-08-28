@@ -10,15 +10,16 @@ export default defineConfig({
   reporter: [["list"], ["html", { outputFolder: "evidence/playwright-report", open: "never" }]],
   use: {
     baseURL: "http://127.0.0.1:4321/youtube-slideshow/",
+    viewport: { width: 1600, height: 900 },
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
     video: "retain-on-failure"
   },
   webServer: {
-    command: "npm run dev -- --host 127.0.0.1",
+    command: "npm run build && npm run preview -- --host 127.0.0.1",
     url: "http://127.0.0.1:4321/youtube-slideshow/",
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000
+    timeout: 180_000
   },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
