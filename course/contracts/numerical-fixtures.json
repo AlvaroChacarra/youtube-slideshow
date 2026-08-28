@@ -1,0 +1,38 @@
+{
+  "canonicalBond": {
+    "notional": 100,
+    "faceValue": 100,
+    "couponRate": 0.04,
+    "maturityYears": 5,
+    "frequency": 1,
+    "price": 100,
+    "yield": 0.04,
+    "couponPayment": 4,
+    "cashFlows": [4, 4, 4, 4, 104],
+    "terminalWealthWithoutReinvestment": 120,
+    "realizedCagrWithoutReinvestment": 0.03713728933664817
+  },
+  "sameYtmComparison": [
+    { "couponRate": 0.08, "yield": 0.04, "price": 117.80728932406482, "terminalWealth": 140, "realizedCagr": 0.03512113125559 },
+    { "couponRate": 0.01, "yield": 0.04, "price": 86.64453300695138, "terminalWealth": 105, "realizedCagr": 0.03917724113267 },
+    { "couponRate": 0, "yield": 0.04, "price": 82.19271067593518, "terminalWealth": 100, "realizedCagr": 0.04 }
+  ],
+  "repricing": [
+    { "couponRate": 0.07, "yield": 0.04, "price": 113.35546699304862 },
+    { "couponRate": 0.04, "yield": 0.04, "price": 100 },
+    { "couponRate": 0.03, "yield": 0.04, "price": 95.54817766898379 }
+  ],
+  "checkpointBond": {
+    "maturityYears": 5,
+    "couponRate": 0.03,
+    "faceValue": 100,
+    "notional": 100,
+    "price": 95.54817766898379,
+    "approximateYtm": 0.04
+  },
+  "tolerances": {
+    "internal": 1e-8,
+    "displayedPrice": 0.01,
+    "displayedYieldBasisPoints": 1
+  }
+}

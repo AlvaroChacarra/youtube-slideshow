@@ -1,0 +1,58 @@
+{
+  "name": "fixed-income-foundations-runtime",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run validate && astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check",
+    "schema": "node --import tsx scripts/contract-check.ts --write-schema",
+    "source-check": "node --import tsx scripts/source-check.ts",
+    "contract-check": "node --import tsx scripts/contract-check.ts",
+    "pedagogy-check": "node --import tsx scripts/pedagogy-check.ts",
+    "finance-check": "node --import tsx scripts/finance-check.ts",
+    "validate": "npm run source-check && npm run contract-check && npm run pedagogy-check && npm run typecheck && npm run test",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "e2e:update": "playwright test --update-snapshots",
+    "evidence": "node --import tsx scripts/build-evidence.ts",
+    "contact-sheets": "node --import tsx scripts/build-contact-sheets.ts"
+  },
+  "dependencies": {
+    "@astrojs/react": "6.0.4",
+    "astro": "7.2.9",
+    "d3-array": "3.2.4",
+    "d3-format": "3.1.2",
+    "d3-interpolate": "3.0.1",
+    "d3-scale": "4.0.2",
+    "d3-shape": "3.2.0",
+    "gsap": "3.13.0",
+    "katex": "0.18.4",
+    "motion": "13.1.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.5.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.62.1",
+    "@types/d3-array": "3.2.2",
+    "@types/d3-scale": "4.0.9",
+    "@types/d3-shape": "3.1.8",
+    "@types/node": "24.13.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "axe-core": "4.13.0",
+    "jsdom": "27.4.0",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11"
+  }
+}

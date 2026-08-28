@@ -1,0 +1,9 @@
+node_modules/
+.astro/
+dist/
+evidence/playwright-report/
+evidence/test-results/
+test-results/
+playwright-report/
+coverage/
+*.log

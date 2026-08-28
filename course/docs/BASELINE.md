@@ -20,11 +20,12 @@
 ## Source-quality note
 
 The repository bytes for `01-block-cover.webp`, `02-table-of-contents.webp`,
-`11-same-ytm-different-cagr.webp`, and `17-recap-miniblocks-3-4.webp` do not
-decode completely with the available WebP decoders. Their hashes match the
-canonical GitHub objects, so the runtime records them without silently replacing
-the approved sources. Visual decisions use the authoritative Markdown plus the
-13 decodable references until those four canonical assets are refreshed.
+`11-same-ytm-different-cagr.webp`, and `17-recap-miniblocks-3-4.webp` are
+structurally truncated. `13-why-many-bonds-same-tenor.webp` decodes but is
+visually pixel-corrupted. Their hashes match the canonical GitHub objects, so
+the runtime records all five defects without silently replacing approved
+sources. Visual decisions use the authoritative Markdown plus the 12 healthy
+references until those canonical assets are refreshed.
 
 ## Branch hygiene note
 

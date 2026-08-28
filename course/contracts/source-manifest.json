@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "source_repository": "AlvaroChacarra/youtube-slideshow",
+  "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+  "source_root": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos",
+  "entries": [
+    {
+      "id": "01-block-cover",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/01-block-cover.md",
+      "spec_sha256": "7ce5b7eab64339cb36097bbc904e344094961570fffbb2a1a1db8abf34ab4d3b",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/01-block-cover.webp",
+      "reference_sha256": "a4c92cf4fc3376a420cb6039f986b9f602c9efe207bbcaa9435db4899f425dc1",
+      "used_by": ["landing"],
+      "essential_claims": ["Recorrido desde el bono hasta la curva"],
+      "visual_essence": ["Masthead editorial", "Bono, timeline y curva"],
+      "allowed_deltas": ["Canonical WebP is structurally truncated at baseline; implement from Markdown and healthy sibling references"],
+      "integrity_status": "known-source-defect"
+    },
+    {
+      "id": "02-table-of-contents",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/02-table-of-contents.md",
+      "spec_sha256": "5f60fccb9c29b2df5854f6bbd2f8d330259e080e51a106b2b67141f4f7cae7fe",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/02-table-of-contents.webp",
+      "reference_sha256": "da909e75beca65aac1fe2e9f5234b6d88e372865317628f71d834f9e5c219d04",
+      "used_by": ["landing"],
+      "essential_claims": ["Cuatro microbloques en orden"],
+      "visual_essence": ["Cuatro estaciones conectadas"],
+      "allowed_deltas": ["Canonical WebP is structurally truncated at baseline; preserve the specified four-station composition"],
+      "integrity_status": "known-source-defect"
+    },
+    {
+      "id": "03-miniblock-1-cover",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/03-miniblock-1-cover.md",
+      "spec_sha256": "a0f3370ed18d60b48c5538c26beaa2bb0cfb2edab3f7d10d97f159892e512437",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/03-miniblock-1-cover.webp",
+      "reference_sha256": "6653f69311bf3405b2ad0da2776ae6dc50107337387cb30e77045e4a9e878948",
+      "used_by": ["lesson-01"], "essential_claims": ["Contrato, cupón y principal"], "visual_essence": ["Certificado 1/4"], "allowed_deltas": [], "integrity_status": "verified"
+    },
+    {
+      "id": "04-what-is-a-bond",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/04-what-is-a-bond.md",
+      "spec_sha256": "991c94a1fb14469e01b96885082a4df4314c46295d8948fcdffbf9960de880c5",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/04-what-is-a-bond.webp",
+      "reference_sha256": "2900fc9cc2dd34beb81c9e4df82f6040fc43fca0c538ad2d73a19ccb6d76b7cd",
+      "used_by": ["lesson-01"], "essential_claims": ["Capital hoy y pagos futuros"], "visual_essence": ["Emisor, bono e inversor"], "allowed_deltas": [], "integrity_status": "verified"
+    },
+    {
+      "id": "05-bond-anatomy",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/05-bond-anatomy.md",
+      "spec_sha256": "b1d292b653c77a29f430ac89f707c9f6c3d1a979e43a64bab485d6c63d5339cf",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/05-bond-anatomy.webp",
+      "reference_sha256": "1842c1e2ea5d005a177622f77f1efa57c24198344a3eabf60f1e46d21d52f50f",
+      "used_by": ["lesson-01"], "essential_claims": ["Cupón 4% sobre notional 100 produce 4", "Pago final 104"], "visual_essence": ["Certificado material", "Timeline inferior"], "allowed_deltas": ["Runtime separates observed price from contractual fields"], "integrity_status": "verified"
+    },
+    {
+      "id": "06-miniblock-2-cover",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/06-miniblock-2-cover.md",
+      "spec_sha256": "cc759978b86a0c1959f3d246d2a65b4a75ee4d32ed2845a6a8bbd058fdb298f6",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/06-miniblock-2-cover.webp",
+      "reference_sha256": "9b6eb9a575dd5850ed9b40d0532e4fd8d3cc8eb3175aa3ebc8564188286f8afa",
+      "used_by": ["lesson-02"], "essential_claims": ["Flujos, descuento y precio"], "visual_essence": ["Fórmula subordinada 2/4"], "allowed_deltas": [], "integrity_status": "verified"
+    },
+    {
+      "id": "07-discounting-theory",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/07-discounting-theory.md",
+      "spec_sha256": "0b60da12363ba78b04b3478b5cf724031c33cff4b23d55d6a8ec8611868d49f7",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/07-discounting-theory.webp",
+      "reference_sha256": "3476ccce7dfba06ee275ef1cc6ab6ad1659830839999cd39fa5893ed18e02579",
+      "used_by": ["lesson-02"], "essential_claims": ["Precio es suma de valores presentes", "r_t no es automáticamente YTM"], "visual_essence": ["Timeline y fórmula aislada"], "allowed_deltas": ["Runtime registers n explicitly while preserving source notation"], "integrity_status": "verified"
+    },
+    {
+      "id": "08-discounting-example",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/08-discounting-example.md",
+      "spec_sha256": "8b5fd01053773de983c6cf8b6a2bb65aee9c8dbd5c143fd54cd6e0bf56d1a5b7",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/08-discounting-example.webp",
+      "reference_sha256": "068743fe4cd0d6b646e74af5b59229a25c98553501f166cd366d15563cfa551e",
+      "used_by": ["lesson-02"], "essential_claims": ["Flujos 4,4,4,4,104", "Face value solo en maturity para este bono bullet"], "visual_essence": ["PVs se ensamblan en precio"], "allowed_deltas": [], "integrity_status": "verified"
+    },
+    {
+      "id": "09-miniblock-3-cover",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/09-miniblock-3-cover.md",
+      "spec_sha256": "8ae76013a625ae87f5fdc7a3be729f8abebc28e024eff7955e4d20de79798e66",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/09-miniblock-3-cover.webp",
+      "reference_sha256": "58227e3dfcbfefd925f654010e09134142f68d11b47e3f4d021c770281245997",
+      "used_by": ["lesson-03"], "essential_claims": ["YTM frente a retorno realizado"], "visual_essence": ["Dos rutas 3/4"], "allowed_deltas": [], "integrity_status": "verified"
+    },
+    {
+      "id": "10-ytm-vs-cagr",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/10-ytm-vs-cagr.md",
+      "spec_sha256": "558acadf297fb727f482c1cb8499105d6758871cb09859c8a3ea8a16a465281d",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/10-ytm-vs-cagr.webp",
+      "reference_sha256": "99b765a504c3f24ad98ef29d53c8e3f0e774035bff7dff06c45ef4b529b0dda2",
+      "used_by": ["lesson-03"], "essential_claims": ["YTM 4%", "CAGR sin reinversión 3,71%", "Calcular YTM no exige reinversión"], "visual_essence": ["Comparación simétrica"], "allowed_deltas": ["Runtime replaces any visual shorthand that says YTM assumes reinvestment with the precise source wording"], "integrity_status": "verified"
+    },
+    {
+      "id": "11-same-ytm-different-cagr",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/11-same-ytm-different-cagr.md",
+      "spec_sha256": "829f3642808413c50a1ff7b1ff37ed71121ee9bdc03fa37f4e610671e701fdec",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/11-same-ytm-different-cagr.webp",
+      "reference_sha256": "b2e0160df34e0522375475111f00eed13d25d6a692633da2b6ef24575cbb9eac",
+      "used_by": ["lesson-03"], "essential_claims": ["Mismo YTM no implica mismo CAGR sin reinversión"], "visual_essence": ["Comparación 8%, 1%, 0%"], "allowed_deltas": ["Canonical wording corrected in Markdown", "Canonical WebP is structurally truncated at baseline"], "integrity_status": "known-source-defect"
+    },
+    {
+      "id": "12-miniblock-4-cover",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/12-miniblock-4-cover.md",
+      "spec_sha256": "9b9f8253ff0ca59d102f021104da36527950bca0beca09e6dc01e4fc08943f83",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/12-miniblock-4-cover.webp",
+      "reference_sha256": "fb8ba5bff258bb321a6bcfd2ce0b96a12b29bdd5ae22bace6acd5d7a7757edcc",
+      "used_by": ["lesson-04"], "essential_claims": ["Mercado, precios y curva"], "visual_essence": ["Curva protagonista 4/4"], "allowed_deltas": [], "integrity_status": "verified"
+    },
+    {
+      "id": "13-why-many-bonds-same-tenor",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/13-why-many-bonds-same-tenor.md",
+      "spec_sha256": "6f2dc21a67ce6dd77f3695895dad7da20d42e60c0df57fb77c94384839f72c10",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/13-why-many-bonds-same-tenor.webp",
+      "reference_sha256": "4ae8c9298ae7ce66b92a2d0dc9719c1179ed630e4dab66a1f6353717c6143231",
+      "used_by": ["lesson-04"], "essential_claims": ["Vencimiento residual cae", "Varias generaciones conviven"], "visual_essence": ["Secuencia temporal España"], "allowed_deltas": ["Canonical WebP decodes but is visibly pixel-corrupted; implement from Markdown"], "integrity_status": "known-source-defect"
+    },
+    {
+      "id": "14-coupon-price-ytm",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/14-coupon-price-ytm.md",
+      "spec_sha256": "f7c57630f17cc2c442ee091092640f75399b23c89f2cb4ad2f0658be96c4c6ad",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/14-coupon-price-ytm.webp",
+      "reference_sha256": "ee753a32526d55e68166ef4b3a56b30ec9a1b849695028a045646d88c721835d",
+      "used_by": ["lesson-04"], "essential_claims": ["Cupón fijo, precio variable", "Precio y cash flows implican YTM"], "visual_essence": ["Tres bonos y nube"], "allowed_deltas": [], "integrity_status": "verified"
+    },
+    {
+      "id": "15-yield-curve",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/15-yield-curve.md",
+      "spec_sha256": "cd792c84cb0f5b555928b46357757bbec1d4f43d0456c7c1508a35572711ee6c",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/15-yield-curve.webp",
+      "reference_sha256": "7bb7214997e60b84e1df36fd2e12cde44bcbcba7d57afa877ea17b502ad96d78",
+      "used_by": ["lesson-04"], "essential_claims": ["Punto observado, curva fair y benchmark", "0–2Y corto pedagógico"], "visual_essence": ["Gráfico protagonista"], "allowed_deltas": ["Runtime labels this as an illustrative observed-YTM curve, never a spot curve"], "integrity_status": "verified"
+    },
+    {
+      "id": "16-recap-miniblocks-1-2",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/16-recap-miniblocks-1-2.md",
+      "spec_sha256": "cc0b5f0f2346dabc6c2faff63811b93f8faa03d80e5b7b8e82a2a70004889bd0",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/16-recap-miniblocks-1-2.webp",
+      "reference_sha256": "246d2c9e3fb1e86b1fc094db239a6bf80b762e1dbb2bf81176f92bb237645309",
+      "used_by": ["checkpoint"], "essential_claims": ["Contrato y valoración conectados"], "visual_essence": ["Dos bandas apiladas"], "allowed_deltas": [], "integrity_status": "verified"
+    },
+    {
+      "id": "17-recap-miniblocks-3-4",
+      "source_commit": "bdf6bdc4f86b62922143ac201a3739f8b40fcf5a",
+      "spec_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/slides/17-recap-miniblocks-3-4.md",
+      "spec_sha256": "f163f758912a9fa4d888375c28274d84967ebb0eb985281ff2b508fcdde7ecf2",
+      "reference_path": "projects/Fixed income/Bloque 1 Fundamentos de los Bonos/references/17-recap-miniblocks-3-4.webp",
+      "reference_sha256": "20a6f0504b7b5d0624b7b26129f279789df726352a3ab76606fe4653ac3bc63a",
+      "used_by": ["checkpoint"], "essential_claims": ["YTM compara; curva ordena"], "visual_essence": ["Dos bandas, curva de cierre"], "allowed_deltas": ["Canonical wording corrected in Markdown", "Canonical WebP is structurally truncated at baseline"], "integrity_status": "known-source-defect"
+    }
+  ]
+}
