@@ -181,7 +181,7 @@ button { color: inherit; }
 .bond-overline { margin: 0 0 16px; color: #465860; font-size: .68rem; font-weight: 720; letter-spacing: .14em; text-transform: uppercase; }
 .bond-certificate h3 { margin: 0 0 24px; font-family: var(--font-editorial); font-size: clamp(2rem, 3.4vw, 3.7rem); font-weight: 600; letter-spacing: -.03em; }
 .bond-certificate h3 span { display: block; font-size: .44em; letter-spacing: .08em; }
-.bond-certificate dl { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin: 0; border-top: 1px solid rgba(16,35,48,.22); }
+.bond-certificate dl { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); column-gap: 28px; margin: 0; border-top: 1px solid rgba(16,35,48,.22); }
 .bond-certificate dl div { display: flex; justify-content: space-between; gap: 20px; border-bottom: 1px solid rgba(16,35,48,.16); padding: 11px 0; }
 .bond-certificate dl div.active { color: #08737c; }
 .bond-certificate dt { color: #465860; font-size: .75rem; }

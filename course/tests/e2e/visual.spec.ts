@@ -27,6 +27,8 @@ for (const [name, lesson, search] of [
 ] as const) {
   test(`${name} visual`, async ({ page }) => {
     await openLesson(page, lesson, search);
+    if (name === "l2-dcf") await expect(page.locator(".katex")).toBeVisible();
+    if (name === "l4-curve") await expect(page.locator("path.fair-curve")).toBeVisible();
     await evidenceShot(page, `${name}-1600x900`);
     await expect(page).toHaveScreenshot(`${name}-1600x900.png`);
   });
@@ -41,6 +43,7 @@ test("mobile study visual", async ({ page }) => {
 
 test("checkpoint visual", async ({ page }) => {
   await page.goto("checkpoint/");
+  await expect(page.locator(".checkpoint-runtime")).toBeVisible();
   await evidenceShot(page, "checkpoint-1600x900", true);
   await expect(page).toHaveScreenshot("checkpoint-1600x900.png", { fullPage: true });
 });
