@@ -1,0 +1,16 @@
+---
+import CourseLayout from "../../layouts/CourseLayout.astro";
+import LessonRuntime from "../../islands/LessonRuntime";
+import { course } from "../../../contracts/lessons";
+
+export function getStaticPaths() {
+  return course.lessons.map((lesson) => ({ params: { lesson: lesson.slug }, props: { lesson } }));
+}
+
+const { lesson } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<CourseLayout title={`${lesson.title} · Fixed Income Foundations`} description={lesson.thesis} pageClass="lesson-page">
+  <LessonRuntime lesson={lesson} baseUrl={base} client:only="react" />
+</CourseLayout>
