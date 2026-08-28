@@ -8,6 +8,7 @@ import { openLesson } from "./helpers";
 
 test.beforeEach(({ browserName }) => test.skip(browserName !== "chromium", "Canonical visual baselines use Chromium"));
 test.beforeAll(async () => mkdir("evidence/screenshots", { recursive: true }));
+test.use({ viewport: { width: 1600, height: 900 } });
 
 async function evidenceShot(page: Parameters<typeof openLesson>[0], name: string, fullPage = false) {
   await page.screenshot({ path: `evidence/screenshots/${name}.webp`, type: "webp", quality: 86, fullPage, animations: "disabled" });

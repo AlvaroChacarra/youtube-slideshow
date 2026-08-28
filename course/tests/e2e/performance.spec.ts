@@ -24,6 +24,7 @@ test("L4 meets browser performance and network budgets", async ({ page, browserN
   await page.waitForLoadState("networkidle");
   await page.waitForTimeout(100);
   const metrics = await page.evaluate(() => (window as unknown as { __PERF_METRICS__: { lcp: number; cls: number; longTasks: number[] } }).__PERF_METRICS__);
+  console.log(`PERFORMANCE_BROWSER ${JSON.stringify({ lcpMs: metrics.lcp, cls: metrics.cls, maxLongTaskMs: Math.max(0, ...metrics.longTasks), origins: [...origins] })}`);
   expect(metrics.lcp).toBeGreaterThan(0);
   expect(metrics.lcp).toBeLessThan(2500);
   expect(metrics.cls).toBeLessThan(0.05);
