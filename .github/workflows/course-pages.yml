@@ -5,6 +5,9 @@ on:
     workflows: ["Course CI"]
     types: [completed]
     branches: [main]
+  push:
+    branches: ["course/bonds-foundations-runtime-v1"]
+    paths: [".github/course-pages-branch-publish"]
   workflow_dispatch:
     inputs:
       publish:
@@ -24,7 +27,7 @@ concurrency:
 
 jobs:
   build:
-    if: (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') || (github.event_name == 'workflow_dispatch' && inputs.publish == true)
+    if: (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') || (github.event_name == 'workflow_dispatch' && inputs.publish == true) || (github.event_name == 'push' && github.ref_name == 'course/bonds-foundations-runtime-v1')
     runs-on: ubuntu-latest
     defaults: { run: { working-directory: course } }
     steps:
