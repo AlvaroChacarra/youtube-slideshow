@@ -1,0 +1,568 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "const": "fixed-income-foundations-v1"
+    },
+    "title": {
+      "type": "string"
+    },
+    "sourceIds": {
+      "minItems": 17,
+      "maxItems": 17,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "deliveryProfiles": {
+      "minItems": 4,
+      "maxItems": 4,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "AULA",
+          "ESTUDIO",
+          "VIDEO",
+          "CAPTURE"
+        ]
+      }
+    },
+    "lessons": {
+      "minItems": 4,
+      "maxItems": 4,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^lesson-0[1-4]$"
+          },
+          "slug": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kicker": {
+            "type": "string",
+            "minLength": 1
+          },
+          "thesis": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requires": {
+            "type": "object",
+            "properties": {
+              "concepts": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "notation": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "concepts",
+              "notation"
+            ],
+            "additionalProperties": false
+          },
+          "requirement_routes": {
+            "type": "object",
+            "properties": {
+              "concepts": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "enum": [
+                    "LIVE",
+                    "REQUIRED",
+                    "OPTIONAL"
+                  ]
+                }
+              },
+              "notation": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "enum": [
+                    "LIVE",
+                    "REQUIRED",
+                    "OPTIONAL"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "concepts",
+              "notation"
+            ],
+            "additionalProperties": false
+          },
+          "introduces": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "concept",
+                    "notation"
+                  ]
+                },
+                "route": {
+                  "type": "string",
+                  "enum": [
+                    "LIVE",
+                    "REQUIRED",
+                    "OPTIONAL"
+                  ]
+                },
+                "scene": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "id",
+                "kind",
+                "route",
+                "scene"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "introduction_routes": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string",
+              "enum": [
+                "LIVE",
+                "REQUIRED",
+                "OPTIONAL"
+              ]
+            }
+          },
+          "recalls": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "scene": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "scene"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "routes": {
+            "type": "object",
+            "properties": {
+              "LIVE": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "REQUIRED": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "OPTIONAL": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "LIVE",
+              "REQUIRED",
+              "OPTIONAL"
+            ],
+            "additionalProperties": false
+          },
+          "objectives": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "route": {
+                  "type": "string",
+                  "enum": [
+                    "LIVE",
+                    "REQUIRED",
+                    "OPTIONAL"
+                  ]
+                },
+                "statement": {
+                  "type": "string"
+                },
+                "concepts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "notation": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "route",
+                "statement",
+                "concepts",
+                "notation"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "load": {
+            "type": "object",
+            "properties": {
+              "livePresentationMinutes": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "guidedMinutes": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "requiredAutonomousMinutes": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "optionalMinutes": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "livePresentationMinutes",
+              "guidedMinutes",
+              "requiredAutonomousMinutes",
+              "optionalMinutes"
+            ],
+            "additionalProperties": false
+          },
+          "scenes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "hero-challenge",
+                    "recall",
+                    "financial-object",
+                    "concept-simulator",
+                    "mathematical-state",
+                    "market-map",
+                    "guided-exercise",
+                    "diagnostic-quiz",
+                    "recap",
+                    "bridge"
+                  ]
+                },
+                "route": {
+                  "type": "string",
+                  "enum": [
+                    "LIVE",
+                    "REQUIRED",
+                    "OPTIONAL"
+                  ]
+                },
+                "phase": {
+                  "type": "string",
+                  "enum": [
+                    "presentation",
+                    "guided",
+                    "consolidation"
+                  ]
+                },
+                "durationMinutes": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "sourceRefs": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "concepts": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "stages": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "route": {
+                        "type": "string",
+                        "enum": [
+                          "LIVE",
+                          "REQUIRED",
+                          "OPTIONAL"
+                        ]
+                      },
+                      "component": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "concepts": {
+                        "default": [],
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "prompt": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "route",
+                      "component",
+                      "concepts"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "teacher": {
+                  "type": "object",
+                  "properties": {
+                    "objective": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "askBeforeReveal": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "interaction": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "commonError": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "bridge": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "objective",
+                    "askBeforeReveal",
+                    "interaction",
+                    "commonError",
+                    "bridge"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "type",
+                "route",
+                "phase",
+                "durationMinutes",
+                "sourceRefs",
+                "concepts",
+                "stages",
+                "teacher"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "bridge": {
+            "type": "object",
+            "properties": {
+              "known": {
+                "type": "string"
+              },
+              "gap": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "known",
+              "gap",
+              "next",
+              "target"
+            ],
+            "additionalProperties": false
+          },
+          "used_later": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "target": {
+                  "type": "string"
+                },
+                "route": {
+                  "type": "string",
+                  "enum": [
+                    "LIVE",
+                    "REQUIRED",
+                    "OPTIONAL"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "target",
+                "route"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "financialClaims": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "misconceptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deliveryProfiles": {
+            "minItems": 4,
+            "maxItems": 4,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "AULA",
+                "ESTUDIO",
+                "VIDEO",
+                "CAPTURE"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "slug",
+          "title",
+          "kicker",
+          "thesis",
+          "requires",
+          "requirement_routes",
+          "introduces",
+          "introduction_routes",
+          "recalls",
+          "routes",
+          "objectives",
+          "load",
+          "scenes",
+          "bridge",
+          "used_later",
+          "financialClaims",
+          "misconceptions",
+          "deliveryProfiles"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "sourceIds",
+    "deliveryProfiles",
+    "lessons"
+  ],
+  "additionalProperties": false
+}

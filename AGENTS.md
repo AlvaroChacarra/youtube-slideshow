@@ -38,3 +38,11 @@ Si imagen y markdown discrepan en contenido semántico, prevalece el markdown y 
 - No crear todavía frameworks, templates, componentes o tokens extensos por anticipación. Extraerlos cuando la implementación image-to-code demuestre invariantes reales.
 - Mantener el repositorio pequeño. Añadir archivos solo cuando reduzcan ambigüedad o permitan reproducir una decisión.
 - Si una decisión visual aprobada cambia, actualizar la especificación y su referencia en el mismo cambio.
+
+## Runtime del curso
+
+Para cambios dentro de `course/`, leer primero `course/README.md`. Ese archivo
+enruta a la baseline, stack, contratos visuales y de motion, estado operativo,
+auditoría y dry-run. Ejecutar `npm run validate`, `npm run build` y los tests de
+Playwright aplicables desde `course/`; una verdad documentada que cambie debe
+actualizar su documento canónico en el mismo cambio.

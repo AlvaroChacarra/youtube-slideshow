@@ -1,0 +1,10 @@
+---
+import CourseLayout from "../layouts/CourseLayout.astro";
+import CheckpointRuntime from "../islands/CheckpointRuntime";
+const base = import.meta.env.BASE_URL;
+---
+
+<CourseLayout title="Checkpoint · Fixed Income Foundations" description="Caso acumulativo y retrieval check del Bloque 1" pageClass="checkpoint-page">
+  <header class="checkpoint-nav shell"><a href={base}><span>B–04</span><b>Volver al mapa</b></a><p>Checkpoint acumulativo · sin contenido nuevo</p></header>
+  <main class="shell checkpoint-shell"><div class="checkpoint-title"><span class="eyebrow">Block 01 · Closure</span><h1 class="display">Construye.<br />Valora. <em>Compara.</em></h1><p>Recupera el mecanismo completo sin volver a impartirlo.</p></div><CheckpointRuntime client:load /></main>
+</CourseLayout>

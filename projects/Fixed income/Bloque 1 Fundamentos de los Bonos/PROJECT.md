@@ -63,7 +63,7 @@ La estructura completa, en orden físico del deck, es:
 
 Comparar dos formas de resumir la rentabilidad del bono canónico:
 
-- **YTM = 4.00%**: tasa interna que iguala precio y valor presente de los flujos bajo la convención de reinversión de cupones al mismo rendimiento;
+- **YTM = 4.00%**: tasa interna que iguala precio y valor presente de los flujos contractuales; calcularla no exige reinvertir cupones, pero realizar una rentabilidad compuesta igual a la YTM hasta vencimiento sí exige reinvertirlos a esa tasa;
 - **CAGR sin reinversión = 3.71%**: anualización de la riqueza terminal si los cupones cobrados se mantienen aparte al 0% hasta vencimiento.
 
 La diferencia entre ambas métricas debe explicarse como diferencia de hipótesis sobre los cupones, no como error de cálculo.

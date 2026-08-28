@@ -1,0 +1,149 @@
+{
+  "generatedAt": "2026-08-28T20:36:42.502Z",
+  "initial": {
+    "page": "lessons/del-bono-individual-a-la-curva/index.html",
+    "files": [
+      "_astro/client.gMlPxmkH.js",
+      "_astro/motion-ui.KoZCuOwQ.js",
+      "_astro/rolldown-runtime.hePW80VL.js",
+      "_astro/LessonRuntime.BBbn9Sk1.js",
+      "_astro/useFinancialTimeline.BG5UnJZJ.js",
+      "_astro/ytm.nc0mHriY.js"
+    ],
+    "gzipBytes": 99545
+  },
+  "pages": [
+    {
+      "page": "lessons/del-bono-individual-a-la-curva/index.html",
+      "files": [
+        "_astro/client.gMlPxmkH.js",
+        "_astro/motion-ui.KoZCuOwQ.js",
+        "_astro/rolldown-runtime.hePW80VL.js",
+        "_astro/LessonRuntime.BBbn9Sk1.js",
+        "_astro/useFinancialTimeline.BG5UnJZJ.js",
+        "_astro/ytm.nc0mHriY.js"
+      ],
+      "gzipBytes": 99545
+    },
+    {
+      "page": "lessons/del-cash-flow-al-precio/index.html",
+      "files": [
+        "_astro/client.gMlPxmkH.js",
+        "_astro/motion-ui.KoZCuOwQ.js",
+        "_astro/rolldown-runtime.hePW80VL.js",
+        "_astro/LessonRuntime.BBbn9Sk1.js",
+        "_astro/useFinancialTimeline.BG5UnJZJ.js",
+        "_astro/ytm.nc0mHriY.js"
+      ],
+      "gzipBytes": 99545
+    },
+    {
+      "page": "lessons/el-bono-como-contrato/index.html",
+      "files": [
+        "_astro/client.gMlPxmkH.js",
+        "_astro/motion-ui.KoZCuOwQ.js",
+        "_astro/rolldown-runtime.hePW80VL.js",
+        "_astro/LessonRuntime.BBbn9Sk1.js",
+        "_astro/useFinancialTimeline.BG5UnJZJ.js",
+        "_astro/ytm.nc0mHriY.js"
+      ],
+      "gzipBytes": 99545
+    },
+    {
+      "page": "lessons/ytm-reinversion-y-retorno/index.html",
+      "files": [
+        "_astro/client.gMlPxmkH.js",
+        "_astro/motion-ui.KoZCuOwQ.js",
+        "_astro/rolldown-runtime.hePW80VL.js",
+        "_astro/LessonRuntime.BBbn9Sk1.js",
+        "_astro/useFinancialTimeline.BG5UnJZJ.js",
+        "_astro/ytm.nc0mHriY.js"
+      ],
+      "gzipBytes": 99545
+    },
+    {
+      "page": "checkpoint/index.html",
+      "files": [
+        "_astro/client.gMlPxmkH.js",
+        "_astro/motion-ui.KoZCuOwQ.js",
+        "_astro/rolldown-runtime.hePW80VL.js",
+        "_astro/CheckpointRuntime.BWfHLp7Q.js",
+        "_astro/ytm.nc0mHriY.js"
+      ],
+      "gzipBytes": 90471
+    },
+    {
+      "page": "index.html",
+      "files": [],
+      "gzipBytes": 0
+    }
+  ],
+  "largestLessonChunk": {
+    "file": "_astro/math-katex.BsPRscZO.js",
+    "rawBytes": 258714,
+    "gzipBytes": 76821
+  },
+  "budgets": {
+    "initialGzipBytes": 184320,
+    "additionalLessonGzipBytes": 163840
+  },
+  "pass": true,
+  "note": "LCP and CLS require the browser performance gate; this report enforces static transfer budgets only.",
+  "chunks": [
+    {
+      "file": "_astro/math-katex.BsPRscZO.js",
+      "rawBytes": 258714,
+      "gzipBytes": 76821
+    },
+    {
+      "file": "_astro/client.gMlPxmkH.js",
+      "rawBytes": 184108,
+      "gzipBytes": 57358
+    },
+    {
+      "file": "_astro/motion-ui.KoZCuOwQ.js",
+      "rawBytes": 86553,
+      "gzipBytes": 30018
+    },
+    {
+      "file": "_astro/motion-gsap.CIGFHbS0.js",
+      "rawBytes": 69201,
+      "gzipBytes": 26941
+    },
+    {
+      "file": "_astro/LessonRuntime.BBbn9Sk1.js",
+      "rawBytes": 31926,
+      "gzipBytes": 9501
+    },
+    {
+      "file": "_astro/viz-d3.r6TZVQzQ.js",
+      "rawBytes": 23424,
+      "gzipBytes": 9191
+    },
+    {
+      "file": "_astro/YieldCurve.BJ29v3u5.js",
+      "rawBytes": 5119,
+      "gzipBytes": 2186
+    },
+    {
+      "file": "_astro/CheckpointRuntime.BWfHLp7Q.js",
+      "rawBytes": 3616,
+      "gzipBytes": 1703
+    },
+    {
+      "file": "_astro/useFinancialTimeline.BG5UnJZJ.js",
+      "rawBytes": 2492,
+      "gzipBytes": 1276
+    },
+    {
+      "file": "_astro/ytm.nc0mHriY.js",
+      "rawBytes": 2800,
+      "gzipBytes": 964
+    },
+    {
+      "file": "_astro/rolldown-runtime.hePW80VL.js",
+      "rawBytes": 716,
+      "gzipBytes": 428
+    }
+  ]
+}
