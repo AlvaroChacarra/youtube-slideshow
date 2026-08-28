@@ -9,7 +9,7 @@
 | H4 lesson 1 | Implemented; browser gate pending | Contract object, financing map, anatomy, cash-flow timeline, four-parameter Bond Builder and diagnostic check |
 | H5 lesson 2 + invariants | Implemented; browser gate pending | Discount Lens, formula construction, par-price DCF and rate lab; six invariants extracted after L1/L2 |
 | H6 lesson 3 | Implemented; browser gate pending | Robust YTM root, terminal wealth, reinvestment lab, coupon comparison, zero-coupon bridge and calculation/realization diagnostic |
-| H7 lesson 4 | Pending | — |
+| H7 lesson 4 | Implemented; browser gate pending | Deterministic bond cloud, residual life, repricing, 30 observed points, exact 2Y boundary, illustrative fitted YTM curve and benchmark diagnostic |
 | H8 checkpoint | Pending | — |
 | H9 hardening | Pending | — |
 
