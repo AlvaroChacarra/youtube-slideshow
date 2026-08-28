@@ -13,7 +13,7 @@ for (const [width, height] of viewports) {
     await openLesson(page, lesson01, "?mode=aula");
     await expectNoHorizontalOverflow(page);
     await expect(page.locator(".lesson-runtime")).toHaveAttribute("data-mode", width <= 900 ? "estudio" : "aula");
-    if (width <= 900) await expect(page.getByText("Fallback estudio", { exact: true })).toBeVisible();
+    if (width <= 900) await expect(page.getByText("Aula/vídeo se adapta a estudio vertical en esta pantalla.")).toBeVisible();
     else expect(await page.evaluate(() => document.body.scrollHeight - innerHeight)).toBeLessThanOrEqual(1);
   });
 }
@@ -34,7 +34,7 @@ test("capture is a clean deterministic 16:9 canvas", async ({ page }) => {
 
 test("study progress requires explicit pedagogical review", async ({ page }) => {
   await openLesson(page, lesson01, "?mode=estudio");
-  const review = page.getByRole("button", { name: "Marcar como revisado" }).first();
+  const review = page.locator(".study-review").first();
   await review.click();
   await expect(review).toHaveText("Revisado ✓");
 });

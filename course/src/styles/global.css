@@ -70,7 +70,7 @@ button { color: inherit; }
 .hero-bond > strong { display: block; font-family: var(--font-editorial); font-size: clamp(2rem, 3vw, 3rem); }
 .hero-bond dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 30px 0 0; padding-top: 18px; border-top: 1px solid rgba(16,35,48,.24); }
 .hero-bond dl div { display: grid; gap: 6px; }
-.hero-bond dt { color: rgba(16,35,48,.62); font-size: .7rem; text-transform: uppercase; }
+.hero-bond dt { color: #465860; font-size: .7rem; text-transform: uppercase; }
 .hero-bond dd { margin: 0; font-weight: 760; }
 .landing-object svg { width: 100%; margin-top: -28px; overflow: visible; }
 .landing-object .spine { fill: none; stroke: var(--hairline); stroke-width: 2; }
@@ -178,13 +178,13 @@ button { color: inherit; }
 .bond-composition { width: min(1040px, 96%); display: grid; grid-template-columns: minmax(470px, 650px) minmax(190px, 280px); gap: clamp(30px, 5vw, 78px); align-items: center; }
 .bond-certificate { position: relative; border-radius: 6px; padding: clamp(24px, 3vw, 46px); background: var(--paper); color: var(--paper-ink); box-shadow: 0 24px 72px rgba(0,0,0,.32); }
 .bond-seal { position: absolute; top: 24px; right: 24px; display: grid; width: 54px; height: 54px; place-items: center; border: 1px solid rgba(16,35,48,.3); border-radius: 50%; font-size: .72rem; }
-.bond-overline { margin: 0 0 16px; color: rgba(16,35,48,.55); font-size: .68rem; font-weight: 720; letter-spacing: .14em; text-transform: uppercase; }
+.bond-overline { margin: 0 0 16px; color: #465860; font-size: .68rem; font-weight: 720; letter-spacing: .14em; text-transform: uppercase; }
 .bond-certificate h3 { margin: 0 0 24px; font-family: var(--font-editorial); font-size: clamp(2rem, 3.4vw, 3.7rem); font-weight: 600; letter-spacing: -.03em; }
 .bond-certificate h3 span { display: block; font-size: .44em; letter-spacing: .08em; }
 .bond-certificate dl { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin: 0; border-top: 1px solid rgba(16,35,48,.22); }
 .bond-certificate dl div { display: flex; justify-content: space-between; gap: 20px; border-bottom: 1px solid rgba(16,35,48,.16); padding: 11px 0; }
 .bond-certificate dl div.active { color: #08737c; }
-.bond-certificate dt { color: rgba(16,35,48,.58); font-size: .75rem; }
+.bond-certificate dt { color: #465860; font-size: .75rem; }
 .bond-certificate dd { margin: 0; font-weight: 730; }
 .bond-signature { display: flex; justify-content: space-between; margin-top: 20px; font-size: .8rem; }
 .observed-price { display: grid; gap: 8px; border-left: 1px solid var(--cyan); padding: 18px 0 18px 22px; }
@@ -238,7 +238,7 @@ button { color: inherit; }
 .bond-generation-grid article:nth-child(1) { transform: rotate(-1deg); }.bond-generation-grid article:nth-child(3) { transform: rotate(1deg); }
 .bond-generation-grid article.compressed { transform: scale(.93); }
 .mini-seal { position: absolute; top: 15px; right: 15px; display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid rgba(16,35,48,.3); border-radius: 50%; font-size: .65rem; }
-.bond-generation-grid article small { color: rgba(16,35,48,.55); }
+.bond-generation-grid article small { color: #465860; }
 .bond-generation-grid article strong { font-family: var(--font-editorial); font-size: 1.6rem; }
 .bond-generation-grid article div { display: flex; justify-content: space-between; border-top: 1px solid rgba(16,35,48,.2); padding-top: 10px; font-size: .75rem; }
 .takeaway { margin: 24px 0 0; border-left: 2px solid var(--cyan); padding-left: 16px; color: var(--muted); }

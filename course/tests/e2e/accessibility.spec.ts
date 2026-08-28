@@ -22,11 +22,47 @@ test("runtime exposes a stable ARIA structure", async ({ page }) => {
   await openLesson(page, lesson01, "?mode=aula");
   await expect(page.locator("main.lesson-runtime")).toMatchAriaSnapshot(`
     - main:
-      - banner:
-        - link "Volver al mapa"
-        - navigation "Perfil de entrega"
+      - link "Volver al mapa":
+        - /url: /youtube-slideshow/
+        - text: B–04 Fixed Income Foundations
+      - navigation "Perfil de entrega":
+        - button "aula"
+        - button "estudio"
+        - button "video"
+      - text: 4%
+      - link "Checkpoint":
+        - /url: /youtube-slideshow/checkpoint/
       - article:
+        - text: hero challenge · 2 min
         - heading "¿Qué compras al entregar 100 €?" [level=2]
-      - contentinfo "Navegación de la lección"
+        - text: 01 / 02 B–04
+        - paragraph: Instrumento de deuda · pagos anuales
+        - heading "BONO 5 AÑOS" [level=3]
+        - term: Emisor
+        - definition: Estado o empresa
+        - term: Coupon rate
+        - definition: 4.0%
+        - term: Notional · N
+        - definition: 100 €
+        - term: Face value · FV
+        - definition: 100 €
+        - term: Vencimiento · T
+        - definition: 5 años
+        - text: Cupón anual
+        - strong: 4.00 €
+        - complementary:
+          - text: Observado hoy · no contractual
+          - strong: P = 100,00 €
+      - button "Estado anterior": ←
+      - button "01 ¿Qué compras al entregar 100 €?"
+      - button "02 Capital hoy, pagos futuros"
+      - button "03 El bono canónico"
+      - button "04 Anatomía del contrato"
+      - button "05 Contrato → cash flows"
+      - button "06 Conozco pagos, no valor"
+      - button "07 Bond Builder"
+      - button "08 Contract Check"
+      - button "Estado siguiente": →
+      - button "Reiniciar escena": ↺
   `);
 });
