@@ -39,25 +39,45 @@ La estructura completa, en orden físico del deck, es:
 
 1. `01-block-cover.md` — **Bloque 1 — Fundamentos de los bonos**.
 2. `02-table-of-contents.md` — **Recorrido del bloque**.
-3. `03-miniblock-1-cover.md` — **Minibloque 1 · Qué es un bono**.
-4. `04-what-is-a-bond.md` — **¿Qué es un bono?**.
-5. `05-bond-anatomy.md` — **Anatomía de un bono a través de un ejemplo**.
-6. `06-miniblock-2-cover.md` — **Minibloque 2 · Cómo se valora un bono**.
-7. `07-discounting-theory.md` — **Descuento de flujos — teoría**.
-8. `08-discounting-example.md` — **Descuento de flujos — ejemplo**.
-9. `09-miniblock-3-cover.md` — **Minibloque 3 · YTM vs CAGR**.
-10. `10-ytm-vs-cagr.md` — **YTM vs CAGR**.
-11. `11-same-ytm-different-cagr.md` — **Mismo YTM, distinto CAGR**.
-12. `12-miniblock-4-cover.md` — **Minibloque 4 · Del bono a la curva de tipos**.
-13. `13-why-many-bonds-same-tenor.md` — **¿Por qué hay varios bonos en un mismo tenor?**.
-14. `14-coupon-price-ytm.md` — **Del cupón al precio, y del precio al YTM**.
-15. `15-yield-curve.md` — **La curva de tipos**.
-16. `16-recap-miniblocks-1-2.md` — **Repaso final · Minibloques 1 y 2**.
-17. `17-recap-miniblocks-3-4.md` — **Repaso final · Minibloques 3 y 4**.
+3. `03-what-is-a-bond.md` — **¿Qué es un bono?**.
+4. `04-bond-anatomy.md` — **Anatomía de un bono a través de un ejemplo**.
+5. `05-discounting-theory.md` — **Descuento de flujos — teoría**.
+6. `06-discounting-example.md` — **Descuento de flujos — ejemplo**.
+7. `07-ytm-vs-cagr.md` — **YTM vs CAGR**.
+8. `08-same-ytm-different-cagr.md` — **Mismo YTM, distinto CAGR**.
+9. `09-why-many-bonds-same-tenor.md` — **¿Por qué hay varios bonos en un mismo tenor?**.
+10. `10-coupon-price-ytm.md` — **Del cupón al precio, y del precio al YTM**.
+11. `11-yield-curve.md` — **La curva de tipos**.
+12. `12-recap-miniblocks-1-2.md` — **Repaso final · Microbloques 1 y 2**.
+13. `13-recap-miniblocks-3-4.md` — **Repaso final · Microbloques 3 y 4**.
 
-**Convención:** los prefijos `01`–`17` reflejan el orden físico de los artefactos del deck. Las menciones a slides 1–9 dentro de la narrativa pedagógica siguen identificando las nueve slides de contenido, excluyendo portadas, índice, interstitials y repasos.
+**Convención:** los prefijos `01`–`13` reflejan el orden físico real de los artefactos del deck. Las menciones a slides 1–9 dentro de la narrativa pedagógica identifican las nueve slides docentes de contenido, excluyendo portada, índice y los dos repasos. No existen portadas intermedias de microbloque.
 
-**Estado canónico:** 17/17 artefactos visuales aprobados. Cada artefacto tiene especificación en `slides/` y referencia perceptual en `references/`.
+**Estado canónico:** 13/13 artefactos visuales aprobados. Cada artefacto tiene una especificación en `slides/`, un PNG original en `references/`, una descripción visual detallada y apuntes de impartición.
+
+## Contrato documental de cada diapositiva
+
+La especificación escrita debe permitir reconstruir al menos el 90% de la intención docente aunque la imagen no esté disponible. Cada ficha debe conservar:
+
+1. **Propósito didáctico:** la única idea nueva que incorpora la slide.
+2. **Contenido y datos:** textos, magnitudes y relaciones que no pueden cambiar.
+3. **Descripción visual detallada:** jerarquía, composición, posición, iconografía, color y conexiones.
+4. **Apuntes de impartición:** orden recomendado de explicación y razonamiento verbal que completa la imagen.
+5. **Fórmulas y cálculos:** variables definidas, sustitución numérica y resultado cuando corresponda.
+6. **Insights y contexto:** interpretación económica, alcance del ejemplo y relación con el mercado real.
+7. **Aclaraciones:** diferencias terminológicas y supuestos que la imagen puede ocultar.
+8. **Pregunta o transición:** comprobación de comprensión y enlace con la siguiente slide.
+
+La imagen es la referencia canónica de composición. El Markdown es la referencia canónica de significado, explicación y matices. Si existe tensión entre ambos, no se modifica silenciosamente ninguno: se documenta y se resuelve de forma explícita.
+
+## Recorrido de impartición
+
+- **Artefactos 01–02:** presentan la pregunta central y el mapa `contrato → flujos → descuento → precio → rendimiento → curva`.
+- **Slides docentes 1–2 / artefactos 03–04:** definen el bono y convierten el contrato en la secuencia `−100, 4, 4, 4, 4, 104`.
+- **Slides docentes 3–4 / artefactos 05–06:** convierten los flujos futuros en valor presente, primero de forma general y después mediante sustitución numérica.
+- **Slides docentes 5–6 / artefactos 07–08:** distinguen la TIR contractual de la riqueza terminal bajo una hipótesis de reinversión y aíslan el efecto del cupón.
+- **Slides docentes 7–9 / artefactos 09–11:** explican la coexistencia de emisiones, el ajuste del precio y la formación de una curva de YTM observada.
+- **Artefactos 12–13:** verifican que el alumno puede reconstruir toda la cadena conceptual y sus fórmulas esenciales.
 
 ## Slide 05 — YTM vs CAGR
 
@@ -127,4 +147,4 @@ Mensaje central: **la curva de tipos resume cuánto rendimiento exige el mercado
 
 ## Regla narrativa
 
-Cada slide de contenido debe añadir una sola pieza conceptual nueva y conservar lo ya aprendido. Las portadas de minibloque son interstitials visuales y no añaden teoría nueva. Los dos repasos aparecen únicamente al final del bloque, no después de cada microbloque.
+Cada slide de contenido debe añadir una sola pieza conceptual nueva y conservar lo ya aprendido. No se intercalan portadas de microbloque: los cambios de tema se expresan mediante la transición oral documentada al final de cada ficha. Los dos repasos aparecen únicamente al final del bloque, no después de cada microbloque.
