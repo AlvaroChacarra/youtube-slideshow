@@ -1,6 +1,8 @@
 # Auditoría — Fundamentos de los bonos
 
-## Veredicto y alcance
+**Estado vigente:** entrega anterior fusionada en `main@31d0687` por autorización del usuario. La [tercera auditoría](#tercera-auditoria-evolucion), posterior al merge, identifica correcciones y oportunidades para el nuevo objetivo de profesionalización. Las dos primeras secciones de revisión conservan su alcance histórico.
+
+## Veredicto y alcance — primera revisión histórica
 
 **`ready_for_user_review` para las composiciones estáticas de escritorio.** El revisor perceptual independiente no encontró hallazgos bloqueantes ni mayores en los estados finales de las trece slides a 1280 × 720. Observó mejoras de jerarquía, limpieza y representación temporal frente a las referencias PNG históricas.
 
@@ -99,3 +101,87 @@ Revisor independiente con contexto limpio: las13composiciones desktop actuales n
 El cuerpo de la explicación entra después del viaje del objeto en03–07; en las otras escenas espera180ms. `motion=0` conserva aparición inmediata. Los fotogramas son muestras temporales, no una certificación de todos los frames o los43estados. Sigue sin probarse file:// en navegador. El intento de obtener el repo auxiliar de la skill fue rechazado automáticamente; no se presenta esta auditoría como cumplimiento completo de su contrato de vídeo/audio.
 
 Las capturas individuales, el mosaico13y la comparativa antes/después se renovaron. `transition-contact.jpg` representa las muestras temporales finales; no utilizar versiones previas. Las capturas móviles históricas no incluidas en `evidence/final` no sirven como evidencia de esta entrega.
+
+
+<a id="tercera-auditoria-evolucion"></a>
+## Tercera auditoría — evolución del producto, 2026-09-05
+
+### Conclusión
+
+**ÁMBAR · `revision_required` respecto al nuevo objetivo.** La presentación es una buena base editorial para exposición guiada. Su estética es consistente y los casos financieros comprobados terminan en valores correctos. Se requiere mejorar lectura móvil, coherencia durante los cambios numéricos, continuidad entre los ejemplos de mercado y separación entre motor y contenido antes de escalar a otras presentaciones.
+
+No se recomienda rehacer el producto ni añadir 3D por defecto. El siguiente incremento de valor está en hacer visible la causalidad con objetos identificables, facilitar el seguimiento de fórmulas y convertir los patrones probados en un núcleo reutilizable. Las propuestas y su orden viven en [WORK_PLAN.md](../WORK_PLAN.md).
+
+### Base, método y límites
+
+- Base remota verificada: `main@31d06877a9d5fe6ff0aba4a5eac3ff7dcb4d070a`; fuentes `presentation/src` = `25c026ea7e44bff582ebfdca65f64003ddce7c95`.
+- Revisión nueva de los estados finales renderizados de las **13 slides**, además de código de escenas, dominio, controles, empaquetado, pruebas y fichas canónicas. Las capturas históricas de `evidence/final` pertenecen al mismo árbol de fuentes; sirven como referencia estable, no como prueba de todos los pasos.
+- Escritorio: navegador Chrome del entorno, viewport 1363×936; la escena 16:9 se ajusta dentro. Móvil: viewport interno 390×844, contenido útil 375 px por la barra de scroll de Chrome; no equivale a Safari iOS ni a un dispositivo real.
+- Móvil inspeccionado nuevamente: comparación 08 y curva 11, composición inicial, métricas de layout y operaciones de selección/ayudas/reset. No se completó una lectura visual de todas las posiciones de scroll de las 13 slides móviles.
+- El harness móvil sirve el HTML autocontenido cuyo SHA-256 coincide con la entrega final: `3ef8323c23b502273251c9ba64b983fd9e7dd6891c989a53274a777a510182df`.
+- `npm run validate`: 0 errores/advertencias/hints de tipos y **12 tests aprobados**. Son pruebas de dominio y modelo de navegación, no una suite visual ni de accesibilidad completa. No se recompiló la entrega por cambios funcionales: no hubo cambios funcionales.
+- La nueva tentativa de recorrer todos los estados en una sola llamada de navegador agotó el tiempo del controlador y se interrumpió en 07/2. No se certifica un nuevo recorrido E2E completo. Las pruebas unitarias sí recorren los 43 estados y la auditoría anterior documenta un recorrido de navegador completo.
+- El scroll automatizado genérico sobre el wrapper móvil también agotó el tiempo del controlador. La selección y las acciones por controles semánticos funcionaron. No se atribuyen esos errores del controlador a la aplicación.
+- Auditoría realizada por el mismo agente coordinador con historial visible: **no es una nueva auditoría independiente ni un blind decode**. No hubo prueba de comprensión con un alumno, medición de fps, lector de pantalla, ensayo OBS, audio ni inspección de todos los fotogramas.
+- Se leyeron mediante el conector los protocolos canónicos de `audita-y-mejora-video-grafico`: AUDITORIA_RENDER, SISTEMA_VISUAL, SISTEMA_MOTION_Y_RENDER, CONTRATOS_Y_ORQUESTACION y su schema. Se aplican criterios de composición, continuidad y rigor; el contrato de producción de vídeo de otro proyecto no se impone a esta presentación web. No se emite `pass_to_user` de un máster audiovisual inexistente.
+
+### Inspección por slide y representación
+
+| Slide | Valoración del output actual | Corrección o evolución que aporta valor |
+|---|---|---|
+| 01 · Portada | Foco claro, certificado reconocible y skyline subordinado. Anticipa contrato/flujos/curva con buen acabado | Conservar. El dibujo de curva es conceptual; evitar que se interprete como una cotización o como la misma serie cuantitativa de 11 |
+| 02 · Índice | Cuatro perspectivas claras; composición uniforme y rangos docentes rotulados | Conservar. En un futuro deck, capítulos/rangos/iconos deben salir de su definición. Acrónimos adelantados aquí son un mapa, no una explicación ya impartida |
+| 03 · Financiación | Dirección capital/pagos comprensible; emisor e inversor están separados; fondo no domina | Afinar conectores que quedan atenuados dentro del certificado; mantener la identidad del inversor al reaparecer en el repaso. No convertir el diagrama en un exhaustivo mapa de riesgos |
+| 04 · Anatomía | Buena separación contrato/precio. Fórmula cupón-pago y cierre 104 coherentes | Mantener este nivel de causalidad como patrón. El bono persistente ayuda. Las correspondencias deben depender de anclas del objeto al generalizar, no de coordenadas del caso 5Y |
+| 05 · Descuento teórico | Flujo seleccionado y término de PV conectados; fórmula general dominante y pagos simbólicos | Explicitar la correspondencia C_t/CF_t junto al uso. La selección del periodo intermedio representado por elipsis necesita semántica accesible equivalente. Recuperar concepto desde la fórmula sin abandonar el objeto |
+| 06 · Descuento numérico | Pagos, fracciones y PV alineados; r₅ cambia solo la contribución del año 5 | Corregir coherencia temporal de números. Añadir ayuda de redondeo: los PV visibles 3,85+3,70+3,56+3,42+85,48 suman 100,01, mientras el total exacto redondeado es 100,00; no es un error de cálculo |
+| 07 · YTM/CAGR | Simetría útil, caso base explícito, resultados dominantes y control g funcional | Visualizar qué ocurre con cada cupón hasta T. Ahora crece el contador y cambia una fórmula; la acumulación no se sigue como movimiento económico. Definir k o reutilizar t al introducir la suma de reinversión |
+| 08 · Tres cupones | En desktop la alineación permite comparar condiciones y resultado. Las tres columnas tienen sentido por ser una comparación real | Reducir escaneo para el razonamiento: foco por etapa y comparación final. En móvil las columnas apiladas separan los resultados; resumen comparativo común y detalle bajo demanda |
+| 09 · Emisiones | Calendario relativo coherente: 10 años originales, edades distintas y residuales 4,8/5,2/5,6; cupones fijos e IDs E1/E2/E3 | El paso del tiempo se revela mediante barras, pero no se experimenta cómo cambia el residual. Puede animarse el reloj/fecha conservando emisión y vencimiento, si no añade datos irrelevantes |
+| 10 · Precio | Misma escala de barras y marca de par; control modifica precios y estados prima/par/descuento, conservando cupón | El cierre declara (5Y, y) en texto, todavía no traslada un objeto al gráfico. Convertir ese paso en un vínculo visual identificable. Los tres casos al mismo yield coinciden en coordenadas; no fingir una nube distinta |
+| 11 · Curva | Datos ilustrativos rotulados, ejes correctos, punto y guías, línea y benchmarks distinguibles. Desktop funciona como mapa general | 20/30 observaciones están en el primer 20% del eje. Añadir foco 0–10Y y contexto 0–50Y sin deformar la escala. Móvil necesita otra geometría: leyenda 8 px y círculos de ~3,82 px hacen débil la lectura/manipulación directa |
+| 12 · Repaso 1–2 | Recupera contrato, pagos y fórmula; cierre lógico | El inversor usa icono de documento mientras en 03 era un grupo de personas. Recuperar el mismo símbolo para no confundir actor con contrato. Mantener operaciones auxiliares grandes o desplegables |
+| 13 · Repaso 3–4 | Recoge las distinciones correctas y finaliza el mapa conceptual | La minicurva es otro path con seis puntos, ascendente, distinto del ajuste de 11 con extremo largo casi plano/descendente. Reutilizar los datos de 11 o identificar visualmente que es un esquema. Tipografía matemática secundaria mejorable para proyección |
+
+Las valoraciones de acabado son juicio perceptual del auditor. Las métricas y hechos descritos a continuación son verificaciones de DOM/código; no se convierte el juicio estético en una puntuación aparentemente objetiva.
+
+### Hallazgos priorizados
+
+**A01 · major · coherencia temporal.** En 07, desde un estado estable g=8%, al volver a g=0 el encabezado ya decía «sin reinversión» y la fórmula usaba 120, mientras las cifras visibles aún eran **122,36 € y 4,12%**. En el cambio 0→8 se observó también etiqueta 8% con cifras anteriores. `NumberValue` interpola valores durante 450 ms; fórmulas y etiquetas reciben inmediatamente el nuevo escenario. El resultado asentado es correcto. Corrección propuesta: cifras financieras atómicas y animación de énfasis; si se anima el escenario, tasa/cálculo/gráfico deben derivarse de un único progreso compartido. Evidencia DOM registrada en `evidence/evolution/audit-report.json`. No se ha medido la duración exacta del desacople percibido; 450 ms es la duración de código, no una medida de vídeo.
+
+**A02 · major · legibilidad y selección de la curva móvil.** En 390×844 el plot mide 331 px para un viewBox de 780; los puntos normales miden 3,82 px y la leyenda tiene `font-size:8px`. Los ticks declaran 18 unidades SVG, pero sus cajas renderizadas miden 10 px de alto. El selector nativo sí permite llegar a ILL-30 y leer 50Y/3,68%; esa alternativa no vuelve legible el gráfico. Corrección propuesta: calcular dimensiones y tipografía para el ancho de destino, área de selección mayor y foco/contexto con controles explícitos. No se declara incumplimiento WCAG solo por medir el círculo: hay una alternativa de control y no se realizó auditoría normativa completa.
+
+**A03 · major para comparación móvil · carga de memoria.** La slide 08 ocupa 2117 px de alto. Los tres casos comienzan en y=268/851/1434: a 844 px de alto, los resultados no se comparan de un vistazo. No hay overflow horizontal. Es una limitación de la representación adaptada, no un fallo de cálculo. Propuesta: matriz compacta de resultados comunes más desglose opcional, conservando el objetivo comparativo.
+
+**A04 · oportunidad alta · continuidad de mercado.** 08 compara A/B/C a 8/1/0%; 09 usa E1/E2/E3; 10 vuelve a A/B/C a 7/4/3%; 11 cambia a ILL y a otra nube. Los cambios están señalados y no son un error financiero, pero no existe un objeto que una visualmente 10 con 11. La frase de 04 «un mismo bono durante todo el bloque» es más amplia que la implementación. Propuesta: IDs de escenario inequívocos, puente desde un contrato hasta su coordenada y expansión explícita a otra muestra. La continuidad debe respetar los contratos, no homogeneizarlos artificialmente.
+
+**A05 · minor · fidelidad visual y notación.** 12 cambia el símbolo del inversor; 13 usa un gráfico manual distinto; las fórmulas usan puntos decimales y las cifras grandes comas; C_t/CF_t y el nuevo índice k de reinversión no se enlazan visualmente. Recuperar representaciones y definiciones; unificar la convención de formato. La redondez visual no debe borrar supuestos.
+
+**A06 · major para continuidad documental · fuentes contradictorias.** El PROJECT del bloque y la lista inicial de la ficha 13 aún afirmaban que YTM presupone reinversión, mientras la ficha 07, el código y sus notas separan cálculo de YTM y realización del retorno compuesto. El PROJECT general decía slides 01–09 «en desarrollo avanzado» pese al merge de las 13. La documentación se reconcilia en esta propuesta; el programa no se modifica. Los apartados históricos de las fichas describen las PNG originales y no deben confundirse con la web fusionada.
+
+**A07 · oportunidad alta · apoyo al ponente/espectador.** El glosario general funciona, pero no conoce el concepto seleccionado ni su primera explicación. Notas y respuesta abren un diálogo dentro de la misma salida que verá la audiencia. No es un defecto respecto al alcance anterior; para grabación profesional interesa separar vista del ponente y ayudas breves al público. Las notas de la vista actual no deben usarse como si estuvieran ocultas a OBS.
+
+**A08 · major para reutilización · arquitectura especializada.** `Presentation.tsx` conoce las 13 escenas, nombres, marca, tasas y casos; `End` contiene el índice 12; `BondActor` y `CashflowSpine` reciben índices para decidir geometría; `MiniFlows` contiene cinco periodos, principal 100 y precio inicial −100. El empaquetador contiene nombre, título y asset de este deck. No son primitivas universales. El dominio financiero puro, el formato de contenido, los controles y varios componentes son buenos candidatos para extracción gradual. No está justificado empezar otra reescritura completa.
+
+**A09 · major para escalar · validación y mantenibilidad.** Hay 12 tests de dominio/navegación y herramientas de QA instaladas, pero no tests de navegador versionados ni workflow CI en main. Las dos hojas de estilos suman ~57 KB de texto fuente, con reglas largas y overrides sucesivos; parte de TSX también está comprimida en líneas grandes. La entrega funciona, pero localizar la autoridad de un layout y protegerla frente a otro deck exige trabajo. Propuesta: CSS por responsabilidad, código formateado, pruebas de UI/materiales de riesgo y referencias visuales asociadas a commit. La ausencia de imports de Motion/D3/Zod en `presentation/src` no demuestra que todo su código se envíe al navegador; eso requeriría analizar el bundle.
+
+### Interacciones comprobadas de nuevo
+
+| Caso | Resultado observado |
+|---|---|
+| 06 · r₅ de 4% a 10% con End del slider | Primeros cuatro PV no cambian; último 64,58 €, total 79,10 €; flujos 4/4/4/4/104 constantes; no navega de slide |
+| 06 · reinicio | Vuelve al paso 0 |
+| 07 · g=8% | YTM sigue 4%, riqueza asentada 123,47 €, CAGR 4,31%; la fórmula de reinversión se muestra |
+| 07 · cambio rápido de g | Desacople transitorio confirmado entre escenario/copy/fórmula y cifras animadas (A01) |
+| 10 · YTM exigida=8% | Cupones 7/4/3% fijos; precios 96,01/84,03/80,04 €, todos con descuento |
+| 11 móvil · selector ILL-30 | Lectura 50,0 años y YTM 3,68% |
+| 11 móvil · notas y respuesta | Pregunta YTM/spot; respuesta desplegada; cierre disponible |
+| 11 móvil · reinicio | Restaura paso 0 y selección ILL-03 |
+
+### Revisión de tecnologías y objetivo de aprendizaje
+
+Fuentes, capacidades verificadas, restricciones y recomendación están en [WORK_PLAN.md](../WORK_PLAN.md#tecnologias-contrastadas). Se consultaron GSAP Flip, View Transition API, Three.js WebGPU, Rive y documentación oficial de D3/Remotion. No se confunde una lista de herramientas instaladas con funcionalidades realizadas.
+
+La cadena contrato→flujos→valor→rendimiento→mercado es correcta. El gap pedagógico principal es perceptual: 07 introduce una fórmula de acumulación sin seguir cada cupón; 10→11 enuncia coordenadas sin conservar el objeto de origen; 08 móvil requiere comparar mediante memoria. La hipótesis a validar con una persona nueva es que seguir una contribución concreta y conservar contexto reduce esos saltos. **Aún no hay evidencia de un test de aprendizaje.**
+
+Evidencia adicional de esta revisión: [informe estructurado](evidence/evolution/audit-report.json), [comparación móvil](evidence/evolution/mobile-08-top.jpg), [curva móvil](evidence/evolution/mobile-11.jpg).

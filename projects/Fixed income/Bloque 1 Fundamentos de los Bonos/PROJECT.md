@@ -55,6 +55,12 @@ La estructura completa, en orden físico del deck, es:
 
 **Estado canónico:** 13/13 artefactos visuales aprobados. Cada artefacto tiene una especificación en `slides/`, un PNG original en `references/`, una descripción visual detallada y apuntes de impartición.
 
+## Estado de la implementación web
+
+El usuario valoró positivamente la entrega y autorizó su integración: PR #3 fusionada en `main@31d0687` el 2026-09-05. Contiene 13 slides y 43 pasos. Esta información prevalece sobre «candidata» en los addenda de las fichas, que describían el estado previo al merge. No convierte las PNG históricas en capturas actuales ni acredita automáticamente cada frame, dispositivo o interacción.
+
+[README de la presentación](../../../presentation/README.md) documenta lo implementado; [auditoría](../../../presentation/AUDIT.md) registra la nueva revisión; [WORK_PLAN](../../../WORK_PLAN.md) es la propuesta de evolución. Mandato actual: discutir auditoría y plan antes de modificar código. Las correcciones visuales propuestas aún no están ejecutadas.
+
 ## Contrato documental de cada diapositiva
 
 La especificación escrita debe permitir reconstruir al menos el 90% de la intención docente aunque la imagen no esté disponible. Cada ficha debe conservar:
@@ -83,7 +89,7 @@ La imagen es la referencia canónica de composición. El Markdown es la referenc
 
 Comparar dos formas de resumir la rentabilidad del bono canónico:
 
-- **YTM = 4.00%**: tasa interna que iguala precio y valor presente de los flujos bajo la convención de reinversión de cupones al mismo rendimiento;
+- **YTM = 4.00%**: tasa interna que iguala precio y valor presente de los flujos. Calcularla no exige reinvertir los cupones; realizar ese rendimiento compuesto hasta vencimiento requiere los supuestos de cobro y reinversión correspondientes;
 - **CAGR sin reinversión = 3.71%**: anualización de la riqueza terminal si los cupones cobrados se mantienen aparte al 0% hasta vencimiento.
 
 La diferencia entre ambas métricas debe explicarse como diferencia de hipótesis sobre los cupones, no como error de cálculo.

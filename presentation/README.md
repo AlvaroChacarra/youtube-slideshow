@@ -4,7 +4,7 @@ Presentación web del Bloque 1 canónico. Trece composiciones y 43 estados de ex
 
 ## Abrir y presentar
 
-La entrega `fundamentos-bonos.html` es autocontenida: abrirla en un navegador con JavaScript. Incluye fuentes, ilustración, ecuaciones y aplicación; no necesita servidor ni conexión. No debe abrirse como una previsualización de texto.
+La entrega `fundamentos-bonos.html` contiene fuentes, ilustración, ecuaciones y aplicación para abrirla en un navegador con JavaScript. El mismo archivo se verificó servido por HTTP; su apertura mediante `file://` no se ha ensayado en todos los navegadores ni en los visores de archivos. No debe abrirse como una previsualización de texto.
 
 - Flechas, espacio o Page Up/Down: recorrer los pasos. Home/End: extremos del bloque.
 - I: índice de trece slides. Cada slide recuerda el último paso visitado.
@@ -31,7 +31,7 @@ ASTRO_TELEMETRY_DISABLED=1 npm run build
 
 La compilación verifica tipos y ejecuta doce tests; produce la web estática en `dist/` y el archivo único `dist/fundamentos-bonos.html`. `PRESENTATION_BASE=/youtube-slideshow/` permite construir para esa subruta. La creación del HTML usa exactamente `Presentation`, no una segunda implementación.
 
-No hay workflow de despliegue ni merge automático en esta rama. Publicar sobre el Pages actual es una decisión posterior a la revisión del usuario.
+La PR #3 está fusionada en `main@31d0687` por autorización del usuario. No hay workflow de despliegue en esta implementación ni se ha sustituido el Pages anterior. El [plan de evolución](../WORK_PLAN.md) está pendiente de discusión; no describe capacidades ya implementadas.
 
 ## Fuente, cálculo y representación
 
@@ -46,4 +46,4 @@ Las cifras se calculan con precisión completa y se redondean al mostrarlas. La 
 
 ## Revisión
 
-`AUDIT.md` registra evidencia, hallazgos corregidos y límites de la validación. Las capturas de `evidence/final/` corresponden a estados finales de las trece slides. Las fichas canónicas enlazan esos renders como nueva candidatura; conservar una referencia histórica aprobada no convierte este rediseño en aprobado por el usuario.
+`AUDIT.md` registra evidencia, hallazgos corregidos y límites de la validación. Las capturas de `evidence/final/` corresponden a estados finales de las trece slides. El PROJECT del bloque mantiene el estado de integración/aprobación; los addenda antiguos de las fichas describen la candidatura previa al merge. La nueva auditoría de evolución está en la sección vigente de `AUDIT.md`.

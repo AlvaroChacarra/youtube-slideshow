@@ -5,7 +5,7 @@ Cerrar el Bloque 1 recapitulando rendimiento, formación de precios y construcci
 
 ## Required content
 ### Microbloque 3 — YTM vs CAGR
-- YTM supone reinversión de cupones al mismo rendimiento.
+- Calcular la YTM no exige reinversión. Para realizar hasta vencimiento ese rendimiento compuesto se necesitan los supuestos de cobro y reinversión correspondientes.
 - CAGR sin reinversión mide el resultado compuesto si los cupones se mantienen aparte.
 - YTM es una convención útil para comparar bonos.
 - Cuanto mayor es el cupón, mayor relevancia tiene la hipótesis de reinversión.
