@@ -87,3 +87,10 @@ Candidata desarrollada a petición del usuario; la aprobación de la referencia 
 Render implementado: [Slide 11](../../../../presentation/evidence/final/slide-11.jpg). Referencia PNG anterior conservada como baseline.
 
 Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+La curva utiliza D3 con dimensiones del contenedor real. En móvil comienza con detalle0–10Y y conserva el contexto0–50Y; ambas escalas son lineales y explícitas. Cambiar rango no cambia el bono seleccionado. Si queda fuera, se avisa y se localiza en el contexto. Selector nativo con identificador, plazo y YTM; ticks/leyenda principal12px reales. La nube, ajuste y ocho benchmarks siguen siendo ilustrativos. La curva de repaso13 reutiliza exactamente estos datos.
+
+Referencia de la composición actual: `presentation/evidence/implementation/11-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

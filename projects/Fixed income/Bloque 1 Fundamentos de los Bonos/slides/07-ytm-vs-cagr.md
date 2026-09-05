@@ -113,3 +113,10 @@ YTM y riqueza terminal se comparan en dos mitades. Control de reinversión g que
 Render implementado: [Slide 07](../../../../presentation/evidence/final/slide-07.jpg). Referencia PNG anterior conservada como baseline.
 
 Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+La columna de CAGR incorpora un diagrama de cinco cobros. Cada fila parte de su año de pago y llega a T=5; su contribución es CFₜ(1+g)^(5−t). El último pago104 no tiene reinversión posterior. El flujo seleccionado mantiene identidad desde05–06. La riqueza terminal y el CAGR se actualizan junto a g; YTM permanece4%. El caption explicita el escenario actual. En móvil se mantiene el mecanismo mediante scroll, con anotaciones legibles; no se encoge la composición16:9 completa.
+
+Referencia de la composición actual: `presentation/evidence/implementation/07-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

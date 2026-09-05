@@ -78,3 +78,10 @@ Dos bandas preservadas: YTM vs resultado compuesto y después precio+flujos→YT
 Render implementado: [Slide 13](../../../../presentation/evidence/final/slide-13.jpg). Referencia PNG anterior conservada como baseline.
 
 Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+La miniatura de mercado reutiliza la misma nube y ajuste de11, no un path decorativo distinto. El repaso recupera explícitamente el caso base YTM4% y CAGR sin reinversión3,71%, sin arrastrar g de un escenario explorado.
+
+Referencia de la composición actual: `presentation/evidence/implementation/13-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

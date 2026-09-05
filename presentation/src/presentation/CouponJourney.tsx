@@ -102,13 +102,8 @@ export function CouponJourney({
       <div className="journey-reading" data-selected-flow={selected}>
         <span>
           {selected === 5
-            ? "Último pago · cupón + principal"
-            : `Cupón del año ${selected}`}{" "}
-          ·{" "}
-          {years === 0
-            ? "sin reinversión posterior"
-            : `${years} año${years > 1 ? "s" : ""} hasta T`}{" "}
-          · g = {euro(rate * 100, 1)}% de reinversión
+            ? "Pago final · sin reinversión posterior"
+            : `Cupón ${selected} · ${years} años hasta T · g = ${euro(rate * 100, 1)}%`}
         </span>
         <Formula>{`${selectedFlow.amount}(1+g)^{${years}}`}</Formula>
         <span>

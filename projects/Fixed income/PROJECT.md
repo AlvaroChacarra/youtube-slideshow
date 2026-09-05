@@ -27,7 +27,7 @@ Contenido:
 - relación cupón → precio → YTM;
 - primera introducción visual a la curva de tipos.
 
-Estado: **13 slides web implementadas y fusionadas en main mediante PR #3 (2026-09-05)**. La auditoría posterior propone mejoras antes de ampliar el sistema. No se ha publicado un nuevo Pages en esta entrega.
+Estado: **13 slides web implementadas y fusionadas en main mediante PR #3 (2026-09-05)**. La evolución posterior está implementada en PR #4 y pendiente de aprobación de entrega antes de merge: núcleo reutilizable, mejoras de lectura/continuidad y herramientas del ponente. No se ha publicado un nuevo Pages en esta entrega.
 
 La slide de curva del Bloque 1 solo presenta la curva como objeto que ordena bonos. No debe explicar todavía de dónde procede su forma.
 

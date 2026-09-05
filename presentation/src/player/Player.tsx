@@ -431,6 +431,7 @@ export default function Player<S extends Scenario>({
     </div>
   );
 
+  const currentControls = deck.controls?.(ctx);
   return (
     <div
       className={`presentation ${deck.className} ${capture ? "capture" : ""} ${presenter ? "presenter-mode" : ""} ${camera ? "camera-layout" : ""}`}
@@ -472,7 +473,12 @@ export default function Player<S extends Scenario>({
               <h2>{nextScene.title}</h2>
               <p>{nextScene.steps[nextPos.step]!.title}</p>
               <p>{nextScene.steps[nextPos.step]!.caption}</p>
-              {deck.controls?.(ctx)}
+              {currentControls && (
+                <div className="presenter-current-controls">
+                  <h3>Ajustar la escena actual</h3>
+                  {currentControls}
+                </div>
+              )}
               <button onClick={() => openDialog("index")}>
                 Ir a otra escena
               </button>

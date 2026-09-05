@@ -72,7 +72,7 @@ export function ReturnsComparison({
         />
         <Build at={1} step={step}>
           <div className="wealth-accumulation">
-            <span>Suma de las contribuciones al año 5</span>
+            <span>Riqueza al año 5</span>
             <strong>
               <NumberValue value={result.wealth} /> €
             </strong>
@@ -110,11 +110,15 @@ export function CouponComparison({
   return (
     <div className="coupon-comparison">
       <div className="comparison-header">
-        5 años · principal 100 € · pagos anuales · YTM común = 4%
+        5 años · principal 100 € · pagos anuales · YTM común = 4% · reinversión
+        g = 0%
       </div>
       <div className="mobile-comparison">
         <table>
-          <caption>Comparar los tres bonos</caption>
+          <caption>
+            Comparar los tres bonos
+            <small>Sin reinversión · riqueza al año 5</small>
+          </caption>
           <thead>
             <tr>
               <th scope="col">Cupón</th>

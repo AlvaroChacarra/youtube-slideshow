@@ -82,3 +82,10 @@ Tres contratos 7/4/3% frente a un control común de YTM. Precios, marcas de par 
 Render implementado: [Slide 10](../../../../presentation/evidence/final/slide-10.jpg). Referencia PNG anterior conservada como baseline.
 
 Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+El contexto anuncia tres bonos nuevos. Cupón fijo y YTM común generan precios calculados; sus tres puntos coinciden en (5Y,YTM común). La transición a11 anuncia una muestra ampliada distinta; no inventar rendimientos diferentes para fabricar una nube desde estos tres contratos.
+
+Referencia de la composición actual: `presentation/evidence/implementation/10-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

@@ -113,3 +113,10 @@ Los cinco términos se alinean con sus pagos; suma de valores presentes y explor
 Render implementado: [Slide 06](../../../../presentation/evidence/final/slide-06.jpg). Referencia PNG anterior conservada como baseline.
 
 Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+Todos los resultados visibles se actualizan atómicamente con la tasa y la fórmula. Se calcula sin redondear valores intermedios; cada importe mostrado se redondea a céntimos, de modo que sumar etiquetas puede diferir en un céntimo del total. Cambiar r₅ conserva los pagos y cambia sólo su valoración. Se conserva la selección al navegar.
+
+Referencia de la composición actual: `presentation/evidence/implementation/06-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

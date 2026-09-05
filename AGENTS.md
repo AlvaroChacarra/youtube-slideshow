@@ -30,7 +30,7 @@ Cada bloque vive en su propia carpeta y tiene un `PROJECT.md` con su alcance. El
 
 Si imagen y markdown discrepan en contenido semántico, prevalece el markdown y la referencia debe corregirse. Para composición, jerarquía y apariencia, la imagen es la referencia perceptual.
 
-Para modificar la web integrada, la base operativa es `presentation/` y sus renders versionados en `presentation/evidence/final/`, con el estado indicado en el PROJECT del bloque. Las PNG originales conservan su función de referencia histórica; no se usan para revertir silenciosamente el rediseño fusionado. El significado financiero sigue gobernado por las fichas reconciliadas.
+Para modificar la web integrada, la base operativa es `presentation/` y sus renders versionados: `presentation/evidence/final/` para main/PR #3 y `presentation/evidence/implementation/` para la candidatura PR #4, con el estado indicado en el PROJECT del bloque. Las PNG originales conservan su función de referencia histórica; no se usan para revertir silenciosamente el rediseño fusionado. El significado financiero sigue gobernado por las fichas reconciliadas.
 
 ## Reglas de trabajo
 

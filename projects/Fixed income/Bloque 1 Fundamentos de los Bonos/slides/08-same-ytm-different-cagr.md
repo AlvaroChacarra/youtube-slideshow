@@ -136,3 +136,10 @@ Tres columnas conservadas con operaciones desplegadas por pasos. Precios y CAGR 
 Render implementado: [Slide 08](../../../../presentation/evidence/final/slide-08.jpg). Referencia PNG anterior conservada como baseline.
 
 Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+El nuevo ejemplo explicita reinversión g=0%, independientemente del g explorado en07. En móvil, tabla conjunta de cupón, precio, riqueza al año5 y CAGR; riqueza aparece en el paso2 y CAGR en3. El caption declara «Sin reinversión · riqueza al año5». Seleccionar cupón cambia el desarrollo, conservando los otros casos en la tabla. Esa selección se graba y reproduce como parte del escenario.
+
+Referencia de la composición actual: `presentation/evidence/implementation/08-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

@@ -1,6 +1,6 @@
 # Auditoría — Fundamentos de los bonos
 
-**Estado vigente:** entrega anterior fusionada en `main@31d0687` por autorización del usuario. La [tercera auditoría](#tercera-auditoria-evolucion), posterior al merge, identifica correcciones y oportunidades para el nuevo objetivo de profesionalización. Las dos primeras secciones de revisión conservan su alcance histórico.
+**Estado vigente:** PR #4 implementa la evolución autorizada de fases0–3; la revisión visual independiente del working tree corregido sobre `a5be9ee` concluye `ready_for_user_review`, sin hallazgos materiales abiertos en su alcance estático. La revisión técnica independiente está cerrada y38pruebas pasan. Main conserva la entrega de PR #3 (`31d0687`) hasta la aprobación de esta entrega. Véase [auditoría de implementación](#auditoria-implementacion). Las secciones anteriores permanecen como evidencia histórica.
 
 ## Veredicto y alcance — primera revisión histórica
 
@@ -185,3 +185,46 @@ Fuentes, capacidades verificadas, restricciones y recomendación están en [WORK
 La cadena contrato→flujos→valor→rendimiento→mercado es correcta. El gap pedagógico principal es perceptual: 07 introduce una fórmula de acumulación sin seguir cada cupón; 10→11 enuncia coordenadas sin conservar el objeto de origen; 08 móvil requiere comparar mediante memoria. La hipótesis a validar con una persona nueva es que seguir una contribución concreta y conservar contexto reduce esos saltos. **Aún no hay evidencia de un test de aprendizaje.**
 
 Evidencia adicional de esta revisión: [informe estructurado](evidence/evolution/audit-report.json), [comparación móvil](evidence/evolution/mobile-08-top.jpg), [curva móvil](evidence/evolution/mobile-11.jpg).
+
+
+<a id="auditoria-implementacion"></a>
+## Auditoría de implementación — 2026-09-05
+
+**Resultado:** `ready_for_user_review` para13composiciones estáticas desktop y los casos móviles inspeccionados. Revisión técnica independiente sin defectos funcionales abiertos en el alcance descrito. No equivale a aprobación de merge, despliegue ni máster audiovisual.
+
+### Qué se verificó y corrigió
+
+| Área | Hallazgo o mejora | Evidencia |
+|---|---|---|
+| Coherencia financiera | Cifras, tasas y fórmulas se actualizan juntas; sin interpolaciones incompatibles | Prueba UI de cambios rápidos/reversos; g8% produce123,47€ y4,31%; al volver a0%,120€ y3,71% |
+|05–07 | Selección persistente y cinco contribuciones aT; último pago sin reinversión posterior | Renders05/06/07; diagrama por año y recorrido guiado de82s |
+|07en tamaños menores | Diagrama y control invadían el takeaway al reservar cámara | Geometría ajustada al ancho, anotaciones11px y control12px; separación comprobada a1280×720 y con cámara |
+|08móvil | Los tres casos antes exigían memorizar columnas; la primera tabla omitía g0% | Tabla conjunta, desarrollo por cupón; caption«Sin reinversión · riqueza al año5»; V01 cerrado por revisor |
+|11 | La nueva gráfica desbordaba verticalmente en escritorio | Altura de SVG proporcional al ancho, min-height0 y lectura lateral compacta; área370px sin invadir takeaway |
+|11móvil | Ejes/puntos pequeños y corto plazo comprimido | Foco0–10Y, contexto0–50Y; ejes/leyenda principal12px, puntos8px de diámetro y área de selección mayor; selector textual |
+| Continuidad de contenido | Saltos de ejemplo poco explícitos; repaso con curva diferente | Nuevos contratos/muestra anunciados; puntos coincidentes en10; curva13 utiliza nube y ajuste de11 |
+| Ponente/replay | ACK retrasados deshacían avances; replay ignoraba control humano |9pruebas con ventanas/mensajes y reloj controlados; doble avance real termina en08/1 en ambas ventanas |
+| Ayuda | Replay avanzaba detrás del diálogo | Abrir ayuda interrumpe local y remoto y preserva el estado; dos pruebas independientes específicas |
+| Reutilización | Supuestos/estilos financieros incrustados en player | Regresión3escenas/7pasos con el mismo núcleo, sin CSS/imports de bonos; escenarios probados |
+| Entrega HTML | Astro incrustaba estilos pequeños que el empaquetador omitía | Conserva estilos enlazados e incrustados en orden; regresión móvil corregida inspeccionada en el HTML real |
+
+### Revisión independiente
+
+El revisor técnico `evolution_reviewer` trabajó sobre el commit `6b650e9` y las correcciones identificadas de Player/hook. Conservó GSAP real y controló mensajes/RAF en DOM. Reprodujo errores de sincronización y ayuda, propuso casos y revalidó9/9pruebas después de corregir. La integración sobre el repo completo pasa38pruebas:12originales más26adicionales. Su revisión no es una prueba de dos navegadores físicos.
+
+El revisor perceptual `final_visual_review` recibió contexto limpio y abrió imágenes antes de rationale/código. Su primera lectura reconstruyó correctamente: descuento agrega PV; r₅ modifica valoración manteniendo pagos; YTM y riqueza/CAGR son conceptos distintos; reinversión depende del tiempo restante; curva ordena observaciones por vida residual/YTM. Después inspeccionó las13desktop y móviles07/08/11, segundo deck, ponente, cámara y07a1280. Comparó con baseline después de esa lectura inicial. El único hallazgo material V01 se cerró tras ver la tabla con g0% y el horizonte declarados. Revisó además la parte inferior de11y las anotaciones ampliadas de07.
+
+### Comprobaciones del coordinador
+
+- Tipos: Astro0errores/0warnings/0hints;38tests pasan. Build produce ambas webs y ambos HTML. CI de la PR pasa en checkpoints; consultar el último estado en PR #4.
+- Ventanas reales: el ponente modifica g y el público actualiza la riqueza/CAGR; doble clic de avance produce08/1 en ambas. El ponente ve notas/siguiente; el público se mantiene en captura.
+- Sesión real:24,793s,3estados(07g0→07g8→08). Se exportó su JSON, se reimportó con tiempos comprimidos para comprobar el replay y terminó en08. Volver a07 conserva g8 y123,47€/4,31%. Copiar el enlace y abrirlo conserva esos mismos supuestos.
+- Curva móvil: elegir ILL-30 muestra50Y/3,68%; pasar a detalle0–10 conserva la selección y avisa de que está fuera. Selector/lectura y benchmarks inspeccionados hasta el final del scroll.
+- Regresión: pendiente1,5→MSE2,02; al avanzar conserva la regla y predice8,50para x5; x6→10,00. En móvil, con pendiente inicial1, x6→7,00. Datos y causalidad están rotulados como ilustrativos.
+- El área de cámara queda fuera del stage. No se accedió a micrófono/cámara ni se capturó voz/vídeo.
+
+### Evidencia y límites
+
+Las imágenes de `evidence/implementation/` sustituyen como referencia de esta candidatura a los renders anteriores; `evidence/final/` conserva main/PR #3. Capturas desktop a1363×936 y pruebas específicas a1280×720; móviles mediante viewport390×844. No se retocaron las imágenes para ocultar defectos. Los estados modificados después de un checkpoint se recapturan; el manifest de cierre relaciona archivos, hashes y estado de fuente.
+
+Son muestras estáticas y comprobaciones funcionales, no inspección exhaustiva de todos los frames. La lectura de textos secundarios en una grabación reducida sigue condicionada por el encuadre; comprobar el equipo real antes de producir. No hay prueba con alumno, Safari físico, ensayo OBS con voz/cámara, medición de fps, validación exhaustiva de file:// ni exportación de vídeo determinista. Remotion/3D permanecen condicionados a una necesidad futura concreta.

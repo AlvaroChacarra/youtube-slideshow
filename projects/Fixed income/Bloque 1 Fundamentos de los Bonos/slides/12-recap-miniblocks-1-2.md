@@ -71,3 +71,10 @@ Candidata desarrollada a petición del usuario; la aprobación de la referencia 
 Dos bandas preservadas: reconstruir contrato/pagos y después valor presente. Fórmula general y sustitución expandida; principal únicamente al vencimiento.
 
 Render implementado: [Slide 12](../../../../presentation/evidence/final/slide-12.jpg). Referencia PNG anterior conservada como baseline.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+El icono de inversor es el mismo grupo de personas usado al introducirlo. MiniFlows deriva los pagos del contrato, sin presuponer cinco periodos ni redondear siempre a euros enteros; el ejemplo canónico mantiene sus cifras.
+
+Referencia de la composición actual: `presentation/evidence/implementation/12-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

@@ -59,7 +59,7 @@ La estructura completa, en orden físico del deck, es:
 
 El usuario valoró positivamente la entrega y autorizó su integración: PR #3 fusionada en `main@31d0687` el 2026-09-05. Contiene 13 slides y 43 pasos. Esta información prevalece sobre «candidata» en los addenda de las fichas, que describían el estado previo al merge. No convierte las PNG históricas en capturas actuales ni acredita automáticamente cada frame, dispositivo o interacción.
 
-[README de la presentación](../../../presentation/README.md) documenta lo implementado; [auditoría](../../../presentation/AUDIT.md) registra la nueva revisión; [WORK_PLAN](../../../WORK_PLAN.md) es la propuesta de evolución. Mandato actual: discutir auditoría y plan antes de modificar código. Las correcciones visuales propuestas aún no están ejecutadas.
+[README de la presentación](../../../presentation/README.md) documenta el producto; [auditoría](../../../presentation/AUDIT.md) conserva evidencia y límites; [WORK_PLAN](../../../WORK_PLAN.md) es el roadmap operativo. El usuario autorizó ejecutar todas las fases: están implementadas en PR #4, con38tests, segundo deck reutilizando el player, ponente y sesiones. La auditoría final está en curso. Main sigue en31d0687 hasta aprobar esta nueva entrega; no se ha desplegado. Los renders actuales de la candidatura viven en `presentation/evidence/implementation/`; las referencias PNG y la evidencia de main permanecen históricas.
 
 ## Contrato documental de cada diapositiva
 
