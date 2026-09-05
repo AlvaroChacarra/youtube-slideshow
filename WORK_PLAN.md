@@ -1,15 +1,36 @@
 # Evolución de las presentaciones — plan para discusión
 
-Estado: **propuesta; ejecución funcional pendiente de conversación con el usuario**.
+Estado: **ejecución autorizada de todas las fases; merge pendiente de aprobación de la entrega**.
 Fecha: 2026-09-05. Base inspeccionada: `main@31d06877a9d5fe6ff0aba4a5eac3ff7dcb4d070a` (PR #3 fusionada por autorización expresa).
 
 ## Mandato vigente
 
 Convertir la presentación en un producto de calidad técnica y editorial alta: inmersivo, claro, pedagógico, entretenido y reutilizable para futuras presentaciones. Auditar contenido, gráficas, relaciones visuales, transiciones e interacciones antes de elegir nuevas tecnologías. Cada elemento y movimiento debe ayudar a interpretar el contenido.
 
-En esta fase se autoriza **auditoría, investigación y modificación de documentación**. No implementar correcciones, refactorizaciones, cambios de contenido renderizado ni dependencias hasta discutir los resultados. La autorización de merge de PR #3 cerró la entrega anterior; no autoriza fusionar nuevas propuestas.
+El usuario autoriza ahora ejecutar todas las fases con desarrolla-autonomo. Incluye código, documentación, validación visual, revisión independiente y pushes de progreso. Merge y despliegue requieren autorización sobre la entrega concreta; la autorización de PR #3 no se extiende a ella.
 
 El plan anterior se consumió al completar las 13 slides. Sus resultados y límites permanecen en [presentation/AUDIT.md](presentation/AUDIT.md) y en el historial Git. Este archivo es el único roadmap operativo de evolución; no reactivar sus antiguos plazos ni tareas completadas.
+
+
+## Ejecución autónoma — 2026-09-05
+
+- Inicio UTC: **2026-09-05T21:48:11Z**. Deadline: **2026-09-06T00:48:11Z**. El reloj incluye revisión, pruebas y pushes.
+- Rama: `plan/presentation-evolution`. Baseline funcional: `31d0687`; plan remoto: `7584022`.
+- Perfil: se conserva el modelo/esfuerzo efectivo del Work; no se afirma cambiar el selector. Revisor independiente con contexto limpio.
+- Decisión funcional: priorizar exposición/grabación guiada, con exploración y lectura móvil. Segundo deck de demostración: **del dato a una predicción**, tres escenas sobre regresión lineal, sin bonos ni cambios del player.
+- Vídeo: implementar sesión reproducible y entrega web/HTML. La integración Remotion queda condicionada a una exportación real verificable; no presentar un adapter vacío como exportación terminada.
+- Navegación conserva escenario al avanzar/retroceder y restablece explícitamente al reiniciar la escena. Compartir sesión debe conservar tasas/selección y posiciones por identificadores estables.
+- Procesos: coordinador de implementación; `evolution_reviewer` revisa sin editar. No despliegue.
+
+| Bloque | Estado | Evidencia de aceptación |
+|---|---|---|
+| Fase 0: coherencia, móvil, notación, regresión | En curso | Cálculos e interacciones consistentes, composiciones legibles |
+| Fase 1: cupón → valor presente / riqueza | Pendiente | Secuencia05–07 reversible, seleccionable y comprensible |
+| Fase 2: núcleo reutilizable + segundo deck | Pendiente | Segundo tema mediante definición, sin modificar player |
+| Fase 3: ponente, ayudas y replay | Pendiente | Dos ventanas sincronizadas, ayuda mantiene contexto, sesión exportada/importada |
+| Integración y entrega | Pendiente | Build/HTML, revisión independiente, renders desktop/móvil y PR |
+
+Último remoto verificado antes de implementar: `7584022`. El estado de cada bloque y las decisiones se actualizarán con sus checkpoints.
 
 ## Diagnóstico y decisión recomendada
 
@@ -60,7 +81,7 @@ Empezar por **05–07: descuento → precio → YTM frente a riqueza terminal**.
 5. Retroceso, saltos y clics rápidos resuelven un estado válido. Móvil usa el mismo escenario y una composición apropiada, sin encoger toda la lámina.
 6. Comparar una toma de 60–90 segundos con la base, con la misma explicación y duración aproximada. Pedir a un observador que explique qué permanece fijo, qué cambia y por qué. La mejora debe verse en la interpretación, además de en la estética.
 
-**Gate:** aprobación visual del usuario sobre esa secuencia y ausencia de errores de correspondencia, lectura o interacción en los casos de riesgo. No extender un recurso porque sea llamativo si empeora la comprensión.
+**Gate de ejecución delegada:** revisión visual propia e independiente de la secuencia y ausencia de errores de correspondencia, lectura o interacción en los casos de riesgo. La aprobación del usuario se concentra en la entrega completa antes de merge; no detener fases ya autorizadas. No extender un recurso porque sea llamativo si empeora la comprensión.
 
 Segundo candidato: **10→11**, donde un contrato da lugar a un punto y después a una nube. El caso de YTM común produce tres puntos coincidentes en (5Y, y), no tres yields inventadas. La nube ilustrativa actual es otra muestra; el paso a ella exige una expansión de contexto explícita. No deformar silenciosamente los datos para que el morph sea atractivo.
 

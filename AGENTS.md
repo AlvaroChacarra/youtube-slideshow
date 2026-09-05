@@ -46,7 +46,7 @@ Para modificar la web integrada, la base operativa es `presentation/` y sus rend
 
 - Estado implementado, ejecución y entrega: `presentation/README.md`.
 - Auditoría actual y límites de evidencia: `presentation/AUDIT.md`; leer primero su sección de estado vigente.
-- Mandato nuevo y único roadmap de evolución: `WORK_PLAN.md`. Sus mejoras están propuestas, no implementadas.
+- Mandato nuevo y único roadmap de evolución: `WORK_PLAN.md`. Contiene alcance y estado de ejecución autorizado.
 - El estado de aprobación/integración de la web se mantiene en el `PROJECT.md` del bloque; las descripciones de las PNG en las fichas son históricas.
-- Mandato actual: análisis y documentación para conversación antes de tocar código. No convertir el plan propuesto en autorización de desarrollo o merge.
+- Mandato actual: ejecutar todas las fases de WORK_PLAN.md con desarrollo autónomo, revisiones y pushes. Merge solo tras aprobación de la entrega concreta.
 - Toda corrección futura debe mantener correspondencia entre datos, fórmula, gráfico y escenario, también durante movimiento. Ver aceptación y prueba de reutilización en `WORK_PLAN.md`.
