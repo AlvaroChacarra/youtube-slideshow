@@ -24,13 +24,15 @@ El plan anterior se consumió al completar las 13 slides. Sus resultados y lími
 
 | Bloque | Estado | Evidencia de aceptación |
 |---|---|---|
-| Fase 0: coherencia, móvil, notación, regresión | En curso | Cálculos e interacciones consistentes, composiciones legibles |
-| Fase 1: cupón → valor presente / riqueza | Pendiente | Secuencia05–07 reversible, seleccionable y comprensible |
-| Fase 2: núcleo reutilizable + segundo deck | Pendiente | Segundo tema mediante definición, sin modificar player |
-| Fase 3: ponente, ayudas y replay | Pendiente | Dos ventanas sincronizadas, ayuda mantiene contexto, sesión exportada/importada |
+| Fase 0: coherencia, móvil, notación, regresión | Implementación inicial; QA pendiente | Cálculos e interacciones consistentes, composiciones legibles |
+| Fase 1: cupón → valor presente / riqueza | Implementación inicial; QA pendiente | Secuencia05–07 reversible, seleccionable y comprensible |
+| Fase 2: núcleo reutilizable + segundo deck | Player y segundo deck implementados; entrega pendiente | Segundo tema mediante definición, sin modificar player |
+| Fase 3: ponente, ayudas y replay | Implementación inicial; integración pendiente | Dos ventanas sincronizadas, ayuda mantiene contexto, sesión exportada/importada |
 | Integración y entrega | Pendiente | Build/HTML, revisión independiente, renders desktop/móvil y PR |
 
-Último remoto verificado antes de implementar: `7584022`. El estado de cada bloque y las decisiones se actualizarán con sus checkpoints.
+Último remoto verificado del plan de ejecución: `a2081a2`.
+
+Checkpoint F0/F1: cifras atómicas, curva SVG con geometría responsive/foco0–10 y contexto0–50, comparación móvil compacta, icono de inversor/curva de repaso coherentes y diagrama seleccionable de contribuciones de cada cobro. Validación de tipos +12 pruebas de dominio satisfactoria; QA visual y nuevas pruebas UI en curso. Recuperación del preview: aislar la caché de desarrollo de check/build para evitar invalidar módulos durante auditorías. El estado de cada bloque y las decisiones se actualizarán con sus checkpoints.
 
 ## Diagnóstico y decisión recomendada
 
@@ -151,3 +153,5 @@ Motion, varios módulos D3 y Zod figuran en package.json, pero no se encontraron
 Recomendación de orden: Fase 0 → secuencia 05–07 → extracción del núcleo → segundo deck → herramientas de producción. La segunda secuencia 10–11 puede servir para comprobar la generalización de gráficos.
 
 La elección que más cambia prioridades es el **uso principal: exposición/grabación guiada por ti o exploración autónoma por el espectador**. Por el contexto actual, la propuesta prioriza exposición y grabación; conserva interactividad y lectura móvil como capacidades del mismo producto. Confirmar esta prioridad en conversación antes de iniciar implementación.
+
+Checkpoint 22:08 UTC: 0 errores de tipos y13 pruebas pasan, incluida UI de cifras atómicas. Núcleo genérico con IDs/escenarios/conceptos, segundo deck de regresión, ayudas, canal de ventanas y recorder/replay implementados. Falta QA de ambos decks, integración de ventanas/replay, empaquetado y revisión independiente. No aceptado aún.

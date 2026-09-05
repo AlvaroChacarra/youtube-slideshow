@@ -1,28 +1,33 @@
-import { ArrowRight, Landmark, LockKeyhole, FileText, CalendarClock, ChartNoAxesCombined } from 'lucide-react';
+import { ArrowRight, Landmark, LockKeyhole, FileText, CalendarClock, ChartNoAxesCombined, UsersRound } from 'lucide-react';
 import { Build, Formula, MiniFlows, RangeControl, NumberValue, EquationStep } from './primitives';
-import { couponCase, euro, percent } from './model';
-import { generateIllustrativeBondCloud, fitIllustrativeCurve } from '../domain/curve';
+import { couponCase, euro, percent, texNumber } from './model';
+import { useState } from 'react';
+import { CurveThumbnail } from './BondCurve';
+import { CouponJourney } from './CouponJourney';
 
-export function ReturnsComparison({step,rate,onRate}:{step:number;rate:number;onRate:(n:number)=>void}) {
+export function ReturnsComparison({step,rate,onRate,selected=1,onSelect=()=>{}}:{step:number;rate:number;onRate:(n:number)=>void;selected?:number;onSelect?:(n:number)=>void}) {
   const g=step>=3?rate:0; const result=couponCase(.04,.04,g);
   return <div className="returns-comparison">
     <div className="comparison-header">Caso base · 5 años · cupón 4% · precio 100 €</div>
     <section className="return-panel ytm-panel"><span className="panel-overline">LA TASA IMPLÍCITA</span><h2>YTM</h2><p>Una tasa que reconcilia<br/>precio y flujos.</p><Formula>{'100 = \\sum_{t=1}^{5} \\frac{CF_t}{(1+y)^t}'}</Formula><strong className="hero-number">4<span>,00%</span></strong><MiniFlows coupon={4}/><span className="panel-foot">Se calcula a partir de precio y pagos.</span></section>
     <section className="return-panel wealth-panel"><span className="panel-overline">EL RESULTADO COMPUESTO</span><h2>CAGR<sub>{g===0?'sin reinversión':`reinversión al ${percent(g,1)}`}</sub></h2>
-      <Build at={1} step={step}><p>{g===0?'Cupones en efectivo al 0%.':'Los cupones crecen hasta el año 5.'}</p><div className="wealth-accumulation">{g===0?<span>4 + 4 + 4 + 4 + 104</span>:<Formula>{`4\\sum_{k=1}^{4}(1+${g.toFixed(3)})^k+104`}</Formula>}<strong><NumberValue value={result.wealth}/> €</strong><small>Riqueza terminal · año 5</small></div></Build>
-      <Build at={2} step={step}><Formula>{`\\left(\\frac{${result.wealth.toFixed(2)}}{100}\\right)^{1/5}-1`}</Formula><strong className="hero-number"><NumberValue value={result.cagr*100}/><span>%</span></strong></Build>
-      <Build at={3} step={step}><RangeControl label="Reinversión de cupones · g" value={rate} onChange={onRate} max={.08}/></Build>
+      <CouponJourney step={step} rate={g} selected={selected} onSelect={onSelect}/>
+      <Build at={1} step={step}><div className="wealth-accumulation"><span>Suma de las contribuciones al año 5</span><strong><NumberValue value={result.wealth}/> €</strong></div></Build>
+      <Build at={2} step={step}><Formula>{`\\left(\\frac{${texNumber(result.wealth)}}{100}\\right)^{1/5}-1`}</Formula><strong className="hero-number"><NumberValue value={result.cagr*100}/><span>%</span></strong></Build>
+      <Build at={3} step={step}><RangeControl label="Reinversión de cupones · g" value={rate} onChange={onRate} max={.08} sub="g es la tasa anual a la que crecen los cupones cobrados."/></Build>
     </section>
   </div>;
 }
 
 export function CouponComparison({step}:{step:number}) {
+  const [active,setActive]=useState(0);
   return <div className="coupon-comparison"><div className="comparison-header">5 años · principal 100 € · pagos anuales · YTM común = 4%</div>
-    {[.08,.01,0].map((c,i)=>{const r=couponCase(c);return <section className="coupon-column" key={c}>
+    <div className="mobile-comparison"><table><caption>Comparar los tres bonos</caption><thead><tr><th scope="col">Cupón</th>{[.08,.01,0].map((c,i)=><th scope="col" key={c}><button onClick={()=>setActive(i)} aria-pressed={active===i}>{c*100}%</button></th>)}</tr></thead><tbody><tr><th scope="row">Precio €</th>{[.08,.01,0].map(c=><td key={c}>{euro(couponCase(c).price)}</td>)}</tr>{step>=2&&<tr><th scope="row">Riqueza €</th>{[.08,.01,0].map(c=><td key={c}>{euro(couponCase(c).wealth,0)}</td>)}</tr>}{step>=3&&<tr><th scope="row">CAGR</th>{[.08,.01,0].map(c=><td key={c}>{percent(couponCase(c).cagr)}</td>)}</tr>}</tbody></table><p>Selecciona un cupón para recorrer su cálculo.</p></div>
+    {[.08,.01,0].map((c,i)=>{const r=couponCase(c);return <section className="coupon-column" data-active={active===i} key={c}>
       <div className="coupon-column-head"><span>{['A','B','C'][i]}</span><h2>Cupón <b>{c*100}%</b></h2></div><div className="coupon-price"><span>Precio hoy</span><strong>{euro(r.price)} <small>€</small></strong></div>
-      <Build at={1} step={step}><MiniFlows coupon={c*100}/><EquationStep number="01" label="Descontar al 4%"><Formula>{c===0?'P = \\frac{100}{1.04^5}':`\\begin{gathered}P=\\frac{${c*100}}{1.04}+\\frac{${c*100}}{1.04^2}+\\frac{${c*100}}{1.04^3}\\\\+\\frac{${c*100}}{1.04^4}+\\frac{${100+c*100}}{1.04^5}\\end{gathered}`}</Formula></EquationStep></Build>
+      <Build at={1} step={step}><MiniFlows coupon={c*100}/><EquationStep number="01" label="Descontar al 4%"><Formula>{c===0?'P = \\frac{100}{1{,}04^5}':`\\begin{gathered}P=\\frac{${c*100}}{1{,}04}+\\frac{${c*100}}{1{,}04^2}+\\frac{${c*100}}{1{,}04^3}\\\\+\\frac{${c*100}}{1{,}04^4}+\\frac{${100+c*100}}{1{,}04^5}\\end{gathered}`}</Formula></EquationStep></Build>
       <Build at={2} step={step}><EquationStep number="02" label="Acumular al 0%"><span className="wealth-sum">{c===0?'100':`${c*100} + ${c*100} + ${c*100} + ${c*100} + ${100+c*100}`} = <b>{r.wealth} €</b></span></EquationStep></Build>
-      <Build at={3} step={step}><EquationStep number="03" label="Anualizar la riqueza"><Formula>{`\\left(\\frac{${r.wealth}}{${r.price.toFixed(2)}}\\right)^{1/5}-1`}</Formula><strong className="cagr-result">{percent(r.cagr)}</strong></EquationStep></Build>
+      <Build at={3} step={step}><EquationStep number="03" label="Anualizar la riqueza"><Formula>{`\\left(\\frac{${r.wealth}}{${texNumber(r.price)}}\\right)^{1/5}-1`}</Formula><strong className="cagr-result">{percent(r.cagr)}</strong></EquationStep></Build>
     </section>})}
   </div>;
 }
@@ -40,40 +45,20 @@ export function BondGenerations({step}:{step:number}) {
 
 export function PriceDiscovery({step,rate,onRate}:{step:number;rate:number;onRate:(n:number)=>void}) {
   return <div className="price-discovery"><div className="comparison-header">Nuevo ejemplo · tres bonos a 5 años · principal 100 € · pagos anuales</div>
-    <Build at={1} step={step} className="market-rate"><RangeControl label="Rendimiento exigido común · YTM" value={rate} onChange={onRate} min={.01} max={.08}/><p>Explora: al exigir más rendimiento, el precio baja.</p></Build>
-    <div className="pricing-columns">{[.07,.04,.03].map((c,i)=>{const r=couponCase(c,rate);const status=Math.abs(r.price-100)<.005?'A la par':r.price>100?'Con prima':'Con descuento';return <section className="pricing-bond" key={c}><div className="pricing-contract"><FileText/><span>BONO {['A','B','C'][i]}</span><h2>{euro(c*100,0)}<small>%</small></h2><p>Cupón contractual <LockKeyhole/></p></div><MiniFlows coupon={c*100}/><Build at={1} step={step}><Formula>{`P = \\sum_{t=1}^{5}\\frac{CF_t}{(1+${rate.toFixed(3)})^t}`}</Formula></Build><Build at={2} step={step}><div className="price-meter"><i className="par-line"/><span className="par-label">100 € · par</span><div className="price-level" style={{width:`${r.price/135*100}%`}}/><strong><NumberValue value={r.price}/> <small>€</small></strong></div><span className={`price-status ${status==='A la par'?'at-par':''}`}>{status}</span></Build></section>})}</div>
+    <Build at={1} step={step} className="market-rate"><RangeControl label="Rendimiento exigido común · YTM" value={rate} onChange={onRate} min={.01} max={.08} sub="g es la tasa anual a la que crecen los cupones cobrados."/><p>Explora: al exigir más rendimiento, el precio baja.</p></Build>
+    <div className="pricing-columns">{[.07,.04,.03].map((c,i)=>{const r=couponCase(c,rate);const status=Math.abs(r.price-100)<.005?'A la par':r.price>100?'Con prima':'Con descuento';return <section className="pricing-bond" key={c}><div className="pricing-contract"><FileText/><span>BONO {['A','B','C'][i]}</span><h2>{euro(c*100,0)}<small>%</small></h2><p>Cupón contractual <LockKeyhole/></p></div><MiniFlows coupon={c*100}/><Build at={1} step={step}><Formula>{`P = \\sum_{t=1}^{5}\\frac{CF_t}{(1+${texNumber(rate,3)})^t}`}</Formula></Build><Build at={2} step={step}><div className="price-meter"><i className="par-line"/><span className="par-label">100 € · par</span><div className="price-level" style={{width:`${r.price/135*100}%`}}/><strong><NumberValue value={r.price}/> <small>€</small></strong></div><span className={`price-status ${status==='A la par'?'at-par':''}`}>{status}</span></Build></section>})}</div>
     <Build at={3} step={step} className="price-to-point"><span>Precio + flujos</span><ArrowRight/><strong>YTM {percent(rate,1)}</strong><ArrowRight/><span>Punto <b>(5Y; {percent(rate,1)})</b></span></Build>
   </div>;
 }
 
-const cloud=generateIllustrativeBondCloud({seed:42});
-const fair=fitIllustrativeCurve({points:cloud});
-const chart={left:62,right:742,top:25,bottom:280};
-const x=(years:number)=>chart.left+years/50*(chart.right-chart.left);
-const y=(ytm:number)=>chart.bottom-(ytm-.01)/.04*(chart.bottom-chart.top);
-const curvePath=fair.points.map((p,i)=>`${i?'L':'M'}${x(p.maturityYears).toFixed(2)},${y(p.ytm).toFixed(2)}`).join(' ');
-const nearFive=cloud.reduce((a,b)=>Math.abs(a.maturityYears-5)<Math.abs(b.maturityYears-5)?a:b);
-export function MarketCurve({step,chosen,onChoose}:{step:number;chosen:string|null;onChoose:(id:string)=>void}) {
-  const selected=cloud.find(p=>p.id===chosen)??nearFive;
-  return <div className="market-curve"><div className="market-context"><span className="spain-flag"/>España · Curva de YTM <small>Nueva muestra · 30 bonos ilustrativos · no cotizaciones</small></div>
-    <div className="curve-layout"><div className="curve-plot"><svg viewBox="0 0 780 350" role="group" aria-label="Curva ilustrativa de YTM. Vida residual de cero a cincuenta años en escala lineal, rendimiento del uno al cinco por ciento.">
-      {[.01,.02,.03,.04,.05].map(v=><g key={v}><path className="chart-grid" d={`M${chart.left} ${y(v)}H${chart.right}`}/><text x="46" y={y(v)+5} textAnchor="end">{v*100}%</text></g>)}
-      {[0,10,20,30,40,50].map(v=><g key={v}><path className="chart-tick" d={`M${x(v)} 280v6`}/><text x={x(v)} y="311" textAnchor="middle">{v}</text></g>)}<text className="chart-axis-title" x="400" y="344" textAnchor="middle">Vida residual · años</text><text className="chart-axis-title" x="62" y="14">YTM anual</text>
-      {step>=3&&<g><rect className="short-zone" x={x(0)} y={chart.top} width={x(2)-x(0)} height={chart.bottom-chart.top}/><path className="short-boundary" d={`M${x(2)} ${chart.top}V${chart.bottom}`}/><text className="short-label" x={x(2)+5} y="265">2Y</text></g>}
-      {step>=2&&<path d={curvePath} className="fair-line"/>}
-      {(step===0?[selected]:cloud).map(p=><circle key={p.id} className={`bond-point ${step>=3&&p.benchmark?'benchmark-point':''} ${p.id===selected.id?'selected-point':''}`} cx={x(p.maturityYears)} cy={y(p.ytm)} r={p.id===selected.id?7:4.5} role="button" tabIndex={0} aria-label={`Bono ${p.id}, ${euro(p.maturityYears,1)} años, YTM ${percent(p.ytm)}`} onClick={()=>onChoose(p.id)} onKeyDown={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onChoose(p.id);}}}><title>{p.id} · {euro(p.maturityYears,1)}Y · {percent(p.ytm)}</title></circle>)}
-      <path className="selected-guide" d={`M${chart.left} ${y(selected.ytm)}H${x(selected.maturityYears)}V${chart.bottom}`}/>
-    </svg><div className="chart-legend"><span><i className="point-key"/> Bono observado</span><Build at={2} step={step}><span><i className="line-key"/> Ajuste fair</span></Build><Build at={3} step={step}><span><i className="zone-key"/> Corto plazo: 0–2Y</span></Build></div></div>
-    <aside className="curve-reading"><span className="panel-overline">LEER UN PUNTO</span><h2>{selected.id}</h2><div><span>Vida residual</span><strong>{euro(selected.maturityYears,1)}<small> años</small></strong></div><div><span>YTM</span><strong>{percent(selected.ytm)}</strong></div><p>Selecciona otro punto para leer sus coordenadas.</p><label className="mobile-point-picker">Bono de la nube<select value={selected.id} onChange={e=>onChoose(e.currentTarget.value)} aria-label="Bono de la nube">{cloud.map(p=><option key={p.id} value={p.id}>{euro(p.maturityYears,1)}Y · {percent(p.ytm)}{p.benchmark?' · benchmark':''}</option>)}</select></label><Build at={3} step={step}><div className="benchmark-list"><b>Referencias benchmark</b><span>2Y · 3Y · 5Y · 7Y<br/>10Y · 15Y · 30Y · 50Y</span><small>Puntos claros: ocho referencias de la nube.</small></div></Build></aside></div>
-  </div>;
-}
+export { BondCurve as MarketCurve } from './BondCurve';
 
 export function RecapFoundations({step}:{step:number}) {
-  return <div className="recap-bands"><section className="recap-band"><div className="recap-topic"><span>01</span><h2>El contrato</h2><p>Qué se promete.</p></div><div className="recap-contract"><div className="recap-exchange"><Landmark/><span>Emisor</span><div><b>← Capital hoy</b><b>Pagos futuros →</b></div><FileText/><span>Inversor</span></div><div className="recap-terms"><span>c <b>4%</b></span><span>N <b>100 €</b></span><span>Principal <b>100 €</b></span><span>Plazo <b>5 años</b></span><span>Frecuencia <b>Anual</b></span></div><Build at={1} step={step}><MiniFlows coupon={4} showToday/><p className="recap-small">Cupón = 4% × 100 € = 4 € · Último pago = 4 + 100 = 104 €</p></Build></div></section>
+  return <div className="recap-bands"><section className="recap-band"><div className="recap-topic"><span>01</span><h2>El contrato</h2><p>Qué se promete.</p></div><div className="recap-contract"><div className="recap-exchange"><Landmark/><span>Emisor</span><div><b>← Capital hoy</b><b>Pagos futuros →</b></div><UsersRound/><span>Inversor</span></div><div className="recap-terms"><span>c <b>4%</b></span><span>N <b>100 €</b></span><span>Principal <b>100 €</b></span><span>Plazo <b>5 años</b></span><span>Frecuencia <b>Anual</b></span></div><Build at={1} step={step}><MiniFlows coupon={4} showToday/><p className="recap-small">Cupón = 4% × 100 € = 4 € · Último pago = 4 + 100 = 104 €</p></Build></div></section>
     <Build at={2} step={step} className="recap-band"><div className="recap-topic"><span>02</span><h2>El valor</h2><p>Qué representa hoy.</p></div><div className="recap-valuation"><Formula display>{'P_0 = \\sum_{t=1}^{n}\\frac{CF_t}{(1+r_t)^t}'}</Formula><div className="recap-price-equation"><Formula display>{'\\frac{4}{1+r_1}+\\frac{4}{(1+r_2)^2}+\\frac{4}{(1+r_3)^3}+\\frac{4}{(1+r_4)^4}+\\frac{104}{(1+r_5)^5}'}</Formula></div><p><strong>100 €</strong> cuando todas las tasas son 4%.</p></div></Build></div>;
 }
 
 export function RecapMarket({step}:{step:number}) {
   return <div className="recap-bands recap-final"><section className="recap-band"><div className="recap-topic"><span>03</span><h2>El rendimiento</h2><p>Separar tasa y resultado.</p></div><div className="recap-returns"><div><span>YTM</span><strong>4,00%</strong><p>Implícita en precio y flujos.</p><Formula>{'100=\\sum_{t=1}^{5}\\frac{CF_t}{(1+y)^t}'}</Formula></div><div><span>CAGR sin reinversión</span><strong>3,71%</strong><p>120 € al final de cinco años.</p><Formula>{'(120/100)^{1/5}-1'}</Formula></div><p className="zero-coupon-note">Cupón cero: no hay cobros intermedios que reinvertir.</p></div></section>
-    <Build at={1} step={step} className="recap-band"><div className="recap-topic"><span>04</span><h2>El mercado</h2><p>Comparar y ordenar.</p></div><div className="recap-market-path"><div className="recap-chain"><span><LockKeyhole/><b>Cupón</b><small>Se fija al emitir.</small></span><ArrowRight/><span><FileText/><b>Precio</b><small>Se negocia.</small></span><ArrowRight/><span><ChartNoAxesCombined/><b>YTM</b><small>Se infiere de precio + flujos.</small></span></div><Build at={2} step={step}><div className="recap-curve-summary"><svg viewBox="0 0 220 86" role="img" aria-label="Esquema conceptual: curva que ordena la YTM por vida residual"><path d="M12 6V72H214" className="chart-tick"/><path d="M18 61C60 24 110 17 210 11" className="fair-line"/>{[[28,51],[56,34],[86,30],[118,19],[155,20],[194,12]].map(([a,b],i)=><circle key={i} cx={a} cy={b} r="3" className="bond-point"/>)}</svg><p><b>Un punto = (vida residual, YTM)</b><span>La nube contiene bonos. La línea resume la nube.</span><span>Benchmark: referencia líquida de un plazo.</span></p></div></Build></div></Build></div>;
+    <Build at={1} step={step} className="recap-band"><div className="recap-topic"><span>04</span><h2>El mercado</h2><p>Comparar y ordenar.</p></div><div className="recap-market-path"><div className="recap-chain"><span><LockKeyhole/><b>Cupón</b><small>Se fija al emitir.</small></span><ArrowRight/><span><FileText/><b>Precio</b><small>Se negocia.</small></span><ArrowRight/><span><ChartNoAxesCombined/><b>YTM</b><small>Se infiere de precio + flujos.</small></span></div><Build at={2} step={step}><div className="recap-curve-summary"><CurveThumbnail/><p><b>Un punto = (vida residual, YTM)</b><span>La nube contiene bonos. La línea resume la nube.</span><span>Benchmark: referencia líquida de un plazo.</span></p></div></Build></div></Build></div>;
 }

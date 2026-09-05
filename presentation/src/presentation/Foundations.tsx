@@ -39,5 +39,5 @@ export function DiscountExample({step,rate,onRate,selected}:{step:number;rate:nu
   <Build at={1} step={step} className="discount-terms">{flows.map(f=><div key={f.period} className={`discount-term ${selected===f.period?'selected':''}`}><span className="term-link"/><Formula display>{`\\frac{${f.amount}}{(1+r_${f.period})^{${f.period}}}`}</Formula><span className="term-rate">r{['₀','₁','₂','₃','₄','₅'][f.period]} = {euro(f.rate*100,1)}%</span><Build at={2} step={step}><b><NumberValue value={f.pv}/> <small>€</small></b></Build></div>)}</Build>
   <Build at={2} step={step} className="price-total"><div><span>Valor presente total</span><strong><NumberValue value={total}/> <small>€</small></strong></div><Formula>{'P_0 = \\sum_{t=1}^{5} PV(CF_t)'}</Formula></Build>
   <Build at={3} step={step} className="discount-lab"><RangeControl label="Tasa del año 5 · r₅" value={rate} onChange={onRate} min={0} max={.1} sub="r₁, r₂, r₃ y r₄ permanecen al 4%."/></Build>
-  <div className="discount-convention">Tasas anuales efectivas · pagos anuales · principal solo en el año 5</div>
+  <div className="discount-convention">Tasas anuales efectivas · cálculo sin redondear; cada importe visible se redondea a céntimos.</div>
 </div>;}

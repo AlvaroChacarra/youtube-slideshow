@@ -3,6 +3,8 @@ import react from '@astrojs/react';
 
 export default defineConfig({
   output: 'static',
+  // Type checking/builds must not invalidate the live preview's optimized modules.
+  cacheDir: process.argv.includes('dev') ? './node_modules/.astro-dev' : './node_modules/.astro',
   base: process.env.PRESENTATION_BASE || '/',
   integrations: [react()],
   devToolbar: { enabled: false },

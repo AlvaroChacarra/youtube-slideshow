@@ -3,8 +3,18 @@
   "compilerOptions": {
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
-    "types": ["vitest/globals"]
+    "types": [
+      "vitest/globals"
+    ],
+    "jsx": "react-jsx"
   },
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist", "evidence", "node_modules"]
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "dist",
+    "evidence",
+    "node_modules"
+  ]
 }

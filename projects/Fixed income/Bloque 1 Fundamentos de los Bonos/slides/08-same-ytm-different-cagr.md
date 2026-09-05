@@ -8,7 +8,7 @@
 
 Demostrar con tres bonos que compartir exactamente el mismo YTM no implica obtener el mismo rendimiento compuesto realizado cuando los cupones no se reinvierten.
 
-La slide debe hacer visible que el YTM incorpora una hipótesis de reinversión de los cupones al mismo rendimiento, mientras que el `CAGR sin reinversión` usado en este ejemplo anualiza la riqueza terminal cuando los cupones cobrados se mantienen aparte al 0% hasta vencimiento.
+La slide debe distinguir el cálculo de YTM, que no exige reinvertir, de la realización de ese rendimiento compuesto, que depende de los cobros y la reinversión. Por su parte, el `CAGR sin reinversión` usado en este ejemplo anualiza la riqueza terminal cuando los cupones cobrados se mantienen aparte al 0% hasta vencimiento.
 
 ## Supuestos comunes
 
