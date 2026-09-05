@@ -63,3 +63,11 @@ El alumno debería poder contestar:
 - qué ocurre con el precio si aumentan las tasas manteniendo fijos los flujos.
 
 Si alguna respuesta falla, volver a la anatomía o a la timeline antes de avanzar. Esta recapitulación debe cerrar la cadena `contrato → flujos → valor presente`, sin introducir todavía la comparación YTM–CAGR.
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Dos bandas preservadas: reconstruir contrato/pagos y después valor presente. Fórmula general y sustitución expandida; principal únicamente al vencimiento.
+
+Render implementado: [Slide 12](../../../../presentation/evidence/final/slide-12.jpg). Referencia PNG anterior conservada como baseline.

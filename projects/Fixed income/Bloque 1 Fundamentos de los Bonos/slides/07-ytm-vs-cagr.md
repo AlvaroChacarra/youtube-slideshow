@@ -103,3 +103,13 @@ El subíndice `0` recuerda que los cupones se mantienen al `0%`. Si se reinvirti
 
 ### Pregunta de control y transición
 Preguntar: «¿Qué bono será más sensible a la hipótesis de reinversión: uno con cupones altos o uno sin cupones?». Transición: «Vamos a mantener la misma YTM y cambiar solo la cantidad de dinero que llega antes del vencimiento».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+YTM y riqueza terminal se comparan en dos mitades. Control de reinversión g que actualiza riqueza, fórmula y CAGR sin modificar YTM ni contrato.
+
+Render implementado: [Slide 07](../../../../presentation/evidence/final/slide-07.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

@@ -78,3 +78,11 @@ Aquí `P₀` es el precio pagado hoy y `CFₜ` representa cada pago contractual 
 
 ### Comprobación y transición
 Comprobar que el alumno puede expresar el instrumento en una frase: «entrego dinero hoy y recibo pagos futuros acordados». Transición: «Ahora abrimos ese contrato y ponemos nombre a cada una de sus piezas».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Diagrama radial conservado: emisores arriba, inversores abajo y usos laterales. Capital y pagos se revelan en sentidos opuestos; adaptación de lectura móvil.
+
+Render implementado: [Slide 03](../../../../presentation/evidence/final/slide-03.jpg). Referencia PNG anterior conservada como baseline.

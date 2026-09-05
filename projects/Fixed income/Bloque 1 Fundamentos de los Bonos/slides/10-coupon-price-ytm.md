@@ -72,3 +72,13 @@ Para flujos positivos convencionales, `dP/dy < 0`: al aumentar el rendimiento ex
 
 ### Pregunta de control y transición
 Preguntar qué debe ocurrir con el precio del bono de cupón `7%` si el rendimiento de mercado sube desde `4%`. Transición: «Cuando repetimos esta observación para muchos vencimientos obtenemos un mapa completo: la curva de tipos».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Tres contratos 7/4/3% frente a un control común de YTM. Precios, marcas de par y clasificación prima/par/descuento reaccionan; cupón fijo visible.
+
+Render implementado: [Slide 10](../../../../presentation/evidence/final/slide-10.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

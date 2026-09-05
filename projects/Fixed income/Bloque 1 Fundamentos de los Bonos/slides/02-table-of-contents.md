@@ -48,3 +48,13 @@ Los rangos `1–2`, `3–4`, `5–6` y `7–9` se refieren a las nueve slides do
 
 ### Pregunta de control y transición
 Preguntar: «¿Qué dato pensáis que permanece fijo después de emitir un bono: el cupón, el precio o el YTM?». Recoger respuestas sin corregirlas todavía; la respuesta se construirá en las slides 7–8. Transición: «Empecemos por el contrato y por el propósito económico de emitirlo».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Cuatro estaciones navegables conservan los rangos docentes 1–2, 3–4, 5–6 y 7–9. Índice global de trece slides bajo demanda.
+
+Render implementado: [Slide 02](../../../../presentation/evidence/final/slide-02.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

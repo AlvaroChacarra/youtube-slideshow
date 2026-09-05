@@ -77,3 +77,13 @@ Esta lámina muestra una **curva de YTM de bonos observados**. No equipararla si
 
 ### Preguntas de control y cierre
 Preguntar qué representa un punto, qué representa la línea y por qué ambos son necesarios. Preguntar también si dos bonos 5Y deben tener exactamente el mismo YTM. Cerrar: «La curva no sustituye a los bonos; organiza la información que contienen».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+30 observaciones ilustrativas, 20 hasta10Y, incluidos los ocho benchmarks exactos. Eje lineal0–50Y, corto plazo hasta2Yexacto, selección accesible de punto. Ajuste por mínimos cuadrados con base[1,exp(−t/5),t/50]; sustituye el cúbico del runtime por su desviación en el extremo largo. Sigue siendo una curva de YTM, no spot.
+
+Render implementado: [Slide 11](../../../../presentation/evidence/final/slide-11.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

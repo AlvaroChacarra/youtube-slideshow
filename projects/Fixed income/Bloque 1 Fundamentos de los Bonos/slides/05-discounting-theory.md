@@ -94,3 +94,13 @@ Para un único flujo: `PV(CFₜ) = CFₜ/(1+rₜ)^t`. El denominador crece con l
 - No incluir el principal en todos los años.
 
 Transición: «Ya tenemos la regla general; ahora sustituiremos cada símbolo por los pagos concretos del bono de cinco años».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Línea temporal simbólica persistente y selección de flujo vinculada al término de descuento. Se definen CF_t, r_t, t y n; sin introducir YTM.
+
+Render implementado: [Slide 05](../../../../presentation/evidence/final/slide-05.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

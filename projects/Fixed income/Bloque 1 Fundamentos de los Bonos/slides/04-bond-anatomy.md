@@ -90,3 +90,11 @@ Si la frecuencia fuese semestral, habría que ajustar tanto el cupón por period
 
 ### Pregunta de control y transición
 Preguntar: «Si el precio de mercado bajase a `95 €`, ¿cambiarían los pagos `4, 4, 4, 4, 104`?». La respuesta es no. Transición: «Si los pagos no cambian pero ocurren en fechas distintas, necesitamos traducirlos todos a dinero de hoy».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Certificado persistente, correspondencias N/principal hacia sus definiciones y separación explícita entre contrato y precio observado. Cierre con −100, 4, 4, 4, 4, 104.
+
+Render implementado: [Slide 04](../../../../presentation/evidence/final/slide-04.jpg). Referencia PNG anterior conservada como baseline.

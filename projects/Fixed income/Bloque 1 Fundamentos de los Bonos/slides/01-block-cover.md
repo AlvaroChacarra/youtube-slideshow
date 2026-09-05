@@ -48,3 +48,11 @@ La mitad derecha forma un collage financiero en tres niveles superpuestos. Arrib
 
 ### Contexto y transición
 No introducir fórmulas en la portada. El objetivo es crear un mapa mental y anticipar el ejemplo de `100 €`, cupón del `4%` y vencimiento a cinco años. Cerrar con: «Antes de calcular nada, vamos a entender quién emite el bono, quién entrega el dinero y qué promete el contrato».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Portada con skyline subordinado, certificado marfil y anticipo de flujos/curva; título dominante. El skyline es un asset generado, no una fotografía documental.
+
+Render implementado: [Slide 01](../../../../presentation/evidence/final/slide-01.jpg). Referencia PNG anterior conservada como baseline.
