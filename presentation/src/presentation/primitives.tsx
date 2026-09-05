@@ -4,8 +4,8 @@ import gsap from 'gsap';
 import katex from 'katex';
 import { euro } from './model';
 
-export function Formula({ children, className='' }: {children:string;className?:string}) {
-  return <span className={`formula ${className}`} dangerouslySetInnerHTML={{__html:katex.renderToString(children,{throwOnError:false,output:'htmlAndMathml',strict:'ignore'})}} />;
+export function Formula({ children, className='', display=false }: {children:string;className?:string;display?:boolean}) {
+  return <span className={`formula ${className}`} dangerouslySetInnerHTML={{__html:katex.renderToString((display?'\\displaystyle ':'')+children,{throwOnError:false,output:'htmlAndMathml',strict:'ignore'})}} />;
 }
 export function Build({ at, step, children, className='' }: {at:number;step:number;children:ReactNode;className?:string}) {
   const visible=step>=at;

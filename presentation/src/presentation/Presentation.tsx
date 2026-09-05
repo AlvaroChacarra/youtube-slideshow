@@ -21,7 +21,7 @@ export default function Presentation(){
     setCapture(q.get('capture')==='1');setMotion(q.get('motion')!=='0'&&!matchMedia('(prefers-reduced-motion: reduce)').matches);setReady(true);
     const media=matchMedia('(prefers-reduced-motion: reduce)');const changed=()=>setMotion(!media.matches&&new URLSearchParams(location.search).get('motion')!=='0');media.addEventListener('change',changed);return()=>media.removeEventListener('change',changed);
   },[]);
-  useEffect(()=>{if(!ready)return;const u=new URL(location.href);u.searchParams.set('slide',String(pos.slide+1));u.searchParams.set('step',String(pos.step));if(capture)u.searchParams.set('capture','1');else u.searchParams.delete('capture');history.replaceState(null,'',u);remembered.current[pos.slide]=pos.step;setAnswer(false);document.title=`${pos.slide+1}. ${current.title} · Fundamentos de los bonos`;},[pos,capture,ready,current.title]);
+  useEffect(()=>{if(!ready)return;const u=new URL(location.href);u.searchParams.set('slide',String(pos.slide+1));u.searchParams.set('step',String(pos.step));if(capture)u.searchParams.set('capture','1');else u.searchParams.delete('capture');try{history.replaceState(null,'',u);}catch{/* Some local HTML viewers restrict History API. */}remembered.current[pos.slide]=pos.step;setAnswer(false);document.title=`${pos.slide+1}. ${current.title} · Fundamentos de los bonos`;},[pos,capture,ready,current.title]);
   useEffect(()=>{const onPop=()=>{const q=new URLSearchParams(location.search);setPos(clampPosition(Number(q.get('slide')||1)-1,Number(q.get('step')||0),counts));};addEventListener('popstate',onPop);return()=>removeEventListener('popstate',onPop);},[]);
   function move(dir:1|-1){setPos(p=>movePosition(p,dir,counts));}
   function jump(slide:number){setPos(clampPosition(slide,remembered.current[slide]??0,counts));setModal(null);}
@@ -41,7 +41,7 @@ export default function Presentation(){
   if(pos.slide===5&&pos.step===2&&rate!==.04)caption=`Con r₅ = ${euro(rate*100,1)}% y las otras tasas al 4%, el precio cambia. Los pagos contractuales se mantienen.`;
   return <div className={`presentation ${capture?'capture':''}`} data-ready={ready} data-motion={motion}>
     <main ref={stage} tabIndex={-1} className={`stage slide-${pos.slide}`} data-slide={pos.slide+1} data-step={pos.step} aria-label={`Slide ${pos.slide+1} de 13: ${current.title}`}>
-      {[0,2].includes(pos.slide)&&<div className="skyline" style={{backgroundImage:`url(${import.meta.env.BASE_URL}assets/financial-skyline.webp)`}} aria-hidden="true"/>}
+      {[0,2].includes(pos.slide)&&<div className="skyline" style={{backgroundImage:`url(${import.meta.env.OFFLINE_SKYLINE||`${import.meta.env.BASE_URL}assets/financial-skyline.webp`})`}} aria-hidden="true"/>}
       <div className="stage-topline"><span className="block-mark">01</span><span>FIXED INCOME <i/> FUNDAMENTOS</span><span className="author-mark">ÁLVARO LÓPEZ CHACARRA</span></div>
       {pos.slide!==0&&<header className="slide-header"><span className="eyebrow">{current.eyebrow}</span><h1>{current.title}</h1></header>}
       <div className="slide-body">

@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "astro dev --host 0.0.0.0 --port 4173",
-    "build": "npm run validate && astro build",
+    "build": "npm run validate && astro build && node scripts/build-offline.mjs",
     "preview": "astro preview --host 0.0.0.0 --port 4173",
     "typecheck": "astro check",
     "test": "vitest run",
@@ -45,6 +45,7 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
     "axe-core": "4.13.0",
+    "esbuild": "^0.28.2",
     "jsdom": "27.4.0",
     "sharp": "0.35.4",
     "tsx": "4.20.6",

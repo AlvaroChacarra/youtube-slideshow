@@ -16,3 +16,14 @@
 @media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.anatomy-links{display:none}.today-marker>b{top:-6px}.today-marker>i{margin-top:16px}.coupon-column .build[data-build="1"] .equation-step{min-height:0}}
 .recap-price-equation{font-size:1.7cqw}.recap-valuation>.formula{font-size:2.3cqw}.recap-terms{font-size:.9cqw}.recap-small{font-size:.95cqw}.bond-point.benchmark-point{fill:var(--paper);stroke:var(--cyan);stroke-width:2}.bond-point.selected-point{fill:var(--lime);stroke:var(--lime)}
 @media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.recap-price-equation{font-size:13px}.recap-valuation>.formula{font-size:25px}.recap-terms{font-size:11px}.recap-small{font-size:12px}}
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.principal-explanation{margin-top:210px}}
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.principal-flow .cash-amount:has(.formula){flex-direction:column;align-items:center;gap:3px}}
+@media(max-width:950px) and (max-height:500px){.deck-controls{height:64px;flex-direction:row;justify-content:space-between}.step-navigation{width:370px}.presentation{padding-bottom:64px}.capture{padding-bottom:0}}
+.presentation[data-ready=false]{visibility:hidden}.bond-actor[aria-hidden=true],.flow-spine[aria-hidden=true]{visibility:hidden}
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.state-node{left:32%}.company-node{left:68%}.capital-label,.payment-label{top:78%}}
+.mobile-point-picker{display:none}
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.mobile-point-picker{display:flex;flex-direction:column;gap:8px;grid-column:1/-1;color:var(--muted);font-size:12px}.mobile-point-picker select{min-height:44px;padding:8px 12px;background:#09233a;border:1px solid var(--line);border-radius:4px;color:var(--ink);font-size:14px}}
+.single-discount{top:46%;font-size:1.8cqw}.discount-link{height:14%}.price-formula .formula{font-size:2.3cqw}.issue-age,.life-bar>b{font-size:.95cqw}.residual-label{font-size:1cqw}.benchmark-list>span{font-size:1cqw!important}.benchmark-list>b{font-size:.9cqw}.benchmark-list small{font-size:.75cqw}
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.single-discount{top:51%;font-size:19px}.discount-link{height:21%}.price-formula .formula{font-size:23px}.issue-age{font-size:9px}.life-bar>b,.residual-label{font-size:10px}.benchmark-list>span{font-size:15px!important}.benchmark-list>b{font-size:13px}.benchmark-list small{font-size:11px}}
+.discount-link>span{left:0;top:120%}
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.discount-link>span{left:0;top:50%}}

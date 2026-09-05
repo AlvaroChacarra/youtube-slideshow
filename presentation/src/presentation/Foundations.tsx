@@ -30,8 +30,8 @@ export function Anatomy({step}:{step:number}) {return <div className="anatomy-co
 
 export function DiscountTheory({step,selected}:{step:number;selected:number}) {const t=selected===5?'n':selected===4?'n-1':selected===3?'t':String(selected);return <div className="discount-theory">
   <Build at={1} step={step} className="discount-link"><svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d={`M${((19+72*(selected-.5)/5)-5.8)/88.4*1000} 0C${((19+72*(selected-.5)/5)-5.8)/88.4*1000} 70 500 20 500 95`} className="connector cyan"/></svg><span>Descontar este flujo</span></Build>
-  <Build at={1} step={step} className="single-discount"><Formula>{`PV(CF_{${t}}) = \\frac{CF_{${t}}}{(1+r_{${t}})^{${t}}}`}</Formula></Build>
-  <Build at={2} step={step} className="price-formula"><span>Precio hoy</span><Formula>{'P_0 = \\sum_{t=1}^{n} \\frac{CF_t}{(1+r_t)^t}'}</Formula></Build>
+  <Build at={1} step={step} className="single-discount"><Formula display>{`PV(CF_{${t}}) = \\frac{CF_{${t}}}{(1+r_{${t}})^{${t}}}`}</Formula></Build>
+  <Build at={2} step={step} className="price-formula"><span>Precio hoy</span><Formula display>{'P_0 = \\sum_{t=1}^{n} \\frac{CF_t}{(1+r_t)^t}'}</Formula></Build>
   <div className="symbol-legend"><span><Formula>{'CF_t'}</Formula> Pago futuro</span><span><Formula>{'r_t'}</Formula> Tasa para ese plazo</span><span><Formula>{'t'}</Formula> Años hasta el pago</span><span><Formula>{'n'}</Formula> Vencimiento</span></div>
 </div>;}
 

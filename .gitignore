@@ -5,3 +5,5 @@
 **/playwright-report/
 presentation/.preview-logs/
 
+/presentation/public/qa/
+/presentation/public/assets/financial-skyline.png
