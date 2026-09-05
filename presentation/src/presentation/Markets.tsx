@@ -6,7 +6,7 @@ import { generateIllustrativeBondCloud, fitIllustrativeCurve } from '../domain/c
 export function ReturnsComparison({step,rate,onRate}:{step:number;rate:number;onRate:(n:number)=>void}) {
   const g=step>=3?rate:0; const result=couponCase(.04,.04,g);
   return <div className="returns-comparison">
-    <div className="comparison-header">Mismo bono · 5 años · cupón 4% · precio 100 €</div>
+    <div className="comparison-header">Caso base · 5 años · cupón 4% · precio 100 €</div>
     <section className="return-panel ytm-panel"><span className="panel-overline">LA TASA IMPLÍCITA</span><h2>YTM</h2><p>Una tasa que reconcilia<br/>precio y flujos.</p><Formula>{'100 = \\sum_{t=1}^{5} \\frac{CF_t}{(1+y)^t}'}</Formula><strong className="hero-number">4<span>,00%</span></strong><MiniFlows coupon={4}/><span className="panel-foot">Se calcula a partir de precio y pagos.</span></section>
     <section className="return-panel wealth-panel"><span className="panel-overline">EL RESULTADO COMPUESTO</span><h2>CAGR<sub>{g===0?'sin reinversión':`reinversión al ${percent(g,1)}`}</sub></h2>
       <Build at={1} step={step}><p>{g===0?'Cupones en efectivo al 0%.':'Los cupones crecen hasta el año 5.'}</p><div className="wealth-accumulation">{g===0?<span>4 + 4 + 4 + 4 + 104</span>:<Formula>{`4\\sum_{k=1}^{4}(1+${g.toFixed(3)})^k+104`}</Formula>}<strong><NumberValue value={result.wealth}/> €</strong><small>Riqueza terminal · año 5</small></div></Build>
@@ -27,9 +27,9 @@ export function CouponComparison({step}:{step:number}) {
   </div>;
 }
 
-const generations=[{id:'A',coupon:2.4,age:5.2,residual:4.8},{id:'B',coupon:3.1,age:4.8,residual:5.2},{id:'C',coupon:3.6,age:4.4,residual:5.6}];
+const generations=[{id:'E1',coupon:2.4,age:5.2,residual:4.8},{id:'E2',coupon:3.1,age:4.8,residual:5.2},{id:'E3',coupon:3.6,age:4.4,residual:5.6}];
 export function BondGenerations({step}:{step:number}) {
-  return <div className="generations"><div className="market-context"><span className="spain-flag"/>España · Bonos y Obligaciones del Estado <small>Ejemplo ilustrativo</small></div>
+  return <div className="generations"><div className="market-context"><span className="spain-flag"/>España · Bonos y Obligaciones del Estado <small>Nuevo ejemplo · emisiones ilustrativas</small></div>
     <div className="generation-timeline"><div className="generation-scale"><span>EMISIÓN</span><span>FECHA DE VALORACIÓN</span><span>VENCIMIENTO</span></div>
       <Build at={2} step={step} className="today-marker"><b>Hoy</b><i/></Build>
       {generations.map((b,i)=><Build at={i===0?0:1} step={step} className="generation-row" key={b.id}><div className="generation-identity"><span className={`bond-letter generation-${i}`}>{b.id}</span><div><strong>Cupón {euro(b.coupon,1)}%</strong><small><LockKeyhole/> Fijo desde la emisión</small></div></div><div className="generation-rail"><div className={`life-bar generation-${i}`} style={{left:`${(6-b.age)/12*100}%`,width:`${10/12*100}%`}}><span className="issue-dot"/><b>10 años originales</b><span className="maturity-dot"/></div><span className="issue-age" style={{left:`${(6-b.age)/12*100}%`}}>Hace {euro(b.age,1)} años</span><Build at={2} step={step}><div className="residual-bar" style={{width:`${b.residual/12*100}%`}}/><span className="residual-label">{euro(b.residual,1)} años por delante</span></Build></div></Build>)}
@@ -39,7 +39,7 @@ export function BondGenerations({step}:{step:number}) {
 }
 
 export function PriceDiscovery({step,rate,onRate}:{step:number;rate:number;onRate:(n:number)=>void}) {
-  return <div className="price-discovery"><div className="comparison-header">Tres bonos comparables · 5 años · principal 100 € · pagos anuales</div>
+  return <div className="price-discovery"><div className="comparison-header">Nuevo ejemplo · tres bonos a 5 años · principal 100 € · pagos anuales</div>
     <Build at={1} step={step} className="market-rate"><RangeControl label="Rendimiento exigido común · YTM" value={rate} onChange={onRate} min={.01} max={.08}/><p>Explora: al exigir más rendimiento, el precio baja.</p></Build>
     <div className="pricing-columns">{[.07,.04,.03].map((c,i)=>{const r=couponCase(c,rate);const status=Math.abs(r.price-100)<.005?'A la par':r.price>100?'Con prima':'Con descuento';return <section className="pricing-bond" key={c}><div className="pricing-contract"><FileText/><span>BONO {['A','B','C'][i]}</span><h2>{euro(c*100,0)}<small>%</small></h2><p>Cupón contractual <LockKeyhole/></p></div><MiniFlows coupon={c*100}/><Build at={1} step={step}><Formula>{`P = \\sum_{t=1}^{5}\\frac{CF_t}{(1+${rate.toFixed(3)})^t}`}</Formula></Build><Build at={2} step={step}><div className="price-meter"><i className="par-line"/><span className="par-label">100 € · par</span><div className="price-level" style={{width:`${r.price/135*100}%`}}/><strong><NumberValue value={r.price}/> <small>€</small></strong></div><span className={`price-status ${status==='A la par'?'at-par':''}`}>{status}</span></Build></section>})}</div>
     <Build at={3} step={step} className="price-to-point"><span>Precio + flujos</span><ArrowRight/><strong>YTM {percent(rate,1)}</strong><ArrowRight/><span>Punto <b>(5Y; {percent(rate,1)})</b></span></Build>
@@ -55,7 +55,7 @@ const curvePath=fair.points.map((p,i)=>`${i?'L':'M'}${x(p.maturityYears).toFixed
 const nearFive=cloud.reduce((a,b)=>Math.abs(a.maturityYears-5)<Math.abs(b.maturityYears-5)?a:b);
 export function MarketCurve({step,chosen,onChoose}:{step:number;chosen:string|null;onChoose:(id:string)=>void}) {
   const selected=cloud.find(p=>p.id===chosen)??nearFive;
-  return <div className="market-curve"><div className="market-context"><span className="spain-flag"/>España · Curva de YTM <small>30 observaciones ilustrativas · no cotizaciones</small></div>
+  return <div className="market-curve"><div className="market-context"><span className="spain-flag"/>España · Curva de YTM <small>Nueva muestra · 30 bonos ilustrativos · no cotizaciones</small></div>
     <div className="curve-layout"><div className="curve-plot"><svg viewBox="0 0 780 350" role="group" aria-label="Curva ilustrativa de YTM. Vida residual de cero a cincuenta años en escala lineal, rendimiento del uno al cinco por ciento.">
       {[.01,.02,.03,.04,.05].map(v=><g key={v}><path className="chart-grid" d={`M${chart.left} ${y(v)}H${chart.right}`}/><text x="46" y={y(v)+5} textAnchor="end">{v*100}%</text></g>)}
       {[0,10,20,30,40,50].map(v=><g key={v}><path className="chart-tick" d={`M${x(v)} 280v6`}/><text x={x(v)} y="311" textAnchor="middle">{v}</text></g>)}<text className="chart-axis-title" x="400" y="344" textAnchor="middle">Vida residual · años</text><text className="chart-axis-title" x="62" y="14">YTM anual</text>

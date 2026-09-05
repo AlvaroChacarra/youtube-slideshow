@@ -19,7 +19,7 @@
 @media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.principal-explanation{margin-top:210px}}
 @media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.principal-flow .cash-amount:has(.formula){flex-direction:column;align-items:center;gap:3px}}
 @media(max-width:950px) and (max-height:500px){.deck-controls{height:64px;flex-direction:row;justify-content:space-between}.step-navigation{width:370px}.presentation{padding-bottom:64px}.capture{padding-bottom:0}}
-.presentation[data-ready=false]{visibility:hidden}.bond-actor[aria-hidden=true],.flow-spine[aria-hidden=true]{visibility:hidden}
+.presentation[data-ready=false]{visibility:hidden}
 @media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.state-node{left:32%}.company-node{left:68%}.capital-label,.payment-label{top:78%}}
 .mobile-point-picker{display:none}
 @media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.mobile-point-picker{display:flex;flex-direction:column;gap:8px;grid-column:1/-1;color:var(--muted);font-size:12px}.mobile-point-picker select{min-height:44px;padding:8px 12px;background:#09233a;border:1px solid var(--line);border-radius:4px;color:var(--ink);font-size:14px}}
@@ -27,3 +27,62 @@
 @media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.single-discount{top:51%;font-size:19px}.discount-link{height:21%}.price-formula .formula{font-size:23px}.issue-age{font-size:9px}.life-bar>b,.residual-label{font-size:10px}.benchmark-list>span{font-size:15px!important}.benchmark-list>b{font-size:13px}.benchmark-list small{font-size:11px}}
 .discount-link>span{left:0;top:120%}
 @media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.discount-link>span{left:0;top:50%}}
+
+/* Second visual audit: readable context and a consistent teaching hierarchy. */
+.discount-action{display:block;font:500 .9cqw/1.4 Manrope,sans-serif;color:var(--muted);margin-bottom:.7cqw}
+@media(min-width:951px), (min-width:701px) and (min-height:501px){
+  .slide-header{top:12%}
+  .comparison-header,.market-context,.bond-summary{font-size:1cqw;line-height:1.4}
+  .comparison-header{top:-1.9cqw}
+  .market-context{top:-1.9cqw}
+  .market-context small{font-size:.85cqw;color:var(--muted)}
+  .station-detail{font-size:.95cqw}
+  .station-range{font-size:.9cqw}
+  .public-use,.private-use{font-size:1.1cqw}
+  .capital-label,.payment-label{font-size:1cqw}
+  .discount-term>.formula{font-size:1.5cqw}
+  .discount-terms{top:40%}
+  .discount-term b{font-size:1.8cqw}
+  .range-control{font-size:1cqw}
+  .range-control small,.discount-convention{font-size:.8cqw}
+  .discount-convention{bottom:-6%}
+  .panel-overline{font-size:.8cqw}
+  .return-panel p{font-size:1.1cqw}
+  .panel-foot,.wealth-accumulation small{font-size:.85cqw}
+  .single-discount{top:42%}
+}
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){
+  .discount-action{font-size:11px;margin-bottom:10px}
+  .single-discount{top:47%}
+  .discount-term>.formula{font-size:12px}
+}
+
+/* Contract identity survives the change from valuation to return. */
+.slide-4 .compact .certificate-name,.slide-5 .compact .certificate-name{font-family:var(--serif)}
+@media(min-width:951px), (min-width:701px) and (min-height:501px){
+  .ytm-panel .mini-flows{visibility:hidden}
+
+  .return-rail .cash-amount{font-size:1.05cqw}
+  .return-rail .cash-amount small{display:none}
+  .return-rail .cash-stem{height:14px}
+  .return-rail .cash-node{width:5px;height:5px;margin-top:-2px;outline:none}
+  .return-rail .cash-date{font-size:.7cqw}
+  .return-rail .maturity-label{display:none}
+  .coupon-column .equation-step .formula{font-size:1.2cqw}
+  .recap-returns .formula{font-size:1.2cqw}
+}
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){
+  .flow-spine.return-rail{display:none}
+}
+
+@media(min-width:951px), (min-width:701px) and (min-height:501px){
+  .coupon-column .build[data-build="1"] .equation-step{min-height:8.5cqw}
+  .cash-amount,.cash-date{transition:font-size .7s ease}
+  .cash-node,.cash-stem{transition:width .7s ease,height .7s ease,margin .7s ease}
+}
+.presentation[data-motion=false] .cash-amount,.presentation[data-motion=false] .cash-date,.presentation[data-motion=false] .cash-node,.presentation[data-motion=false] .cash-stem{transition:none}
+
+@media(max-width:700px) and (orientation:portrait), (max-width:950px) and (max-height:500px){.discount-terms{top:180px}}
+
+.bond-actor.compact:not(.navy-certificate) .certificate-name{font-family:var(--serif);font-size:1.1cqw}
+.bond-actor.compact:not(.navy-certificate) .certificate-seal{display:none}

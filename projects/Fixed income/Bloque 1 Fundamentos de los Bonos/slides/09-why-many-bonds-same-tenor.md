@@ -68,3 +68,13 @@ La coexistencia se explica primero por historia y calendario, no por arbitraje: 
 
 ### Pregunta de control y transición
 Preguntar: «Si tres bonos cercanos a 5Y pagan cupones distintos, ¿qué variable puede moverse hoy para que ninguno ofrezca una oportunidad obvia frente a los otros?». Respuesta de transición: el precio.
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Tres contratos ilustrativos distintos, originalmente a 10Y, emitidos hace 5,2 / 4,8 / 4,4 años, terminan con 4,8 / 5,2 / 5,6 años residuales. El calendario relativo sustituye fechas e ISIN ilustrativos inconsistentes; cada cupón permanece fijo.
+
+Render implementado: [Slide 09](../../../../presentation/evidence/final/slide-09.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

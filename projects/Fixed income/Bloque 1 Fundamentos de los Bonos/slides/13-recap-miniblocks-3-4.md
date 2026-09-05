@@ -68,3 +68,13 @@ La banda inferior resume `Del bono a la curva de tipos`. A la izquierda aparece 
 
 ### Comprobación final
 Pedir al alumno que explique, sin leer la slide, por qué un bono de cupón alto puede cotizar por encima de `100`, por qué ese precio no implica necesariamente que esté caro y cómo termina representado como un punto en la curva. Si puede enlazar las tres respuestas, la arquitectura conceptual del bloque está consolidada.
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Dos bandas preservadas: YTM vs resultado compuesto y después precio+flujos→YTM→curva. Pregunta de recuperación con respuesta bajo demanda; sin duración ni DV01.
+
+Render implementado: [Slide 13](../../../../presentation/evidence/final/slide-13.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

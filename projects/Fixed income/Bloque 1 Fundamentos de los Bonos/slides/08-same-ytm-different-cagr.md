@@ -126,3 +126,13 @@ Los precios se obtienen descontando cada secuencia al `4%`; por construcción, l
 
 ### Pregunta de control y transición
 Preguntar por qué el bono A, pese a repartir más euros, tiene el CAGR sin reinversión más bajo. Transición: «Ya sabemos comparar estructuras de pago; ahora veremos por qué el mercado ofrece simultáneamente muchos bonos con cupones distintos en una zona de vencimiento similar».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Tres columnas conservadas con operaciones desplegadas por pasos. Precios y CAGR proceden de cálculos con precisión completa; en móvil se leen en secuencia vertical.
+
+Render implementado: [Slide 08](../../../../presentation/evidence/final/slide-08.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

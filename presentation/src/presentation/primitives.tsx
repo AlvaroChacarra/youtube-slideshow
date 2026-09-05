@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { Landmark, ShieldCheck, ArrowUpRight } from 'lucide-react';
 import gsap from 'gsap';
 import katex from 'katex';
@@ -26,17 +26,29 @@ export function RangeControl({label,value,onChange,min=0,max=.1,step=.005,sub}: 
   return <label className="range-control"><span>{label}<output>{euro(value*100,1)}%</output></span><input type="range" aria-label={label} min={min} max={max} step={step} value={value} onChange={e=>onChange(Number(e.currentTarget.value))}/>{sub&&<small>{sub}</small>}</label>;
 }
 
+// Exchange labels while the stable outline/rail continues its spatial journey.
+function useContentMode(mode:boolean,motion:boolean,ref:RefObject<HTMLDivElement|null>,selector:string){
+  const [displayed,setDisplayed]=useState(mode);
+  useLayoutEffect(()=>{
+    const targets=ref.current?.querySelectorAll(selector);if(!targets)return;
+    if(!motion||displayed===mode){setDisplayed(mode);gsap.set(targets,{opacity:1});return;}
+    const timeline=gsap.timeline().to(targets,{opacity:0,duration:.1}).call(()=>setDisplayed(mode)).to(targets,{opacity:1,duration:.2});
+    return()=>{timeline.kill();gsap.set(targets,{opacity:1});};
+  },[mode,motion]);
+  return displayed;
+}
+
 export function BondActor({slide,step,motion}:{slide:number;step:number;motion:boolean}) {
   const el=useRef<HTMLDivElement>(null);
   const shown=[0,2,3,4,5].includes(slide);
-  const detailed=slide===3||slide===0;
+  const detailed=useContentMode(slide===3||slide===0,motion,el,'.certificate-rim');
   const pos=slide===0?{left:'70%',top:'43%',width:'26%',height:'42%',rotation:-6}:
     slide===2?{left:'50%',top:'53%',width:'25%',height:'23%',rotation:0}:
     slide===3?{left:'25%',top:'52%',width:'32%',height:'52%',rotation:0}:
     {left:'10.5%',top:'43%',width:'10%',height:'13%',rotation:0};
   useLayoutEffect(()=>{
     if(!el.current)return;
-    const tween=gsap.to(el.current,{...pos,x:0,y:0,xPercent:-50,yPercent:-50,opacity:shown?1:0,duration:motion?.8:0,ease:'power3.inOut',overwrite:true});
+    const tween=gsap.to(el.current,{...pos,x:0,y:0,xPercent:-50,yPercent:-50,autoAlpha:shown?1:0,duration:motion?(shown?.8:.18):0,ease:'power3.inOut',overwrite:true});
     return ()=>{tween.kill();};
   },[slide,motion,shown]);
   return <div ref={el} className={`bond-actor ${detailed?'detailed':'compact'} ${slide===2?'navy-certificate':''}`} data-entity="canonical-bond" aria-hidden={!shown} inert={!shown}>
@@ -55,11 +67,19 @@ export function BondActor({slide,step,motion}:{slide:number;step:number;motion:b
 }
 
 export function CashflowSpine({slide,step,motion,selected,onSelect}:{slide:number;step:number;motion:boolean;selected:number;onSelect:(n:number)=>void}) {
-  const el=useRef<HTMLDivElement>(null);const shown=(slide===3&&step>=3)||slide===4||slide===5;
-  const pos=slide===3?{left:'47%',top:'67%',width:'47%'}:{left:'19%',top:slide===5?'33%':'35%',width:'72%'};
-  useLayoutEffect(()=>{if(!el.current)return;const tween=gsap.to(el.current,{...pos,opacity:shown?1:0,duration:motion?.7:0,ease:'power3.inOut',overwrite:true});return()=>{tween.kill();};},[slide,shown,motion]);
-  const symbolic=slide===4;
-  return <div ref={el} className={`flow-spine ${slide===3?'small-rail':''}`} data-entity="canonical-cashflows" aria-hidden={!shown} inert={!shown}>
+  const el=useRef<HTMLDivElement>(null);const shown=(slide===3&&step>=3)||slide===4||slide===5||slide===6;
+  const pos=slide===3?{left:'47%',top:'67%',width:'47%',height:'12%'}:{left:'19%',top:slide===5?'33%':'35%',width:'72%',height:'17%'};
+  useLayoutEffect(()=>{
+    if(!el.current)return;const rail=el.current;const stage=rail.closest('.stage');
+    const destination=stage?.querySelector<HTMLElement>('.ytm-panel .mini-flows');
+    const resolve=()=>{if(slide!==6||!destination||!stage)return pos;const a=stage.getBoundingClientRect(),b=destination.getBoundingClientRect();return{left:`${(b.left-a.left)/a.width*100}%`,top:`${(b.top-a.top)/a.height*100}%`,width:`${b.width/a.width*100}%`,height:'54px'};};
+    const tween=gsap.to(rail,{...resolve(),autoAlpha:shown?1:0,duration:motion?(shown?.7:.18):0,ease:'power3.inOut',overwrite:true});
+    let size=stage?`${stage.clientWidth}:${stage.clientHeight}`:'';
+    const resize=new ResizeObserver(()=>{const next=stage?`${stage.clientWidth}:${stage.clientHeight}`:'';if(slide===6&&next!==size){size=next;gsap.set(rail,resolve());}});if(stage)resize.observe(stage);
+    return()=>{tween.kill();resize.disconnect();};
+  },[slide,shown,motion]);
+  const symbolic=useContentMode(slide===4,motion,el,'.cash-amount,.cash-date,.maturity-label');
+  return <div ref={el} className={`flow-spine ${slide===3?'small-rail':''} ${slide===6?'return-rail':''}`} data-entity="canonical-cashflows" aria-hidden={!shown} inert={!shown}>
     {slide===3&&<div className="flow-origin"><span>Hoy</span><b>−100 €</b></div>}
     <div className="flow-track">{[1,2,3,4,5].map(t=><button key={t} id={`cashflow-${t}`} className={`cashflow ${t===5?'principal-flow':''} ${selected===t?'selected':''}`} aria-label={symbolic?`Flujo del periodo ${t===5?'n':t}`:`Flujo año ${t}: ${t===5?'104':'4'} euros`} aria-pressed={selected===t} onClick={()=>onSelect(t)}>
       <span className="cash-amount">{symbolic?(t===3?'⋯':t===4?<Formula>{'C_{n-1}'}</Formula>:t===5?<><Formula>{'C_n'}</Formula><small>+ principal</small></>:<Formula>{`C_${t}`}</Formula>):<>{t===5?'104':'4'}<small>€</small></>}</span>

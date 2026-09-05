@@ -103,3 +103,13 @@ Esta segunda expresión se parece a la ecuación de YTM, pero la dirección del 
 
 ### Preguntas de control y transición
 Preguntar qué ocurre con el precio si `r₅` aumenta y todo lo demás permanece constante. Después preguntar qué parte del `104` es cupón y cuál principal. Transición: «Hasta ahora hemos usado tasas para obtener un precio; el mercado plantea a menudo el problema inverso: conocemos precio y flujos y queremos una sola tasa resumen».
+
+## Implementación web — 2026-09-05
+
+Candidata desarrollada a petición del usuario; la aprobación de la referencia original no se transfiere automáticamente a este render.
+
+Los cinco términos se alinean con sus pagos; suma de valores presentes y exploración de r_5 con r_1…r_4 constantes. Los pagos contractuales permanecen fijos.
+
+Render implementado: [Slide 06](../../../../presentation/evidence/final/slide-06.jpg). Referencia PNG anterior conservada como baseline.
+
+Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.

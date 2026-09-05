@@ -43,7 +43,7 @@ Separar fuente, cálculo y representación. Un cálculo alimenta cifras, fórmul
 2. [completo] Secuencia de referencia 03–06 con estética, movimiento y controles; revisión independiente antes de escalar.
 3. [completo] Completar 01–02 y 07–13 conservando la secuencia y el rigor; notas/ayudas y móvil.
 4. [completo] Auditar las trece slides y estados densos en navegador. Corregir hallazgos; verificar cálculo y navegación.
-5. [en curso] Guardar evidencia, documentación, commits/push y PR; entregar resultado utilizable sin merge.
+5. [completo] Guardar evidencia, documentación, commits/push y PR; entregar resultado utilizable sin merge.
 
 ## Aceptación y evidencia
 
@@ -83,3 +83,5 @@ Plan de solución antes de modificar código:
 4. Revisar las trece composiciones afectadas y tamaños pequeños, contrastar hallazgos con revisor independiente, corregir regresiones y subir código + plan + evidencia + auditoría. No merge ni despliegue.
 
 Se conserva el deadline de16:46 UTC para cerrar esta ejecución. El rechazo automático de la descarga del repo auxiliar de auditoría limita el uso completo de esa skill; la revisión directa del repo solicitado y sus renders continúa.
+
+- Segunda auditoría ejecutada: jerarquía, fracciones, etiquetaPV, identidadesdeejemplo, raíl06→07 y secuenciación temporal corregidos. Nuevosrenders y revisiónindependiente;12tests+buildcorrectos. Fuentesfinales25c026ea7e44bff582ebfdca65f64003ddce7c95. Push final de código/documentación/evidencias preparado, sin merge ni despliegue.

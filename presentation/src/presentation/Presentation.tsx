@@ -37,6 +37,12 @@ export default function Presentation(){
   useEffect(()=>{if(modal&&!dialog.current?.open)dialog.current?.showModal();if(!modal&&dialog.current?.open)dialog.current?.close();},[modal]);
   useLayoutEffect(()=>{if(!stage.current)return;const tweens=Array.from(stage.current.querySelectorAll<HTMLElement>('.build')).map(el=>gsap.to(el,{autoAlpha:el.dataset.visible==='true'?1:0,y:el.dataset.visible==='true'?0:8,duration:motion?.42:0,ease:'power2.out',overwrite:true}));return()=>tweens.forEach(t=>t.kill());},[pos,motion]);
   useLayoutEffect(()=>{if(!stage.current||!motion)return;const tween=gsap.fromTo(stage.current.querySelector('.slide-header'),{opacity:.2,y:8},{opacity:1,y:0,duration:.45});return()=>{tween.kill();};},[pos.slide,motion]);
+  useLayoutEffect(()=>{
+    const body=stage.current?.querySelector('.slide-body');if(!body)return;
+    if(!motion){gsap.set(body,{opacity:1,y:0});return;}
+    const tween=gsap.fromTo(body,{opacity:0,y:6},{opacity:1,y:0,duration:.4,delay:pos.slide>=2&&pos.slide<=6?.72:.18,ease:'power2.out'});
+    return()=>{tween.kill();};
+  },[pos.slide,motion]);
   let caption=current.captions[pos.step]??'';
   if(pos.slide===5&&pos.step===2&&rate!==.04)caption=`Con r₅ = ${euro(rate*100,1)}% y las otras tasas al 4%, el precio cambia. Los pagos contractuales se mantienen.`;
   return <div className={`presentation ${capture?'capture':''}`} data-ready={ready} data-motion={motion}>
