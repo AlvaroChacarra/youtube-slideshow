@@ -39,17 +39,17 @@ Separar fuente, cálculo y representación. Un cálculo alimenta cifras, fórmul
 
 ## Bloques de ejecución
 
-1. [en curso] Plan subido, inspección de referencias y arquitectura mínima; dependencia/runtime preparados.
-2. [pendiente] Secuencia de referencia 03–06 con estética, movimiento y controles; revisión independiente antes de escalar.
-3. [pendiente] Completar 01–02 y 07–13 conservando la secuencia y el rigor; notas/ayudas y móvil.
-4. [pendiente] Auditar las trece slides y estados densos en navegador. Corregir hallazgos; verificar cálculo y navegación.
-5. [pendiente] Guardar evidencia, documentación, commits/push y PR; entregar resultado utilizable sin merge.
+1. [completo] Plan subido, inspección de referencias y arquitectura mínima; dependencia/runtime preparados.
+2. [completo] Secuencia de referencia 03–06 con estética, movimiento y controles; revisión independiente antes de escalar.
+3. [completo] Completar 01–02 y 07–13 conservando la secuencia y el rigor; notas/ayudas y móvil.
+4. [completo] Auditar las trece slides y estados densos en navegador. Corregir hallazgos; verificar cálculo y navegación.
+5. [en curso] Guardar evidencia, documentación, commits/push y PR; entregar resultado utilizable sin merge.
 
 ## Aceptación y evidencia
 
 - Cobertura 13/13 y todos sus pasos, incluidos retroceso, salto desde índice, reinicio y enlaces directos.
 - Revisión visual independiente del render, no solo del código: foco dominante, continuidad de objetos, correspondencia con fuente, ausencia de recortes/solapes y contraste/lectura.
-- Capturas de las 13 finales a 1600×900; recorrido a 1280×720; escenas densas y controles en 390×844 y 844×390. Estados intermedios en transiciones de riesgo; reduced-motion.
+- Objetivo inicial: capturas finales a 1600×900. Ajuste documentado por la API de captura: las 13 finales a 1280×720; escenas densas y controles en 390×844 y 844×390. Estados intermedios en transiciones de riesgo; reduced-motion.
 - Comparación explícita con PNG originales y runtime anterior en escenas equivalentes. Una puntuación autodeclarada no prueba mejora ni equivale a aprobación humana.
 - Validación financiera con invariantes y ejemplos; compilación reproducible y checks de integración. Cero errores de consola en recorrido verificado.
 - Ayudas se abren/cierra con teclado y no roban el foco; controles de tasa no activan avance de slide; selección de gráfico accesible con teclado.
@@ -62,4 +62,24 @@ Separar fuente, cálculo y representación. Un cálculo alimenta cifras, fórmul
 - Se conservarán fórmulas y operaciones obligatorias; las revelaciones progresivas y ayudas absorberán densidad, sin eliminar contenido.
 - Ambigüedad resuelta: desktop/proyección es superficie principal; móvil es adaptación de consulta y manipulación del mismo deck. No nueva plataforma de estudio.
 - Pendientes iniciales del revisor: corregir ambigüedades YTM de imágenes frente a fichas, conectores de anatomía, escala/corte 2Y e historia temporal de emisiones.
-- Estado actual: plan escrito; implementación no iniciada. Revisor independiente `presentation_reviewer`; asset opcional `skyline_asset`.
+- Estado actual: 13 slides y 43 estados implementados, 12 tests y build correctos. Auditoría independiente de los trece estados finales cerrada sin defectos materiales; integración funcional y móvil completadas en el alcance de AUDIT.md. Entrega HTML autocontenida adicional, generada del mismo código.
+
+### Cambios y revisión durante ejecución
+
+- Se corrigieron desplazamiento GSAP del certificado, correspondencia entre flujo y fórmula, solape móvil al cerrar anatomía, formato decimal del cupón 7%, scroll al cambiar slide, reset táctil y selección de curva persistente.
+- Ajuste de curva corregido tras observar extrapolación cúbica excesiva: base [1, exp(−t/5), t/50], revisada matemáticamente por agente independiente. 30 observaciones, 20 hasta 10Y, 8 benchmarks.
+- Captura del navegador restringida al viewport externo 1363×936: QA desktop mediante viewport interno 1280×720; móvil 390×844 y 844×390. La API de captura completa/recortada devolvió timeout; no se presentarán como capturas 1600×900. La resolución de la presentación sigue siendo adaptable.
+- La versión descargable es un HTML autocontenido de ≈2,38 MB construido de los mismos componentes. No se crea otro producto ni plataforma.
+
+- Código final validado y subido: `9b7b8798f971b1f3e2207b811ed36892648d85ec`. Compilación, doce tests y empaquetado correctos. HTML entregable y evidencias conservados; cierre documental y PR en curso.
+
+## Revisión escrupulosa adicional — petición del usuario 16:07 UTC
+
+Plan de solución antes de modificar código:
+
+1. Corregir la invasión de cajas título/contexto observada en navegador: h1 termina en y=179,38 y subtítulo empieza en177,28 en slide08 a1280×720. Separar niveles de lectura y aumentar etiquetas docentes pequeñas.
+2. Reforzar continuidad semántica: distinguir numeración docente de orden físico; indicar retorno al caso base y cambio de ejemplos al pasar entre escenarios; anclar la etiqueta del descuento a su fórmula, no al certificado.
+3. Reforzar continuidad temporal: entrada breve y coherente del contenido nuevo sin desmontar los objetos persistentes; validar retroceso y movimiento reducido. No añadir movimiento decorativo ni nuevo contenido curricular.
+4. Revisar las trece composiciones afectadas y tamaños pequeños, contrastar hallazgos con revisor independiente, corregir regresiones y subir código + plan + evidencia + auditoría. No merge ni despliegue.
+
+Se conserva el deadline de16:46 UTC para cerrar esta ejecución. El rechazo automático de la descarga del repo auxiliar de auditoría limita el uso completo de esa skill; la revisión directa del repo solicitado y sus renders continúa.
