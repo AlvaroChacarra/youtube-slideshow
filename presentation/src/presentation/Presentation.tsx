@@ -1,4 +1,6 @@
-import Player from '../player/Player';
-import { bondsDeck } from '../decks/bonds';
+import Player from "../player/Player";
+import { bondsDeck } from "../decks/bonds";
 
-export default function Presentation(){ return <Player deck={bondsDeck}/>; }
+export default function Presentation() {
+  return <Player deck={bondsDeck} />;
+}

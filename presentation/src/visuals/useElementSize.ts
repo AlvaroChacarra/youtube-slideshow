@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from "react";
 
 /** SVG geometry follows the available width, so labels retain their actual size. */
 export function useElementSize(fallback = 720) {
