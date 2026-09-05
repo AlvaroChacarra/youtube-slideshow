@@ -262,3 +262,18 @@
 .capture .session-stop:focus-visible {
   opacity: 1;
 }
+
+.session-import input[type="file"] {
+  width: 100%;
+  font-size: 13px;
+}
+.session-import input::file-selector-button {
+  margin-right: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #12314a;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}

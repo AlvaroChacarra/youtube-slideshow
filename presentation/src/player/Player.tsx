@@ -138,6 +138,9 @@ export default function Player<S extends Scenario>({
     setAnswer(false);
   }
   function openDialog(kind: typeof modal, conceptId: string | null = null) {
+    // Reading is a manual interruption in both windows. Freeze the exact state
+    // before the modal opens, and invalidate any already queued replay update.
+    go({ ...latest.current });
     returnFocus.current = document.activeElement as HTMLElement;
     setConcept(conceptId);
     setModal(kind);
@@ -774,15 +777,49 @@ export default function Player<S extends Scenario>({
               </button>
             </div>
             <label className="session-import">
-              Importar una sesión JSON
-              <textarea
-                value={sessionText}
-                onChange={(e) => setSessionText(e.currentTarget.value)}
-                rows={5}
-                spellCheck={false}
+              Abrir archivo de sesión
+              <input
+                type="file"
+                disabled={recording}
+                accept=".json,application/json"
+                onChange={async (event) => {
+                  const file = event.currentTarget.files?.[0];
+                  if (!file) return;
+                  try {
+                    if (file.size > 5_000_000)
+                      throw new Error("La sesión es demasiado grande.");
+                    const text = await file.text();
+                    const parsed = parseSession(text, deck);
+                    setSessionText(text);
+                    setRecorded(parsed);
+                    setNotice(
+                      `Sesión lista: ${parsed.events.length} estados, ${(parsed.duration / 1000).toLocaleString("es-ES")} segundos.`,
+                    );
+                  } catch (error) {
+                    setNotice(
+                      error instanceof Error
+                        ? error.message
+                        : "No se pudo leer la sesión.",
+                    );
+                  }
+                }}
               />
             </label>
-            <button onClick={loadSession}>Cargar sesión</button>
+            <details>
+              <summary>Pegar o consultar una sesión</summary>
+              <label className="session-import">
+                Importar una sesión JSON
+                <textarea
+                  value={sessionText}
+                  onChange={(e) => setSessionText(e.currentTarget.value)}
+                  rows={5}
+                  spellCheck={false}
+                />
+              </label>
+              <button disabled={recording} onClick={loadSession}>
+                Cargar sesión
+              </button>
+            </details>
             <p className="session-notice" role="status">
               {notice}
             </p>

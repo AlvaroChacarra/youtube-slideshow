@@ -1,0 +1,233 @@
+{
+  "format": "presentation-session",
+  "version": 1,
+  "deckId": "bonds-foundations",
+  "deckVersion": 2,
+  "duration": 82000,
+  "events": [
+    {
+      "at": 0,
+      "state": {
+        "sceneId": "05-discounting-theory",
+        "stepId": "dates",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 6000,
+      "state": {
+        "sceneId": "05-discounting-theory",
+        "stepId": "present-value",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 12000,
+      "state": {
+        "sceneId": "05-discounting-theory",
+        "stepId": "price",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 18000,
+      "state": {
+        "sceneId": "06-discounting-example",
+        "stepId": "cashflows",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 23000,
+      "state": {
+        "sceneId": "06-discounting-example",
+        "stepId": "terms",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 29000,
+      "state": {
+        "sceneId": "06-discounting-example",
+        "stepId": "sum",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 34000,
+      "state": {
+        "sceneId": "06-discounting-example",
+        "stepId": "last-rate",
+        "scenario": {
+          "lastRate": 0.08,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 5,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 41000,
+      "state": {
+        "sceneId": "06-discounting-example",
+        "stepId": "last-rate",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 46000,
+      "state": {
+        "sceneId": "07-ytm-vs-cagr",
+        "stepId": "ytm",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 52000,
+      "state": {
+        "sceneId": "07-ytm-vs-cagr",
+        "stepId": "cash",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 58000,
+      "state": {
+        "sceneId": "07-ytm-vs-cagr",
+        "stepId": "cagr",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 64000,
+      "state": {
+        "sceneId": "07-ytm-vs-cagr",
+        "stepId": "reinvestment",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0.04,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 70000,
+      "state": {
+        "sceneId": "07-ytm-vs-cagr",
+        "stepId": "reinvestment",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0.08,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 76000,
+      "state": {
+        "sceneId": "07-ytm-vs-cagr",
+        "stepId": "reinvestment",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0.08,
+          "marketYield": 0.04,
+          "flow": 5,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    }
+  ]
+}

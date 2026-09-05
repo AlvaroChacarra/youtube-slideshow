@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import example from "../../examples/bonds-guided-session.json";
 import { bondsDeck } from "../../src/decks/bonds";
 import {
   regressionDeck,
@@ -131,4 +132,10 @@ it("keeps the second deck numerically meaningful", () => {
   expect(meanSquaredError(1)).toBeCloseTo(0.04, 12);
   expect(predict(5, 1)).toBe(6);
   expect(meanSquaredError(0.5)).toBeGreaterThan(meanSquaredError(1));
+});
+
+it("keeps the supplied guided session compatible with the current deck", () => {
+  const parsed = parseSession(JSON.stringify(example), bondsDeck);
+  expect(parsed.duration).toBe(82000);
+  expect(parsed.events.at(-1)!.state.scenario.flow).toBe(5);
 });

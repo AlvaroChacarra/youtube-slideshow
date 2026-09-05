@@ -57,7 +57,15 @@ export function BondCurve({
   const selected = bondCloud.find((p) => p.id === chosen) ?? basePoint;
   const limit =
     focus ?? (width < 500 && selected.maturityYears <= 10 ? 10 : 50);
-  const height = width < 500 ? 268 : 350;
+  const height =
+    width < 500
+      ? 268
+      : Math.max(
+          180,
+          Math.min(285, width * 0.3) -
+            (limit === 10 ? 65 : 0) -
+            (selected.maturityYears > limit ? 38 : 0),
+        );
   const left = 43,
     right = width - 18,
     top = 28,
@@ -281,7 +289,7 @@ export function BondCurve({
             >
               {bondCloud.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {euro(p.maturityYears, 1)}Y · {percent(p.ytm)}
+                  {p.id} · {euro(p.maturityYears, 1)}Y · {percent(p.ytm)}
                   {p.benchmark ? " · benchmark" : ""}
                 </option>
               ))}

@@ -29,13 +29,19 @@ for (const delivery of deliveries) {
     define,
   });
   const index = await readFile(delivery.page, "utf8");
+  // Astro may inline a deck's small stylesheet while linking the shared one.
+  // Preserve both kinds in document order so standalone output has identical CSS.
   const styles = [
-    ...index.matchAll(/<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g),
-  ].map((match) => match[1]);
+    ...index.matchAll(
+      /<link\b[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>|<style\b[^>]*>([\s\S]*?)<\/style>/g,
+    ),
+  ];
   if (!styles.length) throw new Error(`Missing stylesheet for ${delivery.id}.`);
   let css = "";
-  for (const href of styles)
-    css += await readFile(resolve("dist/_astro", basename(href)), "utf8");
+  for (const style of styles)
+    css += style[1]
+      ? await readFile(resolve("dist/_astro", basename(style[1])), "utf8")
+      : style[2];
   const urls = [
     ...new Set(
       [...css.matchAll(/url\(([^)]+)\)/g)].map((m) =>

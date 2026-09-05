@@ -15,6 +15,8 @@ export function CouponJourney({
   onSelect: (period: number) => void;
 }) {
   const { ref, width } = useElementSize(470);
+  const height =
+    width < 360 ? 130 : Math.min(130, Math.max(96, 96 + (width - 360) * 0.18));
   const left = 43,
     right = width - 68;
   const x = (t: number) => left + ((t - 1) / 4) * (right - left);
@@ -29,21 +31,21 @@ export function CouponJourney({
       <div ref={ref}>
         <svg
           width={width}
-          height={130}
-          viewBox={`0 0 ${width} 130`}
+          height={height}
+          viewBox={`0 0 ${width} ${height}`}
           role="group"
           aria-label="Cada cobro se conserva y crece durante los años restantes hasta el vencimiento"
         >
           {[1, 2, 3, 4, 5].map((t) => (
             <g key={t}>
-              <path d={`M${x(t)} 22V120`} className="journey-grid" />
+              <path d={`M${x(t)} 22V${height - 10}`} className="journey-grid" />
               <text x={x(t)} y={12} textAnchor="middle">
                 {t}Y
               </text>
             </g>
           ))}
           {canonicalFlows.map((f, i) => {
-            const yy = 29 + i * 20;
+            const yy = 29 + i * ((height - 40) / 4);
             const terminal = f.amount * (1 + rate) ** (5 - f.period);
             return (
               <g
@@ -68,9 +70,9 @@ export function CouponJourney({
               >
                 <rect
                   x={0}
-                  y={yy - 10}
+                  y={yy - 8}
                   width={width}
-                  height={20}
+                  height={(height - 40) / 4}
                   fill="transparent"
                 />
                 <path

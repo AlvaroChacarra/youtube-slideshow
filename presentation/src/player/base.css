@@ -691,3 +691,141 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+/* Bond objects and teaching scenes. Shared player styles live in ../player/base.css. */
+.panel-overline {
+  font-size: 0.6cqw;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  font-weight: 600;
+}
+@media (max-width: 700px) and (orientation: portrait),
+  (max-width: 950px) and (max-height: 500px) {
+  .panel-overline {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+}
+
+.chart-grid {
+  fill: none;
+  stroke: #9fc9d31c;
+  stroke-width: 1;
+}
+.chart-tick {
+  fill: none;
+  stroke: #7ea9bd80;
+  stroke-width: 1;
+}
+.selected-guide {
+  fill: none;
+  stroke: #c1df7966;
+  stroke-dasharray: 3 5;
+  stroke-width: 1;
+  pointer-events: none;
+}
+/* Values needed for the argument remain readable at presentation distance. */
+.stage:focus {
+  outline: none;
+}
+@keyframes trace-curve {
+  from {
+    stroke-dashoffset: 1200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (max-width: 700px) and (orientation: portrait),
+  (max-width: 950px) and (max-height: 500px) {
+  .presentation {
+    padding-bottom: 112px;
+  }
+  .deck-controls {
+    height: 112px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    padding: 5px 18px;
+  }
+  .control-tools {
+    gap: 8px;
+  }
+  .control-tools button,
+  .control-tools button:nth-child(4),
+  .control-tools button:nth-child(5) {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+  }
+  .control-tools svg {
+    width: 19px;
+    height: 19px;
+  }
+  .step-navigation {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .nav-arrow {
+    width: 42px;
+    height: 42px;
+  }
+  .step-summary {
+    width: 240px;
+  }
+  .step-summary > span {
+    font-size: 11px;
+  }
+  .capture {
+    padding-bottom: 0;
+  }
+}
+@media (max-width: 950px) and (max-height: 500px) {
+  .deck-controls {
+    height: 64px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .step-navigation {
+    width: 370px;
+  }
+  .presentation {
+    padding-bottom: 64px;
+  }
+  .capture {
+    padding-bottom: 0;
+  }
+}
+.presentation[data-ready="false"] {
+  visibility: hidden;
+}
+
+/* Second visual audit: readable context and a consistent teaching hierarchy. */
+@media (min-width: 951px), (min-width: 701px) and (min-height: 501px) {
+  .slide-header {
+    top: 12%;
+  }
+  .range-control {
+    font-size: 1cqw;
+  }
+  .range-control small {
+    font-size: 0.8cqw;
+  }
+  .panel-overline {
+    font-size: 0.8cqw;
+  }
+}
+
+/* Contract identity survives the change from valuation to return. */
+
+/* Responsive financial compositions. Rules are owned by these components. */
+@keyframes trace-coupon {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

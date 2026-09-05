@@ -407,3 +407,54 @@ it("retains multiple independent scenario updates in one interaction", async () 
   await clickText("0:0");
   expect(host.textContent).toContain("1:2");
 });
+
+it("keeps the starting state when opening and closing help during replay", async () => {
+  await mount(false);
+  await recordAndReplay(false);
+  const start = visibleStep();
+  await click("Recordar conceptos y controles");
+  expect(host.querySelector(".session-stop")).toBeNull();
+  await nextFrame(160);
+  await click("Cerrar");
+  expect(visibleStep()).toBe(start);
+});
+
+it("audience help emits a same-state manual action that interrupts presenter replay", async () => {
+  await mount(false);
+  await click("Abrir vista del ponente");
+  await receive({ kind: "hello", origin: "presenter" });
+  const initial = messages
+    .filter((message) => message.kind === "state")
+    .at(-1)!;
+  await receive({
+    kind: "command",
+    payload: snapshot(0),
+    commandId: "replay-before-help",
+    intent: "replay",
+    origin: "presenter",
+    baseRevision: initial.revision,
+    revision: 0,
+  });
+  const beforeHelp = messages
+    .filter((message) => message.kind === "state")
+    .at(-1)!;
+  await click("Recordar conceptos y controles");
+  const helpAction = messages
+    .filter((message) => message.kind === "state")
+    .at(-1)!;
+  expect(helpAction.payload).toEqual(beforeHelp.payload);
+  expect(helpAction.revision).toBeGreaterThan(beforeHelp.revision);
+  expect(helpAction.origin).toBe("audience");
+  expect(helpAction.intent).toBe("manual");
+
+  // Mount the receiving endpoint and deliver the exact wire message emitted by help.
+  await act(async () => root.unmount());
+  root = createRoot(host);
+  await mount(true);
+  await recordAndReplay(true);
+  expect(host.querySelector(".session-stop")).not.toBeNull();
+  await receive(helpAction);
+  expect(host.querySelector(".session-stop")).toBeNull();
+  await nextFrame(160);
+  expect(visibleStep()).toBe(0);
+});
