@@ -51,9 +51,9 @@ Cuando se utilice:
 - Jerarquía visible mediante tamaño, peso y espacio antes que mediante múltiples colores.
 - Texto secundario corto. Si una explicación necesita un párrafo, probablemente debe convertirse en narración o dividirse.
 
-## Motion futuro
+## Motion y continuidad
 
-Aún no está diseñado. Cuando se implemente:
+El Bloque 1 ya implementa movimiento dirigido por pasos y objetos persistentes entre contrato, valoración y YTM. La evolución propuesta vive en `WORK_PLAN.md`; no implica que exista un motor transversal terminado. Criterios:
 
 - debe explicar una relación o transformación;
 - preservar la composición aprobada en sus estados importantes;
@@ -71,3 +71,10 @@ Aún no está diseñado. Cuando se implemente:
 ## Evolución de este documento
 
 Añadir una regla global solo cuando aparezca de forma consistente en varias decisiones aprobadas o se confirme en más de un proyecto. Una preferencia propia de `bonds` debe permanecer en `projects/bonds/`.
+
+
+## Objetivo de profesionalización y reutilización
+
+Mandato explícito del usuario (2026-09-05): la calidad técnica debe percibirse a través de una explicación inmersiva y rigurosa, con continuidad de contenido, pedagogía y elementos. La tecnología se elige por su contribución observable a interpretar el mecanismo.
+
+El repositorio debe permitir nuevas presentaciones mediante reutilización de patrones probados. Separar tema/datos de controles, representación y entrega es una dirección de evolución, no una capacidad genérica ya completada. Mantener primero la legibilidad, la identidad de los objetos y la fidelidad de las escalas.

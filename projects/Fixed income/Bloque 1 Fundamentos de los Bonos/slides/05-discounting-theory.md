@@ -104,3 +104,10 @@ Línea temporal simbólica persistente y selección de flujo vinculada al térmi
 Render implementado: [Slide 05](../../../../presentation/evidence/final/slide-05.jpg). Referencia PNG anterior conservada como baseline.
 
 Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+La notación del rail es CF₁, CF₂, …, CFₙ₋₁, CFₙ; el último CF ya incluye principal. No escribir CFₙ+FV como si CFₙ excluyera principal. Seleccionar un pago conserva su identidad al pasar al ejemplo y a la reinversión. La fórmula se actualiza en el mismo estado.
+
+Referencia de la composición actual: `presentation/evidence/implementation/05-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

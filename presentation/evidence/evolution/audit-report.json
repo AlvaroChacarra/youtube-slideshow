@@ -1,0 +1,161 @@
+{
+  "audit_id": "bonds-evolution-2026-09-05",
+  "audit_type": "render",
+  "subject": {
+    "path": "presentation",
+    "version": "main@31d06877a9d5fe6ff0aba4a5eac3ff7dcb4d070a",
+    "source_tree": "25c026ea7e44bff582ebfdca65f64003ddce7c95"
+  },
+  "independence": {
+    "creator_separate": false,
+    "rationale_hidden_first_pass": false,
+    "note": "Revisión del coordinador con historial visible; no nueva revisión independiente."
+  },
+  "verdict": "revision_required",
+  "user_verdict_on_prior_delivery": "merge_authorized",
+  "findings": [
+    {
+      "id": "A01",
+      "type": "motion",
+      "severity": "major",
+      "observation": "Tasa/fórmula y cifras animadas pueden pertenecer a estados distintos durante 450 ms de interpolación programada.",
+      "consequence": "Una captura intermedia puede enseñar una relación financiera inconsistente.",
+      "proposed_fix": "Actualizar cifras atómicamente y animar énfasis; si se anima el escenario, usar un progreso financiero único.",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "id": "A02",
+      "type": "legibility",
+      "severity": "major",
+      "observation": "Curva móvil con leyenda de 8 px y puntos normales de 3,82 px.",
+      "consequence": "Lectura y selección directa deficientes pese a disponer de selector nativo.",
+      "proposed_fix": "Geometría y tipografía para el viewport, mayor área de selección y foco/contexto.",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "id": "A03",
+      "type": "upstream_visual_problem",
+      "severity": "major",
+      "observation": "Comparación móvil 08: 2117 px de alto, casos separados verticalmente.",
+      "consequence": "Comparar CAGR requiere memoria entre pantallas.",
+      "proposed_fix": "Resumen comparativo común y detalle bajo demanda.",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "id": "A04",
+      "type": "continuity",
+      "severity": "minor",
+      "observation": "10 enuncia un punto; 11 empieza con otra muestra, correctamente rotulada pero sin continuidad del objeto.",
+      "consequence": "El espectador reconstruye mentalmente el paso de contrato a mercado.",
+      "proposed_fix": "Puente visual con IDs/escenarios inequívocos; no confundir contratos diferentes.",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "id": "A05",
+      "type": "fidelity_to_visual_plan",
+      "severity": "minor",
+      "observation": "Icono del inversor cambia en 12; gráfico de 13 es un esquema manual distinto; notación poco contextual.",
+      "consequence": "Se debilita el recuerdo del objeto/concepto.",
+      "proposed_fix": "Reutilizar símbolo, datos y definición; identificar los esquemas explícitamente.",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "id": "A06",
+      "type": "data",
+      "severity": "major",
+      "observation": "Fuentes documentales contienen afirmaciones contradictorias sobre YTM/reinversión y estado previo al merge.",
+      "consequence": "Un futuro desarrollo puede reintroducir errores o partir del baseline equivocado.",
+      "proposed_fix": "Reconciliado documentalmente en esta propuesta; conservar contrato matemático implementado.",
+      "status": "documented_fixed"
+    },
+    {
+      "id": "A07",
+      "type": "upstream_visual_problem",
+      "severity": "minor",
+      "observation": "Notas se muestran en el mismo diálogo/salida que la audiencia; glosario no contextual.",
+      "consequence": "La presentación profesional necesita un apoyo diferenciado para ponente y público.",
+      "proposed_fix": "Vista separada de ponente y ayudas contextuales.",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "id": "A08",
+      "type": "technical",
+      "severity": "major",
+      "observation": "Player, objetos, MiniFlows y empaquetador codifican el caso de bonos y los índices de las 13 slides.",
+      "consequence": "Reutilizar otro deck requiere modificar el motor.",
+      "proposed_fix": "Extraer núcleo a partir de patrones probados y verificar un segundo deck sin cambiar el player.",
+      "status": "proposed_not_implemented"
+    },
+    {
+      "id": "A09",
+      "type": "technical",
+      "severity": "major",
+      "observation": "12 tests de dominio/navegación; sin suite E2E/visual versionada ni CI; CSS con overrides sucesivos.",
+      "consequence": "No hay gate repetible para escalar sin regresiones visuales.",
+      "proposed_fix": "CSS por responsabilidad, formatos legibles y pruebas orientadas a los riesgos observados.",
+      "status": "proposed_not_implemented"
+    }
+  ],
+  "blockers": [],
+  "limitations": [
+    "No se certifica un master de vídeo/audio.",
+    "No auditoría de todos los frames, Safari real, fps ni lector de pantalla.",
+    "Sin blind decode ni prueba de aprendizaje con alumno.",
+    "Recorrido E2E nuevo interrumpido por timeout del controlador; los 43 estados sí se verifican en tests del modelo.",
+    "Móvil actual inspeccionado en 08 y 11; no todas las posiciones de scroll de las 13 slides.",
+    "Búsqueda general no operativa; contraste directo con documentación primaria."
+  ],
+  "evidence": {
+    "new_static_review": "13 final desktop compositions observed in current source preview; existing final references use identical source tree.",
+    "tests": {
+      "command": "npm run validate",
+      "passed": 12,
+      "type_errors": 0
+    },
+    "numeric_transition": {
+      "slide": 7,
+      "action": "stable g=8% to g=0% via Home on range",
+      "visible_heading": "CAGRsin reinversión",
+      "wealth_target": 120,
+      "wealth_visible": "122,36",
+      "cagr_percent_target": 3.713728933664817,
+      "cagr_percent_visible": "4,12",
+      "evidence_type": "read-only DOM sample, not a measured video interval"
+    },
+    "mobile_comparison": {
+      "iframe": [
+        390,
+        844
+      ],
+      "content_width": 375,
+      "height": 2117,
+      "column_tops": [
+        268.21875,
+        851.171875,
+        1434.125
+      ],
+      "horizontal_overflow": false,
+      "screenshot": "mobile-08-top.jpg"
+    },
+    "mobile_curve": {
+      "iframe": [
+        390,
+        844
+      ],
+      "content_width": 375,
+      "plot_width": 331,
+      "svg_viewbox": "0 0 780 350",
+      "legend_font_px": 8,
+      "point_width_px": 3.81923,
+      "tick_declared_svg_font": 18,
+      "tick_rendered_box_height_px": 10,
+      "height": 1150,
+      "horizontal_overflow": false,
+      "selector_result": "ILL-30 / 50,0 años / 3,68%",
+      "screenshot": "mobile-11.jpg"
+    },
+    "html_sha256": "3ef8323c23b502273251c9ba64b983fd9e7dd6891c989a53274a777a510182df"
+  },
+  "implementation_authorized_this_phase": false,
+  "plan": "../../../WORK_PLAN.md"
+}

@@ -98,3 +98,10 @@ Candidata desarrollada a petición del usuario; la aprobación de la referencia 
 Certificado persistente, correspondencias N/principal hacia sus definiciones y separación explícita entre contrato y precio observado. Cierre con −100, 4, 4, 4, 4, 104.
 
 Render implementado: [Slide 04](../../../../presentation/evidence/final/slide-04.jpg). Referencia PNG anterior conservada como baseline.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+El certificado y su línea de pagos se registran como entidades persistentes. Notional, principal y precio siguen diferenciados; el último pago es cupón más principal. La geometría se adapta a móvil sin duplicar el contrato.
+
+Referencia de la composición actual: `presentation/evidence/implementation/04-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

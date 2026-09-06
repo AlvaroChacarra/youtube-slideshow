@@ -1,0 +1,220 @@
+{
+  "motion": false,
+  "states": [
+    {
+      "scene": "01-block-cover",
+      "slide": "1",
+      "step": "0"
+    },
+    {
+      "scene": "02-table-of-contents",
+      "slide": "2",
+      "step": "0"
+    },
+    {
+      "scene": "03-what-is-a-bond",
+      "slide": "3",
+      "step": "0"
+    },
+    {
+      "scene": "03-what-is-a-bond",
+      "slide": "3",
+      "step": "1"
+    },
+    {
+      "scene": "03-what-is-a-bond",
+      "slide": "3",
+      "step": "2"
+    },
+    {
+      "scene": "03-what-is-a-bond",
+      "slide": "3",
+      "step": "3"
+    },
+    {
+      "scene": "04-bond-anatomy",
+      "slide": "4",
+      "step": "0"
+    },
+    {
+      "scene": "04-bond-anatomy",
+      "slide": "4",
+      "step": "1"
+    },
+    {
+      "scene": "04-bond-anatomy",
+      "slide": "4",
+      "step": "2"
+    },
+    {
+      "scene": "04-bond-anatomy",
+      "slide": "4",
+      "step": "3"
+    },
+    {
+      "scene": "05-discounting-theory",
+      "slide": "5",
+      "step": "0"
+    },
+    {
+      "scene": "05-discounting-theory",
+      "slide": "5",
+      "step": "1"
+    },
+    {
+      "scene": "05-discounting-theory",
+      "slide": "5",
+      "step": "2"
+    },
+    {
+      "scene": "06-discounting-example",
+      "slide": "6",
+      "step": "0"
+    },
+    {
+      "scene": "06-discounting-example",
+      "slide": "6",
+      "step": "1"
+    },
+    {
+      "scene": "06-discounting-example",
+      "slide": "6",
+      "step": "2"
+    },
+    {
+      "scene": "06-discounting-example",
+      "slide": "6",
+      "step": "3"
+    },
+    {
+      "scene": "07-ytm-vs-cagr",
+      "slide": "7",
+      "step": "0"
+    },
+    {
+      "scene": "07-ytm-vs-cagr",
+      "slide": "7",
+      "step": "1"
+    },
+    {
+      "scene": "07-ytm-vs-cagr",
+      "slide": "7",
+      "step": "2"
+    },
+    {
+      "scene": "07-ytm-vs-cagr",
+      "slide": "7",
+      "step": "3"
+    },
+    {
+      "scene": "08-same-ytm-different-cagr",
+      "slide": "8",
+      "step": "0"
+    },
+    {
+      "scene": "08-same-ytm-different-cagr",
+      "slide": "8",
+      "step": "1"
+    },
+    {
+      "scene": "08-same-ytm-different-cagr",
+      "slide": "8",
+      "step": "2"
+    },
+    {
+      "scene": "08-same-ytm-different-cagr",
+      "slide": "8",
+      "step": "3"
+    },
+    {
+      "scene": "09-why-many-bonds-same-tenor",
+      "slide": "9",
+      "step": "0"
+    },
+    {
+      "scene": "09-why-many-bonds-same-tenor",
+      "slide": "9",
+      "step": "1"
+    },
+    {
+      "scene": "09-why-many-bonds-same-tenor",
+      "slide": "9",
+      "step": "2"
+    },
+    {
+      "scene": "09-why-many-bonds-same-tenor",
+      "slide": "9",
+      "step": "3"
+    },
+    {
+      "scene": "10-coupon-price-ytm",
+      "slide": "10",
+      "step": "0"
+    },
+    {
+      "scene": "10-coupon-price-ytm",
+      "slide": "10",
+      "step": "1"
+    },
+    {
+      "scene": "10-coupon-price-ytm",
+      "slide": "10",
+      "step": "2"
+    },
+    {
+      "scene": "10-coupon-price-ytm",
+      "slide": "10",
+      "step": "3"
+    },
+    {
+      "scene": "11-yield-curve",
+      "slide": "11",
+      "step": "0"
+    },
+    {
+      "scene": "11-yield-curve",
+      "slide": "11",
+      "step": "1"
+    },
+    {
+      "scene": "11-yield-curve",
+      "slide": "11",
+      "step": "2"
+    },
+    {
+      "scene": "11-yield-curve",
+      "slide": "11",
+      "step": "3"
+    },
+    {
+      "scene": "12-recap-miniblocks-1-2",
+      "slide": "12",
+      "step": "0"
+    },
+    {
+      "scene": "12-recap-miniblocks-1-2",
+      "slide": "12",
+      "step": "1"
+    },
+    {
+      "scene": "12-recap-miniblocks-1-2",
+      "slide": "12",
+      "step": "2"
+    },
+    {
+      "scene": "13-recap-miniblocks-3-4",
+      "slide": "13",
+      "step": "0"
+    },
+    {
+      "scene": "13-recap-miniblocks-3-4",
+      "slide": "13",
+      "step": "1"
+    },
+    {
+      "scene": "13-recap-miniblocks-3-4",
+      "slide": "13",
+      "step": "2"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "format": "presentation-session",
+  "version": 1,
+  "deckId": "bonds-foundations",
+  "deckVersion": 2,
+  "duration": 24793,
+  "events": [
+    {
+      "at": 0,
+      "state": {
+        "sceneId": "07-ytm-vs-cagr",
+        "stepId": "reinvestment",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 3091,
+      "state": {
+        "sceneId": "07-ytm-vs-cagr",
+        "stepId": "reinvestment",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0.08,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    },
+    {
+      "at": 6136,
+      "state": {
+        "sceneId": "08-same-ytm-different-cagr",
+        "stepId": "coupons",
+        "scenario": {
+          "lastRate": 0.04,
+          "reinvestment": 0.08,
+          "marketYield": 0.04,
+          "flow": 1,
+          "curvePoint": null,
+          "curveRange": null,
+          "couponCase": 0
+        }
+      }
+    }
+  ]
+}

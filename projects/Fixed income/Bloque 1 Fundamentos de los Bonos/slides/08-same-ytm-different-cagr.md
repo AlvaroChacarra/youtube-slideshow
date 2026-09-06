@@ -8,7 +8,7 @@
 
 Demostrar con tres bonos que compartir exactamente el mismo YTM no implica obtener el mismo rendimiento compuesto realizado cuando los cupones no se reinvierten.
 
-La slide debe hacer visible que el YTM incorpora una hipótesis de reinversión de los cupones al mismo rendimiento, mientras que el `CAGR sin reinversión` usado en este ejemplo anualiza la riqueza terminal cuando los cupones cobrados se mantienen aparte al 0% hasta vencimiento.
+La slide debe distinguir el cálculo de YTM, que no exige reinvertir, de la realización de ese rendimiento compuesto, que depende de los cobros y la reinversión. Por su parte, el `CAGR sin reinversión` usado en este ejemplo anualiza la riqueza terminal cuando los cupones cobrados se mantienen aparte al 0% hasta vencimiento.
 
 ## Supuestos comunes
 
@@ -136,3 +136,10 @@ Tres columnas conservadas con operaciones desplegadas por pasos. Precios y CAGR 
 Render implementado: [Slide 08](../../../../presentation/evidence/final/slide-08.jpg). Referencia PNG anterior conservada como baseline.
 
 Segunda revisión visual: jerarquía y contexto separados, relaciones y cambios de ejemplo explícitos; consultar `presentation/AUDIT.md` para hallazgos, correcciones y límites. Las capturas enlazadas corresponden a esta revisión.
+
+
+## Evolución web — candidatura PR #4, 2026-09-05
+
+El nuevo ejemplo explicita reinversión g=0%, independientemente del g explorado en07. En móvil, tabla conjunta de cupón, precio, riqueza al año5 y CAGR; riqueza aparece en el paso2 y CAGR en3. El caption declara «Sin reinversión · riqueza al año5». Seleccionar cupón cambia el desarrollo, conservando los otros casos en la tabla. Esa selección se graba y reproduce como parte del escenario.
+
+Referencia de la composición actual: `presentation/evidence/implementation/08-desktop.png`. El estado de revisión e integración se mantiene en el PROJECT del bloque y en presentation/AUDIT.md; este addendum no cambia las referencias PNG históricas ni implica merge.

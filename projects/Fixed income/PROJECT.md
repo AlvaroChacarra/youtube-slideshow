@@ -27,7 +27,7 @@ Contenido:
 - relación cupón → precio → YTM;
 - primera introducción visual a la curva de tipos.
 
-Estado: **en desarrollo avanzado; slides 01–09 fijadas**.
+Estado: **13 slides web implementadas y fusionadas en main mediante PR #3 (2026-09-05)**. La evolución posterior está implementada en PR #4 y pendiente de aprobación de entrega antes de merge: núcleo reutilizable, mejoras de lectura/continuidad y herramientas del ponente. No se ha publicado un nuevo Pages en esta entrega.
 
 La slide de curva del Bloque 1 solo presenta la curva como objeto que ordena bonos. No debe explicar todavía de dónde procede su forma.
 
@@ -112,3 +112,9 @@ Contenido imprescindible:
 5. Terminar con construcción y cobertura de carteras.
 
 Cada slide debe añadir una sola pieza conceptual nueva. La narración oral completa la imagen; la imagen no debe contener todo el discurso.
+
+## Evolución del formato
+
+La experiencia actual está documentada en [presentation/README.md](../../presentation/README.md). El [plan transversal](../../WORK_PLAN.md) incorpora el mandato de profesionalización, continuidad y reutilización para otras presentaciones. Se prioriza exposición/grabación guiada por el ponente, con ayudas y adaptación móvil; esa prioridad se discutirá antes de implementar la siguiente fase.
+
+El roadmap curricular de este archivo no cambia: elevar el acabado o extraer un motor no autoriza adelantar duración, DV01, spot/forwards o riesgo de otros bloques dentro de los fundamentos.

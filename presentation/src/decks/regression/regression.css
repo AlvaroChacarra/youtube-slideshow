@@ -1,0 +1,137 @@
+.regression-stage .slide-body {
+  display: flex;
+  align-items: center;
+}
+.regression-scene {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 3cqw;
+  align-items: center;
+}
+.regression-plot {
+  min-width: 0;
+}
+.regression-plot svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+.regression-plot text {
+  fill: var(--muted);
+  font:
+    12px Manrope,
+    sans-serif;
+}
+.regression-line {
+  stroke: var(--cyan);
+  stroke-width: 2.5;
+  fill: none;
+}
+.regression-residual {
+  stroke: var(--lime);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+}
+.observation {
+  fill: var(--cyan);
+  stroke: var(--navy);
+  stroke-width: 1.5;
+}
+.prediction-point {
+  fill: var(--lime);
+}
+.regression-reading {
+  border-left: 1px solid var(--line);
+  padding-left: 2cqw;
+}
+.regression-reading h2 {
+  font-size: 1.8cqw;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.regression-reading h2 > span {
+  color: var(--cyan);
+}
+.regression-reading p {
+  font-size: 1cqw;
+  line-height: 1.8;
+  color: var(--muted);
+}
+.regression-reading small {
+  color: var(--muted);
+  font-size: 0.8cqw;
+  line-height: 1.7;
+}
+.regression-reading > .formula {
+  display: block;
+  font-size: 2.1cqw;
+  color: var(--cyan);
+  margin: 1.4cqw 0;
+}
+.regression-metric {
+  display: block;
+  font-size: 3.4cqw;
+  font-weight: 500;
+  color: var(--lime);
+  margin: 1.5cqw 0;
+}
+.regression-metric small {
+  display: block;
+  font-size: 0.85cqw;
+}
+.regression-slider {
+  display: block;
+  font-size: 1cqw;
+  margin: 1.5cqw 0;
+  color: var(--muted);
+}
+.regression-slider output {
+  float: right;
+  color: var(--cyan);
+}
+.regression-slider input {
+  display: block;
+  width: 100%;
+  margin: 14px 0;
+  accent-color: var(--cyan);
+  min-height: 24px;
+}
+@media (max-width: 700px) and (orientation: portrait),
+  (max-width: 950px) and (max-height: 500px) {
+  .regression-scene {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: stretch;
+  }
+  .regression-reading {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 20px 0 0;
+  }
+  .regression-reading h2 {
+    font-size: 24px;
+  }
+  .regression-reading p {
+    font-size: 15px;
+  }
+  .regression-reading small {
+    font-size: 12px;
+  }
+  .regression-reading > .formula {
+    font-size: 27px;
+    margin: 20px 0;
+  }
+  .regression-metric {
+    font-size: 42px;
+    margin: 20px 0;
+  }
+  .regression-metric small {
+    font-size: 12px;
+  }
+  .regression-slider {
+    font-size: 14px;
+    margin: 20px 0;
+  }
+}
