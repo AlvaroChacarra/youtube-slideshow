@@ -300,6 +300,30 @@ export default function Player<S extends Scenario>({
       timeline.kill();
     };
   }, [current.id, pos.step, motion, presenter]);
+  useLayoutEffect(() => {
+    const body = stage.current?.querySelector(".slide-body");
+    if (!body) return;
+    if (!motion) {
+      gsap.set(body, { opacity: 1, y: 0 });
+      return;
+    }
+    // The deck declares its object travel budget; the player owns body entry.
+    // A scene change kills the old entry, including its pending delay.
+    const entry = gsap.fromTo(
+      body,
+      { opacity: 0, y: 6 },
+      {
+        opacity: 1,
+        y: 0,
+        delay: current.entranceDelay ?? 0,
+        duration: 0.4,
+        ease: "power2.out",
+      },
+    );
+    return () => {
+      entry.kill();
+    };
+  }, [current.id, current.entranceDelay, motion, presenter]);
   useEffect(() => {
     if (!recording) return;
     const last = events.current.at(-1);

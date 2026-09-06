@@ -200,6 +200,7 @@ const scenes: Scene<BondScenario>[] = slides.map((s, i) => ({
   scenarioId: sceneScenarios[i]!,
   cover: i === 0,
   className: `slide-${i}`,
+  entranceDelay: i >= 2 && i <= 6 ? 0.8 : 0.18,
   render: renderers[i]!,
   ...(i === 5
     ? {

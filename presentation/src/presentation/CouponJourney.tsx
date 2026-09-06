@@ -53,7 +53,7 @@ export function CouponJourney({
                 data-entity={`cashflow-${f.period}`}
                 role="button"
                 tabIndex={0}
-                aria-label={`Seguir cobro del año ${f.period}: ${f.amount} euros, ${5 - f.period} años hasta vencimiento, ${euro(terminal)} euros finales`}
+                aria-label={`Seguir cobro del año ${f.period}: ${f.amount} euros, ${5 - f.period} ${5 - f.period === 1 ? "año" : "años"} hasta vencimiento, ${euro(terminal)} euros finales`}
                 aria-pressed={selected === f.period}
                 className={
                   selected === f.period
@@ -103,7 +103,7 @@ export function CouponJourney({
         <span>
           {selected === 5
             ? "Pago final · sin reinversión posterior"
-            : `Cupón ${selected} · ${years} años hasta T · g = ${euro(rate * 100, 1)}%`}
+            : `Cupón ${selected} · ${years} ${years === 1 ? "año" : "años"} hasta T · g = ${euro(rate * 100, 1)}%`}
         </span>
         <Formula>{`${selectedFlow.amount}(1+g)^{${years}}`}</Formula>
         <span>

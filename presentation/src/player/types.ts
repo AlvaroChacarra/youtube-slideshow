@@ -38,6 +38,8 @@ export type Scene<S extends Scenario> = {
   scenarioId: string;
   cover?: boolean;
   className?: string;
+  /** Seconds reserved for persistent objects to settle before body content enters. */
+  entranceDelay?: number;
   render: (context: SceneContext<S>) => ReactNode;
   caption?: (context: SceneContext<S>) => string;
 };
