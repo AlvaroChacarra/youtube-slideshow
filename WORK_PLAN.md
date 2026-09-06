@@ -1,7 +1,7 @@
 # Evolución del producto de presentaciones
 
-Estado: **fases0–3 implementadas; auditoría final y entrega en curso. PR #4, sin merge ni despliegue**.
-Última actualización:2026-09-05. Base aprobada: `main@31d0687` (PR #3). Checkpoint de implementación: `a5be9ee`.
+Estado: **fases 0–3 implementadas; auditoría cerrada con límites documentados; entrega lista para revisión. PR #4, sin merge ni despliegue**.
+Última actualización:2026-09-06. Base aprobada: `main@31d0687` (PR #3). Checkpoint de implementación: `c04f7f5`.
 
 ## Mandato y ejecución
 
@@ -19,7 +19,7 @@ Se prioriza exposición/grabación guiada, manteniendo exploración y lectura m�
 |1 · Continuidad05–07 | Selección persistente del flujo; descuento y contribución a riqueza terminal; último pago sin reinversión posterior | Pruebas de tasas, selección y navegación; móvil y escritorio; recorrido de ejemplo de82s |
 |2 · Reutilización | Player independiente del dominio; escenarios/IDs/conceptos; estilos comunes separados; segundo deck y empaquetado compartido | Ambos contratos validados; cálculo/interacciones de regresión; entrega web/HTML de los dos temas |
 |3 · Presentar y producir | Ponente separado, ayuda contextual, grabar/importar/replay, enlace con supuestos, área de cámara | Ventanas reales sincronizadas;9tests de integración con mensajes/RAF controlados; grabación y replay reales; perfil de cámara medido |
-|Integración |38tests; Astro0/0/0; build; CI; documentación y evidencias | Revisión técnica cerrada; revisión perceptual final en curso; PR permanece draft hasta cerrar hallazgos |
+|Integración |40 pruebas; Astro0/0/0; build; CI; documentación y evidencias | Revisiones independientes cerradas;13desktop, móviles07/08/11 y recorrido43estados; límites temporales en AUDIT |
 
 Se corrigieron también defectos hallados durante QA: mensajes retrasados que deshacían avances; replay remoto que no cedía al usuario; ayuda que dejaba avanzar el replay; curva demasiado alta en escritorio; estilos pequeños perdidos al empaquetar; composición07 demasiado densa al reservar cámara.
 
@@ -31,7 +31,7 @@ Se corrigieron también defectos hallados durante QA: mensajes retrasados que de
 - La composición móvil puede cambiar; la semántica, el orden de explicación y los escenarios se conservan.
 - El catálogo compartido se limita a patrones demostrados. El player no conoce13slides, tasas, vencimientos ni marca. Los componentes financieros y el cálculo permanecen locales al dominio.
 - Sesiones versionadas guardan estados y tiempos, no audio/vídeo. Se entrega un ensayo reproducible de82s, no una prueba de comprensión humana.
-- Se ha resuelto la continuidad con objetos persistentes y GSAP existente. Flip no se añade al no necesitar relocalización DOM adicional; evitar dos responsables animando una misma propiedad.
+- La continuidad usa objetos persistentes y GSAP existente; el cuerpo espera0,8 s en03–07 antes de entrar, con cancelación al cambiar escena y aparición inmediata sin motion. Flip no se añade al no necesitar relocalización DOM adicional; evitar dos responsables animando una misma propiedad.
 - Remotion sigue condicionado a pedir exportación de vídeo determinista. No se crea un adapter vacío ni se afirma que GSAP equivale a animación por frame. Three/WebGPU y Rive requieren una relación o ilustración que los justifique.
 
 Las fuentes primarias y alternativas tecnológicas contrastadas el2026-09-05 están en la [auditoría previa](presentation/AUDIT.md#tercera-auditoria-evolucion) y el historial de este plan. Las dependencias conservan sus versiones; instalar una librería no acredita una capacidad.

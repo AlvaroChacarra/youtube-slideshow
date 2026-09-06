@@ -41,7 +41,7 @@ npm run dev
 ASTRO_TELEMETRY_DISABLED=1 npm run build
 ```
 
-La compilación comprueba tipos, ejecuta38 pruebas y genera ambas webs y ambos HTML. El empaquetado conserva tanto CSS enlazado como estilos incrustados por Astro, en el orden original. Desarrollo y build utilizan cachés distintas. `PRESENTATION_BASE=/youtube-slideshow/` permite construir para esa subruta.
+La compilación comprueba tipos, ejecuta 40 pruebas y genera ambas webs y ambos HTML. El empaquetado conserva tanto CSS enlazado como estilos incrustados por Astro, en el orden original. Desarrollo y build utilizan cachés distintas. `PRESENTATION_BASE=/youtube-slideshow/` permite construir para esa subruta.
 
 GitHub Actions ejecuta validación y build en la PR. El workflow no publica ni modifica Pages.
 
@@ -71,3 +71,5 @@ La reutilización demostrada incluye navegación, ayudas, notas, ponente, escena
 Las fichas Markdown gobiernan el significado financiero; el código tipado gobierna el cálculo. El registro de escenas mapea explícitamente conceptos/prerrequisitos y entidades. Los PNG históricos no se sobrescriben; `evidence/implementation/` conserva los renders auditados de esta candidatura.
 
 Se calcula con precisión completa y se redondea al mostrar. Emisiones y nube son ilustrativas, no cotizaciones. La curva es deYTM, no spot. Su ajuste utiliza mínimos cuadrados con base `[1,exp(−t/5),t/50]`,30 observaciones y8benchmarks. La regresión usa4datos inventados y una regla ajustable; no acredita causalidad ni precisión fuera de la muestra.
+
+Las escenas pueden declarar `entranceDelay` (segundos) para reservar el viaje de objetos persistentes antes de mostrar el cuerpo. El player controla esa entrada, la cancela al cambiar de escena y la omite con movimiento reducido. En bonos 03–07 se reservan0,8 s.

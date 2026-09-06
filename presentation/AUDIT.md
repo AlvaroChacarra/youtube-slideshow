@@ -1,6 +1,6 @@
 # Auditoría — Fundamentos de los bonos
 
-**Estado vigente:** PR #4 implementa la evolución autorizada de fases0–3; la revisión visual independiente del working tree corregido sobre `a5be9ee` concluye `ready_for_user_review`, sin hallazgos materiales abiertos en su alcance estático. La revisión técnica independiente está cerrada y38pruebas pasan. Main conserva la entrega de PR #3 (`31d0687`) hasta la aprobación de esta entrega. Véase [auditoría de implementación](#auditoria-implementacion). Las secciones anteriores permanecen como evidencia histórica.
+**Estado vigente:** PR #4 implementa la evolución autorizada de fases 0–3; la revisión visual independiente del working tree corregido sobre `a5be9ee` concluye `ready_for_user_review`, sin hallazgos materiales abiertos en su alcance estático. La revisión técnica independiente está cerrada y40 pruebas pasan. Main conserva la entrega de PR #3 (`31d0687`) hasta la aprobación de esta entrega. Véase [auditoría de implementación](#auditoria-implementacion). Las secciones anteriores permanecen como evidencia histórica.
 
 ## Veredicto y alcance — primera revisión histórica
 
@@ -98,7 +98,7 @@ Fuente final validada: árbol `presentation/src` **25c026ea7e44bff582ebfdca65f64
 
 Revisor independiente con contexto limpio: las13composiciones desktop actuales no tienen defectos materiales abiertos; también revisó las nuevas zonas móviles05/08. La coordinación inspeccionó mobile06 corregida, comprobó navegación06↔07 con motion activo y capturó tiempos reales desde una salida estable. La continuidad geométrica se extiende hasta07 en escritorio; móvil conserva composición adaptada y la continuidad de valores. De08enadelante se relacionan composiciones y ejemplos explícitos, no se presenta como una transformación continua del mismo bono.
 
-El cuerpo de la explicación entra después del viaje del objeto en03–07; en las otras escenas espera180ms. `motion=0` conserva aparición inmediata. Los fotogramas son muestras temporales, no una certificación de todos los frames o los43estados. Sigue sin probarse file:// en navegador. El intento de obtener el repo auxiliar de la skill fue rechazado automáticamente; no se presenta esta auditoría como cumplimiento completo de su contrato de vídeo/audio.
+El cuerpo de la explicación entra después del viaje del objeto en03–07; en las otras escenas espera180ms. `motion=0` conserva aparición inmediata. Los fotogramas son muestras temporales, no una certificación de todos los frames o los 43 estados. Sigue sin probarse file:// en navegador. El intento de obtener el repo auxiliar de la skill fue rechazado automáticamente; no se presenta esta auditoría como cumplimiento completo de su contrato de vídeo/audio.
 
 Las capturas individuales, el mosaico13y la comparativa antes/después se renovaron. `transition-contact.jpg` representa las muestras temporales finales; no utilizar versiones previas. Las capturas móviles históricas no incluidas en `evidence/final` no sirven como evidencia de esta entrega.
 
@@ -180,7 +180,7 @@ Las valoraciones de acabado son juicio perceptual del auditor. Las métricas y h
 
 ### Revisión de tecnologías y objetivo de aprendizaje
 
-Fuentes, capacidades verificadas, restricciones y recomendación están en [WORK_PLAN.md](../WORK_PLAN.md#tecnologias-contrastadas). Se consultaron GSAP Flip, View Transition API, Three.js WebGPU, Rive y documentación oficial de D3/Remotion. No se confunde una lista de herramientas instaladas con funcionalidades realizadas.
+Las decisiones vigentes están en [WORK_PLAN.md](../WORK_PLAN.md#decisiones-de-producto-y-tecnología); las fuentes de la investigación se conservan en el historial de ese documento. Se consultaron GSAP Flip, View Transition API, Three.js WebGPU, Rive y documentación oficial de D3/Remotion. No se confunde una lista de herramientas instaladas con funcionalidades realizadas.
 
 La cadena contrato→flujos→valor→rendimiento→mercado es correcta. El gap pedagógico principal es perceptual: 07 introduce una fórmula de acumulación sin seguir cada cupón; 10→11 enuncia coordenadas sin conservar el objeto de origen; 08 móvil requiere comparar mediante memoria. La hipótesis a validar con una persona nueva es que seguir una contribución concreta y conservar contexto reduce esos saltos. **Aún no hay evidencia de un test de aprendizaje.**
 
@@ -212,11 +212,11 @@ Evidencia adicional de esta revisión: [informe estructurado](evidence/evolution
 
 El revisor técnico `evolution_reviewer` trabajó sobre el commit `6b650e9` y las correcciones identificadas de Player/hook. Conservó GSAP real y controló mensajes/RAF en DOM. Reprodujo errores de sincronización y ayuda, propuso casos y revalidó9/9pruebas después de corregir. La integración sobre el repo completo pasa38pruebas:12originales más26adicionales. Su revisión no es una prueba de dos navegadores físicos.
 
-El revisor perceptual `final_visual_review` recibió contexto limpio y abrió imágenes antes de rationale/código. Su primera lectura reconstruyó correctamente: descuento agrega PV; r₅ modifica valoración manteniendo pagos; YTM y riqueza/CAGR son conceptos distintos; reinversión depende del tiempo restante; curva ordena observaciones por vida residual/YTM. Después inspeccionó las13desktop y móviles07/08/11, segundo deck, ponente, cámara y07a1280. Comparó con baseline después de esa lectura inicial. El único hallazgo material V01 se cerró tras ver la tabla con g0% y el horizonte declarados. Revisó además la parte inferior de11y las anotaciones ampliadas de07.
+El revisor perceptual `final_visual_review` recibió contexto limpio y abrió imágenes antes de rationale/código. Su primera lectura reconstruyó correctamente: descuento agrega PV; r₅ modifica valoración manteniendo pagos; YTM y riqueza/CAGR son conceptos distintos; reinversión depende del tiempo restante; curva ordena observaciones por vida residual/YTM. Después inspeccionó las 13 desktop y móviles07/08/11, segundo deck, ponente, cámara y07a1280. Comparó con baseline después de esa lectura inicial. El único hallazgo material V01 se cerró tras ver la tabla con g0% y el horizonte declarados. Revisó además la parte inferior de11y las anotaciones ampliadas de07.
 
 ### Comprobaciones del coordinador
 
-- Tipos: Astro0errores/0warnings/0hints;38tests pasan. Build produce ambas webs y ambos HTML. CI de la PR pasa en checkpoints; consultar el último estado en PR #4.
+- Tipos: Astro: 0 errores, 0 warnings y 0 hints;38tests pasan. Build produce ambas webs y ambos HTML. CI de la PR pasa en checkpoints; consultar el último estado en PR #4.
 - Ventanas reales: el ponente modifica g y el público actualiza la riqueza/CAGR; doble clic de avance produce08/1 en ambas. El ponente ve notas/siguiente; el público se mantiene en captura.
 - Sesión real:24,793s,3estados(07g0→07g8→08). Se exportó su JSON, se reimportó con tiempos comprimidos para comprobar el replay y terminó en08. Volver a07 conserva g8 y123,47€/4,31%. Copiar el enlace y abrirlo conserva esos mismos supuestos.
 - Curva móvil: elegir ILL-30 muestra50Y/3,68%; pasar a detalle0–10 conserva la selección y avisa de que está fuera. Selector/lectura y benchmarks inspeccionados hasta el final del scroll.
@@ -228,3 +228,16 @@ El revisor perceptual `final_visual_review` recibió contexto limpio y abrió im
 Las imágenes de `evidence/implementation/` sustituyen como referencia de esta candidatura a los renders anteriores; `evidence/final/` conserva main/PR #3. Capturas desktop a1363×936 y pruebas específicas a1280×720; móviles mediante viewport390×844. No se retocaron las imágenes para ocultar defectos. Los estados modificados después de un checkpoint se recapturan; el manifest de cierre relaciona archivos, hashes y estado de fuente.
 
 Son muestras estáticas y comprobaciones funcionales, no inspección exhaustiva de todos los frames. La lectura de textos secundarios en una grabación reducida sigue condicionada por el encuadre; comprobar el equipo real antes de producir. No hay prueba con alumno, Safari físico, ensayo OBS con voz/cámara, medición de fps, validación exhaustiva de file:// ni exportación de vídeo determinista. Remotion/3D permanecen condicionados a una necesidad futura concreta.
+
+
+### Cierre de entrega — 2026-09-06
+
+Fuente final: `c04f7f548bbdefa90f0175803b960310bd5d0647`. Tras la revisión se detectó una regresión de la extracción: el nuevo Player no reservaba el viaje de los actores antes de mostrar el cuerpo. Se restaura mediante `Scene.entranceDelay`:0,8 s en bonos 03–07; un único owner de entrada y cancelación al cambiar escena. El movimiento reducido es inmediato. El revisor independiente `closing_review` comprobó el diff y añadió dos pruebas con GSAP real: demora, conservación entre pasos, cancelación y motion0. Resultado conjunto: **40 pruebas en 6 archivos, Astro: 0 errores, 0 warnings y 0 hints y ambos builds correctos**. No se declara que estas pruebas midan fluidez perceptual.
+
+El recorrido de navegador registró los **43 estados distintos**, desde01/0 hasta13/2, con avance final desactivado y motion0. `browser-walkthrough.json` conserva ese registro. Corresponde al HTML del checkpoint a5be9ee; el ajuste posterior de entrada no altera navegación ni la composición en motion0. La sesión real está en `browser-recorded-session.json` y el recorrido docente de82s en `examples/bonds-guided-session.json`.
+
+El último intento de verificar el selector nativo de archivos y recapturar motion no devolvió respuesta del controlador de navegador tras la pausa del entorno. Se conserva como **no completado**. La importación mediante texto/replay sí se comprobó en navegador, y la importación desde archivo y sus validaciones se revisaron en código; no se equiparan esas comprobaciones. No se realizó un tercer arranque de preview ni se usó otro controlador para sortear el límite.
+
+La revisión visual independiente aceptó las composiciones corregidas sobre a5be9ee. Las capturas son evidencia de checkpoints, **no todas del último SHA**:07desktop recoge la anotación ampliada;08móvil incluye el supuesto g0%;08desktop y ponente preceden los últimos cambios de copy (supuesto común y etiqueta de controles). El ajuste final de motion no cambia posiciones asentadas. `manifest.json` registra estos límites y los hashes, sin presentar las capturas históricas como una auditoría temporal del último código.
+
+No quedan defectos materiales abiertos identificados en el alcance revisado. La candidatura es revisable; quedan el ensayo humano, la grabación real, Safari y la inspección temporal final del motion como validaciones posteriores explícitas. Main permanece en31d0687; la PR #4 requiere aprobación antes de merge.

@@ -1,0 +1,193 @@
+{
+  "dateUtc": "2026-09-06",
+  "codeCommit": "c04f7f548bbdefa90f0175803b960310bd5d0647",
+  "baselineMain": "31d06877a9d5fe6ff0aba4a5eac3ff7dcb4d070a",
+  "verdict": "ready_for_user_review_with_documented_validation_limits",
+  "tests": {
+    "passed": 40,
+    "files": 6,
+    "typeErrors": 0,
+    "typeWarnings": 0,
+    "typeHints": 0
+  },
+  "browserWalkthrough": {
+    "uniqueStates": 43,
+    "motion": false,
+    "servedCheckpoint": "a5be9ee"
+  },
+  "independentReviews": [
+    {
+      "reviewer": "evolution_reviewer",
+      "scope": "window sync, replay, help, architecture",
+      "result": "material findings corrected and revalidated"
+    },
+    {
+      "reviewer": "final_visual_review",
+      "scope": "13 desktop compositions; mobile07/08/11; regression; camera; presenter",
+      "result": "ready_for_user_review after V01 correction",
+      "source": "corrected working tree over a5be9ee"
+    },
+    {
+      "reviewer": "closing_review",
+      "scope": "final file import code and restored body entry; GSAP real tests",
+      "result": "ready_for_user_review",
+      "playerSha256": "3f8bcc1b1007bf60b1299c6f1ddc7b9887272072225da68cfa95a4db69404a6f"
+    }
+  ],
+  "captureProvenance": {
+    "general": "Implementation checkpoints through c712eef, not all images at final code SHA. No retouching. Main baseline in ../final.",
+    "latest07Desktop": "Updated secondary text captured after c712eef source changes.",
+    "mobile08": "Includes corrected g=0 and horizon.",
+    "desktop08AndPresenter": "Precede final explanatory copy changes.",
+    "motion": "Final entry timing fix validated by code and GSAP tests, not new browser video."
+  },
+  "notCompleted": [
+    "Native filechooser UI after controller stopped responding",
+    "Final motion frame sampling after restored entry",
+    "Safari/device test",
+    "Human learner trial",
+    "OBS camera/audio trial",
+    "FPS measurement",
+    "Full file:// browser validation",
+    "Deterministic video export"
+  ],
+  "builds": [
+    {
+      "file": "fundamentos-bonos.html",
+      "bytes": 2548121,
+      "sha256": "742981cf5935469d16041b2dc3327d759f2628d7c7598cf1eea3315209c8f32c"
+    },
+    {
+      "file": "regresion-visual.html",
+      "bytes": 2343016,
+      "sha256": "a067db413a545f77dbced7a717fe34bb00efe2cffa52a1927bb92d91896cf6c7"
+    }
+  ],
+  "files": [
+    {
+      "file": "01-desktop.png",
+      "bytes": 74523,
+      "sha256": "52a3736feca7a2d83632ad5de005961af5b88d2ab830ae367c4d2e1068243d04"
+    },
+    {
+      "file": "02-desktop.png",
+      "bytes": 59722,
+      "sha256": "66b71b3e24e136f56a034d0a631c2bb6543625497f3c13d7fbd81528f8b42778"
+    },
+    {
+      "file": "03-desktop.png",
+      "bytes": 77225,
+      "sha256": "8fba53678046273ee1739e1bcafd9a8661d5f70dd3a0a572ef92d8221905cfcc"
+    },
+    {
+      "file": "04-desktop.png",
+      "bytes": 76420,
+      "sha256": "6ca17eeb8f87af5aad044c07851651d12ec3d8860c8e9cf3bc71bce95f7bfffc"
+    },
+    {
+      "file": "05-desktop.png",
+      "bytes": 61633,
+      "sha256": "046867cf6df672addc5e8e5a15b1457cad4763978e12a6097d09326f7e40bd4c"
+    },
+    {
+      "file": "06-desktop.png",
+      "bytes": 71601,
+      "sha256": "8fedc8417a992429769533138d67857540dd79a99e58dab886f72692d8cbe1bb"
+    },
+    {
+      "file": "07-1280.png",
+      "bytes": 66197,
+      "sha256": "ca7770eb981c99b6f02dec13f58d9aa5ae765aa54ff6d4db9582505b5575a5ba"
+    },
+    {
+      "file": "07-desktop.png",
+      "bytes": 80359,
+      "sha256": "ea7864761c2c26f9815ab257a8262fa100a556e230250bc335c95a413d5058b8"
+    },
+    {
+      "file": "07-mobile-reinvestment.png",
+      "bytes": 52178,
+      "sha256": "d2798331aefd7f5c0b6979878e58562bfa039db1b283277256eda88ef9daa330"
+    },
+    {
+      "file": "07-mobile-top.png",
+      "bytes": 41404,
+      "sha256": "5d3d2b142005d8687838c964b5d5fe5d065dcc8cb7b02d819cf2478b13e3e886"
+    },
+    {
+      "file": "08-desktop.png",
+      "bytes": 85819,
+      "sha256": "ac2a3cc7ff2923f1fa34b5660c812ca9d6dc551316acd8b88496e02e0d7d55e4"
+    },
+    {
+      "file": "08-mobile.png",
+      "bytes": 44986,
+      "sha256": "64f5ec4d76a2a3722af9424392a5a637a254ce2b4e13dcea4ebf445e63e81cc5"
+    },
+    {
+      "file": "09-desktop.png",
+      "bytes": 75693,
+      "sha256": "985b93e6421366a28514c02cb1397468c3a633d60f64d484350c9fb0f3272a27"
+    },
+    {
+      "file": "10-desktop.png",
+      "bytes": 80460,
+      "sha256": "1d7daefc5e9990270408f18439cadcb9fee6b67868f3c37be28e2dff3b4e4ed2"
+    },
+    {
+      "file": "11-desktop.png",
+      "bytes": 74434,
+      "sha256": "53cee807dcc85ef8aef5dbdb398e94e0b853a334cf392f862d4d4224fe98ae30"
+    },
+    {
+      "file": "11-mobile-bottom.png",
+      "bytes": 40750,
+      "sha256": "8550f560530698d91db9acbb9f66168c2957875a5a4809ea0eb6e82c3d506669"
+    },
+    {
+      "file": "11-mobile.png",
+      "bytes": 42886,
+      "sha256": "ca1fe3a5104755aa6edd0e6aabf0a816618a5abea1c34dfb341cb357d8012322"
+    },
+    {
+      "file": "12-desktop.png",
+      "bytes": 68583,
+      "sha256": "7a4c6cc517fbc0e642827cc2607a640bdf5353dfa1cd2084add2a23057b1be16"
+    },
+    {
+      "file": "13-desktop.png",
+      "bytes": 69787,
+      "sha256": "091956e85528229b5c5360a5b63887edbc76aa8e6062c7197666559511114341"
+    },
+    {
+      "file": "browser-recorded-session.json",
+      "bytes": 1218,
+      "sha256": "fc094950797df9dda0ae8fb11d1a6d23473f8ec4fe53041034c84208de2e5f58"
+    },
+    {
+      "file": "browser-walkthrough.json",
+      "bytes": 3918,
+      "sha256": "12a4e73b9beaecaa7b44c89329c72969621faf1984750e359cb41be61c8ff6c6"
+    },
+    {
+      "file": "camera-profile.png",
+      "bytes": 59058,
+      "sha256": "dd49b5af558185180c8ef91887717c9cc362642b36bbd32675872fc7fba097d0"
+    },
+    {
+      "file": "presenter.png",
+      "bytes": 84910,
+      "sha256": "852d8dd5acc357c2836e33c6ffdb752e131f636b449a45aa736019d39935222c"
+    },
+    {
+      "file": "regression-desktop.png",
+      "bytes": 60518,
+      "sha256": "fbc5b9262c93c9924dd13edc502db5f77a666d81c79cf70ee8b027e9bab7e727"
+    },
+    {
+      "file": "regression-mobile.png",
+      "bytes": 39248,
+      "sha256": "ce6ae9c3ef23e6d92d21a11112fa9ca6697117e150297c6098c726c00fde3fea"
+    }
+  ]
+}
